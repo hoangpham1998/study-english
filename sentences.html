@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cặp câu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        input {
+            box-shadow: 0 3px 3px -2px rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%);
+            margin: 0px;
+            margin-bottom: 15px;
+            width: 100%;
+            font-size: 15px !important;
+        }
+
+        .btn {
+            width: 100%;
+            height: 40px;
+            font-weight: 500;
+            font-size: 15px;
+            box-shadow: 0 3px 3px -2px rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%)
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 40px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card-inner.active {
+            transform: rotateX(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            padding: 8px;
+            font-size: 15px;
+            border-radius: 0.25rem;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            background-color: #8acfff;
+            color: white;
+        }
+
+        .flip-card-back {
+            background-color: #2980b9;
+            color: white;
+            transform: rotateX(180deg);
+        }
+
+        .nav.nav-tabs {
+            overflow-x: auto;
+            overflow-y: hidden;
+            flex-wrap: nowrap;
+        }
+
+        .tab-content {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="color: #424242; font-family: sans-serif; font-weight: bold;">Cặp câu</h1><br />
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form enctype="multipart/form-data">
+                    <input id="upload" type="file" accept=".xls,.xlsx" name="files[]" />
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-info" type="button" disabled id="show-all">Lật hết</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-warning" type="button" disabled id="reset">Úp hết</button>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist"></div>
+                </nav>
+            </div>
+        </div>
+        <div class="tab-content" id="nav-tabContent"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        let readFile = () => {
+            let e = $("#upload")[0].files[0],
+                l = new FileReader();
+            (l.onload = ((e) => (e) => {
+                $("#input").removeAttr('disabled');
+                $(".btn").removeAttr('disabled');
+
+                var data = new Uint8Array(e.target.result);
+                var arr = new Array();
+                for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+                var bstr = arr.join("");
+
+                var workbook = XLSX.read(bstr, {
+                    type: "binary"
+                });
+
+                // Get sheets
+                let sheetTab = "";
+                let content = "";
+                workbook.SheetNames.forEach((sheet, index) => {
+                    let sheetId = sheet.replace(' ', '');
+
+                    let worksheet = workbook.Sheets[sheet];
+                    let dataObj = XLSX.utils.sheet_to_json(worksheet);
+
+                    let text = "";
+                    dataObj.forEach((element, rowIndex) => {
+                        let textId = `${sheetId}-${rowIndex}`;
+                        text += '<div class="row" style="margin-top: 15px;">\
+                            <div class="col">\
+                                <div class="flip-card" onclick="flip(\'' + textId + '\')">\
+                                    <div class="flip-card-inner sheet-' + sheetId + ' card-' + textId + '">\
+                                        <div class="flip-card-front">' + element.english + '</div>\
+                                        <div class="flip-card-back">' + element.vietnamese + '</div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>';
+                    });
+
+                    sheetTab += '<button class="nav-link ' + (index === 0 ? 'active' : '') + '" id="nav-'
+                        + sheetId + '-tab" data-sheet="' + sheetId + '" data-bs-toggle="tab" data-bs-target="#nav-'
+                        + sheetId + '"type="button" role="tab" aria-controls="nav-'
+                        + sheetId + '" aria-selected="' + (index === 0 ? 'true' : 'false') + '">' + sheet + '</button>';
+
+                    content += '<div class="tab-pane fade ' + (index === 0 ? "show active" : '')
+                        + '" id="nav-' + sheetId + '" role="tabpanel" aria-labelledby="nav-'
+                        + sheetId + '-tab"><div id="table-' + sheetId + '">' + text + '</div></div>';
+                });
+
+                $("#nav-tab").html(sheetTab);
+                $("#nav-tabContent").html(content);
+            })()), l.readAsArrayBuffer(e);
+        };
+
+        let flip = (id) => {
+            if ($(".card-" + id).hasClass("active")) {
+                $(".card-" + id).removeClass("active");
+            } else {
+                $(".card-" + id).addClass("active");
+            }
+        };
+
+        $("#upload").change(() => {
+            readFile();
+        });
+
+        $("#show-all").click(() => {
+            let id = $(".nav-link.active").data('sheet');
+            $(".sheet-" + id).addClass("active");
+        });
+
+        $("#reset").click(() => {
+            let id = $(".nav-link.active").data('sheet');
+            $(".sheet-" + id).removeClass("active");
+        });
+    </script>
+</body>
+
+</html>
