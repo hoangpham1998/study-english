@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flashcards</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/flashcard.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Flashcards</h1><br />
+        <div class="tab-content">
+            <div class="card-container" id="card-container"></div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-info" onclick="rate(1)">Again</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-info" onclick="rate(2)">Hard</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-info" onclick="rate(3)">Good</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-info" onclick="rate(4)">Easy</button>
+            </div>
+        </div>
+        
+        <!-- <div class="row">
+            <div class="col">
+                <button class="btn btn-info" id="prev-btn" onclick="previous()">Prev</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-info" id="next-btn" onclick="next()">Next</button>
+            </div>
+        </div> -->
+    </div>
+
+    <script type="text/javascript" src="scripts/flashcard.js"></script>
+</body>
+
+</html>
