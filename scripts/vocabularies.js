@@ -1,38 +1,64 @@
-const container = document.getElementById('vocabularies-container');
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('vocabularies-container');
 
-// Load flashcards from JSON file
-var url = new URL(window.location.href);
-var book = url.searchParams.get("book");
+    const url = new URL(window.location.href);
+    const book = url.searchParams.get("book");
+    const dataUrl = `assets/data/4000-enssential-english-words/vocabularies/index-${book}.json`;
 
-fetch(`assets\\data\\4000-enssential-english-words\\vocabularies\\index-${book}.json`)
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(x => {
-            container.innerHTML += `<div class="book-item">
-                <button class="collapsible" onclick="toggleBlock(this)">${x.en.toUpperCase()}</button>
-                <div class="content">${x.story}</div>
-            </div>`;
-        });
+    const fetchJson = async (path) => {
+        const response = await fetch(path);
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return await response.json();
+    };
+
+    const createBookItem = ({ en, story }) => `
+        <div class="book-item">
+            <button class="collapsible">${en.toUpperCase()}</button>
+            <div class="content">${story}</div>
+        </div>
+    `;
+
+    const handleCollapsibleClick = (event) => {
+        const button = event.currentTarget;
+        button.classList.toggle("active");
+        const content = button.nextElementSibling;
+        content.style.display = (content.style.display === "block") ? "none" : "block";
+    };
+
+    const handleIndexBlockItemClick = (event) => {
+        const listItem = event.currentTarget;
+        const toolIndexIdiomsHtml = listItem.querySelector(".tool-index-idioms").innerHTML;
+        listItem.innerHTML = `<div class="tool-index-idioms">${toolIndexIdiomsHtml}</div>`;
+        listItem.style.display = "table";
+        listItem.style.width = "-webkit-fill-available";
+        listItem.style.margin = "20px 0";
         
-        $(".index-block-item li").click(function() {
-            var e = $(this).children(".tool-index-idioms").html();
-            $(this).html('<div class="tool-index-idioms">' + e + "</div>");
-            $(this).css({
-                display: "table",
-                width: "-webkit-fill-available",
-                margin: "20px 0px 20px 0px"
+        const idioms = listItem.querySelector(".tool-index-idioms");
+        idioms.style.display = "table-cell";
+        idioms.style.background = "antiquewhite";
+        idioms.style.padding = "10px";
+        idioms.style.borderRadius = "5px";
+        idioms.style.color = "black";
+    };
+
+    const initialize = async () => {
+        try {
+            const data = await fetchJson(dataUrl);
+            container.innerHTML = data.map(createBookItem).join('');
+
+            document.querySelectorAll('.collapsible').forEach(button => {
+                button.addEventListener('click', handleCollapsibleClick);
             });
-            $(this).children(".tool-index-idioms").attr("style", "display: table-cell;background:antiquewhite; padding:10px; border-radius:5px; color:black");
-        });
-    });
 
-const toggleBlock = (event) => {
-    event.classList.toggle("active");
-    var content = event.nextElementSibling;
-    if (content.style.display === "block") {
-        content.style.display = "none";
-    } else {
-        content.style.display = "block";
-    }
-}
+            document.querySelectorAll(".index-block-item li").forEach(item => {
+                item.addEventListener('click', handleIndexBlockItemClick);
+            });
+        } catch (error) {
+            console.error("Error loading vocabulary data:", error);
+        }
+    };
 
+    initialize();
+});

@@ -34,7 +34,14 @@ const showCurrentCard = () => {
         return;
 
     if (!card.isGen) {
-        let answer = [currentCard, getRandomValue(), getRandomValue(), getRandomValue()];
+        let answer = [currentCard];
+        while (answer.length < 4) {
+            let newValue = Math.floor(Math.random() * questions.length);
+            if (!answer.includes(newValue)) {
+                answer.push(newValue);
+            }
+        }
+
         for (let i = answer.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [answer[i], answer[j]] = [answer[j], answer[i]];
@@ -48,7 +55,7 @@ const showCurrentCard = () => {
         card.isGen = true;
     }
     
-    quizContainer.innerHTML = `<span class="quiz-status">${currentCard}/${questions.length}</span>
+    quizContainer.innerHTML = `<span class="quiz-status">${currentCard + 1}/${questions.length}</span>
         <h2>${card.vi}</h2>
         <ul class="answer-options">
             <li>
@@ -72,8 +79,6 @@ const showCurrentCard = () => {
     setCorrect();
     setIncorrect(card.incorrectIndex);
 };
-
-const getRandomValue = () => Math.floor(Math.random() * questions.length);
 
 const previous = () => {
     if (currentCard > 0) {
@@ -133,7 +138,7 @@ const submit = () => {
 
     document.getElementById("submit").disabled = questions[currentCard].disabled;
 
-    if (questions.filter(x => x.disabled).length == questions.length - 1)
+    if (questions.filter(x => x.disabled).length == questions.length)
         alert("Quiz completed!");
 }
 

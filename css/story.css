@@ -24,15 +24,17 @@ body {
     padding: 20px;
     max-width: 600px;
     width: 100%;
-    margin-bottom: 2rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
     box-sizing: border-box;
 }
 
 .story-title {
-    margin-top: 0;
+    margin-top: 15px;
     margin-bottom: 5px;
     color: #fff;
     font-size: 24px;
+    text-align: center;
 }
 
 .story-content {
@@ -47,17 +49,19 @@ body {
 }
 
 .story-img {
-    width: 10rem;
-    margin: 0px 0px 10px 0px;
+    width: 8rem;
     border-radius: 10px;
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
-    float: left;
-    margin-right: 20px;
+    display: block;
+    margin: auto;
 }
 
 audio {
     padding: 10px 0px 10px 0px;
     box-sizing: border-box;
+    display: block;
+    margin: auto;
+    width: 80%;
 }
 
 .idiom-tip {
@@ -67,7 +71,6 @@ audio {
     text-decoration: underline;
 }
 
-/* Tooltip styling */
 .tooltip {
     position: relative;
     display: inline-block;
@@ -76,7 +79,6 @@ audio {
     text-decoration: underline;
 }
 
-/* Popup Tooltip Styling */
 .tooltip-popup {
     display: none;
     position: absolute;
@@ -93,7 +95,6 @@ audio {
     text-align: center;
 }
 
-/* Container for popup content */
 .tooltip-popup-content {
     display: flex;
     align-items: center;
@@ -102,12 +103,10 @@ audio {
     font-size: 15px;
 }
 
-/* Tooltip content styling */
 .tooltip-popup span {
     flex: 1;
 }
 
-/* Close button styling */
 #close-btn {
     position: absolute;
     top: 5px;
