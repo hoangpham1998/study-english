@@ -15,9 +15,14 @@ const fetchUnits = () => {
                 var bookContent = document.getElementById(`book-${num}`);
 
                 book.forEach(x => {
-                    bookContent.innerHTML += `<a href="flashcard.html?book=${num}&unit=${x.unit.split(" ")[1]}">
+                    var unit = x.unit.split(" ")[1];
+                    bookContent.innerHTML += `<a href="flashcard.html?book=${num}&unit=${unit}">
                             <span style="font-weight: bold">${x.unit}: </span>${x.name}
-                        </a><br />`;
+                        </a>
+                        <span class="hyphen">-</span>
+                        <a href="quiz.html?book=${num}&unit=${unit}" style="text-decoration: underline;">Quiz</a>
+                        <span class="hyphen">-</span>
+                        <a href="story.html?book=${num}&unit=${unit}" style="text-decoration: underline;">Story</a><br />`;
                 });
 
                 bookContent.innerHTML += `<a href="vocabularies.html?book=${num}">

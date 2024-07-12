@@ -13,6 +13,10 @@ ul {
     list-style-type: none;
 }
 
+*:disabled {
+    cursor: not-allowed;
+}
+
 .nav.nav-tabs {
     overflow-x: auto;
     overflow-y: hidden;
@@ -37,6 +41,21 @@ input {
     font-weight: 500;
     font-size: 15px;
     box-shadow: 0 3px 3px -2px rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%)
+}
+
+.btn-basic {
+    background-color: gray;
+    color: white;
+}
+
+.btn-orange {
+    color: white;
+    background-color: coral;
+}
+
+.btn-purple {
+    color: white;
+    background-color: #663399a1;
 }
 
 .flip-card {

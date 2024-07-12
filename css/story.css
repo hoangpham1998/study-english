@@ -1,0 +1,127 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.container {
+    width: 90%;
+}
+
+.story-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#story-container {
+    color: #333333;
+    background-color: #8acfff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 2rem;
+    box-sizing: border-box;
+}
+
+.story-title {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #fff;
+    font-size: 24px;
+}
+
+.story-content {
+    line-height: 1.5;
+    font-size: 14px;
+    text-indent: 25px;
+    font-weight: normal;
+}
+
+.story-content p {
+    font-weight: normal;
+}
+
+.story-img {
+    width: 10rem;
+    margin: 0px 0px 10px 0px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+    float: left;
+    margin-right: 20px;
+}
+
+audio {
+    padding: 10px 0px 10px 0px;
+    box-sizing: border-box;
+}
+
+.idiom-tip {
+    color: #2980b9;
+    font-style: italic;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Tooltip styling */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+/* Popup Tooltip Styling */
+.tooltip-popup {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #2980b9;
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px;
+    max-width: 300px;
+    width: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Container for popup content */
+.tooltip-popup-content {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    position: relative;
+    font-size: 15px;
+}
+
+/* Tooltip content styling */
+.tooltip-popup span {
+    flex: 1;
+}
+
+/* Close button styling */
+#close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+.desc {
+    font-style: italic;
+    font-size: 12px;
+}

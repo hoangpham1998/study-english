@@ -44,3 +44,9 @@
     border-radius: 0.25rem;
     margin: 15px;
 }
+
+.hyphen {
+    font-weight: bold;
+    color: white;
+    padding: 0px 5px;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quiz</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/quiz.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Quiz</h1>
+        <h6 style="font-weight: bold; color: #007bff">Answered: <span id="total-answered">0</span></h3>
+        <h6 style="font-weight: bold; color: #8bc34a">Correct: <span id="total-correct">0</span></h3>
+        <h6 style="font-weight: bold; color: #f44336">Incorrect: <span id="total-incorrect">0</span></h3>
+        <div class="tab-content">
+            <div id="quiz-container"></div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-3">
+                    <button class="btn btn-info" id="previous" onclick="previous()"><</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-success" id="submit" onclick="submit()">Check</button>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-info" id="next" onclick="next()">></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="scripts/quiz.js"></script>
+
+</body>
+
+</html>

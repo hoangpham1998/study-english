@@ -2,13 +2,14 @@ const cardContainer = document.getElementById('card-container');
 let currentCard = 0;
 let flashcards = [];
 
-// Load flashcards from JSON file
 var url = new URL(window.location.href);
 var book = url.searchParams.get("book");
 var unit = url.searchParams.get("unit");
-const imgSrc = `https://www.essentialenglish.review/apps-data/4000-essential-english-words-${book}/data/unit-${unit}/wordlist/`;
 
-fetch(`assets\\data\\4000-enssential-english-words\\books\\book-${book}.json`)
+const src = `https://www.essentialenglish.review/apps-data/4000-essential-english-words-${book}/data/unit-${unit}/wordlist/`;
+
+const fetchData = () => {
+    fetch(`assets\\data\\4000-enssential-english-words\\books\\book-${book}.json`)
     .then(response => response.json())
     .then(data => {
         var unitData = data[unit - 1];
@@ -23,6 +24,7 @@ fetch(`assets\\data\\4000-enssential-english-words\\books\\book-${book}.json`)
         flashcards = unitData;
         showCurrentCard();
     });
+}
 
 // Display current flashcard
 const showCurrentCard = () => {
@@ -38,9 +40,9 @@ const showCurrentCard = () => {
                 </div>
                 <div class="flip-card-back">
                     <div class="flip-card-back-content">
-                        <img class="card-img" onclick="playAudio('${imgSrc}${card.sound}')" src='${imgSrc}${card.image}' title="${card.en}" /><br/>
+                        <img class="card-img" onclick="playAudio('${src}${card.sound}')" src='${src}${card.image}' title="${card.en}" /><br/>
                         <audio controls>
-                            <source src="${imgSrc}${card.sound}" type="audio/mp3">
+                            <source src="${src}${card.sound}" type="audio/mp3">
                         </audio><br />
                         <span class="card-detail">Vietnamese:</span> ${!card.vi ? "N/A" : card.vi}<br/>
                         <span class="card-detail">Define:</span> ${card.desc}<br/>
@@ -52,7 +54,13 @@ const showCurrentCard = () => {
             </div>
         `;
     } else {
-        cardContainer.innerHTML = '<div class="flip-card">No more cards</div>';
+        cardContainer.innerHTML = `<div class="flip-card" style="text-aligh: center">
+                <div class="flip-card-front">
+                    <div class="flip-card-front-content">
+                        <p class="word-en">No more cards</p>
+                    </div>
+                </div>
+            </div>`;
     }
 };
 
@@ -61,6 +69,15 @@ function rate(rating) {
     let card = flashcards[currentCard];
     supermemo(card, rating);
     saveFlashcardsToLocalStorage(book, unit);
+    showNextCard();
+}
+
+function removeCard() {
+    let card = flashcards[currentCard];
+    if (currentCard > -1) {
+        flashcards.splice(currentCard, 1);
+    }
+    saveFlashcardsToLocalStorage();
     showNextCard();
 }
 
@@ -73,12 +90,16 @@ function showNextCard() {
 // SuperMemo algorithm implementation
 function supermemo(card, rating) {
     if (rating >= 3) {
-        if (card.repetition === 0) {
-            card.interval = 1;
-        } else if (card.repetition === 1) {
-            card.interval = 6;
-        } else {
-            card.interval *= card.easeFactor;
+        switch (card.repetition) {
+            case 0:
+                card.interval = 1;
+                break;
+            case 1:
+                card.interval = 6;
+                break;
+            default:
+                card.interval *= card.easeFactor;
+                break;
         }
         card.repetition += 1;
     } else {
@@ -108,7 +129,18 @@ function loadFlashcardsFromLocalStorage() {
         flashcards = JSON.parse(storedFlashcards);
         showCurrentCard();
     }
+    else {
+        fetchData();
+    }
 }
 
 // Load flashcards from localStorage on page load
 loadFlashcardsFromLocalStorage();
+
+const openQuiz = () => {
+    location.href = `quiz.html?book=${book}&unit=${unit}`;
+}
+
+const openStory = () => {
+    location.href = `story.html?book=${book}&unit=${unit}`;
+}
