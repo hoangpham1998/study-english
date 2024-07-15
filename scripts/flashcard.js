@@ -1,36 +1,31 @@
-const cardContainer = document.getElementById('card-container');
+const timeInterval = 86400000;
+const easeFactor = 1.3;
+const path = `${src}wordlist/`;
+
 let currentCard = 0;
 let flashcards = [];
+let memorizedCards = [];
 
-var url = new URL(window.location.href);
-var book = url.searchParams.get("book");
-var unit = url.searchParams.get("unit");
+const fetchData = async () => {
+    const data = await fetchJson(`${jsonPath}books/book-${book}`);
+    var unitData = data[unit - 1];
+    var date = new Date();
+    for (let i = unitData.length - 1; i > 0; i--) {
+        unitData[i].dueDate = date;
+        
+        const j = Math.floor(Math.random() * (i + 1));
+        [unitData[i], unitData[j]] = [unitData[j], unitData[i]];
+    }
 
-const src = `https://www.essentialenglish.review/apps-data/4000-essential-english-words-${book}/data/unit-${unit}/wordlist/`;
-
-const fetchData = () => {
-    fetch(`assets\\data\\4000-enssential-english-words\\books\\book-${book}.json`)
-    .then(response => response.json())
-    .then(data => {
-        var unitData = data[unit - 1];
-        var date = new Date();
-        for (let i = unitData.length - 1; i > 0; i--) {
-            unitData[i].dueDate = date;
-            
-            const j = Math.floor(Math.random() * (i + 1));
-            [unitData[i], unitData[j]] = [unitData[j], unitData[i]];
-        }
-
-        flashcards = unitData;
-        showCurrentCard();
-    });
+    flashcards = unitData;
+    showCurrentCard();
 }
 
 // Display current flashcard
 const showCurrentCard = () => {
     let card = flashcards[currentCard];
     if (card) {
-        cardContainer.innerHTML = `
+        container.innerHTML = `
             <div class="flip-card" onclick="this.classList.toggle('active')">
                 <div class="flip-card-front">
                     <div class="flip-card-front-content">
@@ -40,9 +35,9 @@ const showCurrentCard = () => {
                 </div>
                 <div class="flip-card-back">
                     <div class="flip-card-back-content">
-                        <img class="card-img" onclick="playAudio('${src}${card.sound}')" src='${src}${card.image}' title="${card.en}" /><br/>
+                        <img class="card-img" onclick="playAudio('${path}${card.sound}')" src='${path}${card.image}' title="${card.en}" /><br/>
                         <audio controls>
-                            <source src="${src}${card.sound}" type="audio/mp3">
+                            <source src="${path}${card.sound}" type="audio/mp3">
                         </audio><br />
                         <span class="card-detail">Vietnamese:</span> ${!card.vi ? "N/A" : card.vi}<br/>
                         <span class="card-detail">Define:</span> ${card.desc}<br/>
@@ -54,13 +49,15 @@ const showCurrentCard = () => {
             </div>
         `;
     } else {
-        cardContainer.innerHTML = `<div class="flip-card" style="text-aligh: center">
+        container.innerHTML = `
+            <div class="flip-card" style="text-aligh: center">
                 <div class="flip-card-front">
                     <div class="flip-card-front-content">
                         <p class="word-en">No more cards</p>
                     </div>
                 </div>
-            </div>`;
+            </div>
+        `;
     }
 };
 
@@ -72,11 +69,14 @@ function rate(rating) {
     showNextCard();
 }
 
-function removeCard() {
+function memorizeCard() {
     let card = flashcards[currentCard];
+    memorizedCards.push(card.en);
+
     if (currentCard > -1) {
         flashcards.splice(currentCard, 1);
     }
+
     saveFlashcardsToLocalStorage();
     showNextCard();
 }
@@ -108,11 +108,11 @@ function supermemo(card, rating) {
     }
 
     card.easeFactor += 0.1 - (5 - rating) * (0.08 + (5 - rating) * 0.02);
-    if (card.easeFactor < 1.3) {
-        card.easeFactor = 1.3;
+    if (card.easeFactor < easeFactor) {
+        card.easeFactor = easeFactor;
     }
 
-    card.dueDate = new Date(Date.now() + card.interval * 24 * 60 * 60 * 1000);
+    card.dueDate = new Date(Date.now() + card.interval * timeInterval);
 }
 
 // Function to save flashcards data to localStorage

@@ -1,3 +1,14 @@
+body {
+    display: block;
+    height: 100%;
+}
+
+.container {
+    width: 100%;
+    text-align: left;
+    max-width: none;
+}
+
 .collapsible {
     background-color: #2980b9;
     color: white;

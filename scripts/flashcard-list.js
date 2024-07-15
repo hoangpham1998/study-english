@@ -1,38 +1,38 @@
-const coll = document.getElementsByClassName("collapsible");
-const bookContainer = document.getElementById('book-container');
+const fetchData = async () => {
+    const data = await fetchJson(`${jsonPath}book-list`);
+    data.forEach((book, index) => {
+        var num = index + 1;
+        container.innerHTML += `
+            <div class="book-item">
+                <button type="button" class="collapsible" onclick="toggleBlock(this)">Book ${num}</button>
+                <div class="content" id="book-${num}"></div>
+            </div>
+        `;
 
-const fetchUnits = () => {
-    fetch(`assets\\data\\4000-enssential-english-words\\book-list.json`)
-        .then(response => response.json())
-        .then(data => {
-            data.forEach((book, index) => {
-                var num = index + 1;
-                bookContainer.innerHTML += `<div class="book-item">
-                            <button type="button" class="collapsible" onclick="toggleBlock(this)">Book ${num}</button>
-                            <div class="content" id="book-${num}"></div>
-                        </div>`;
+        var bookContent = document.getElementById(`book-${num}`);
 
-                var bookContent = document.getElementById(`book-${num}`);
-
-                book.forEach(x => {
-                    var unit = x.unit.split(" ")[1];
-                    bookContent.innerHTML += `<a href="flashcard.html?book=${num}&unit=${unit}">
-                            <span style="font-weight: bold">${x.unit}: </span>${x.name}
-                        </a>
-                        <span class="hyphen">-</span>
-                        <a href="quiz.html?book=${num}&unit=${unit}" style="text-decoration: underline;">Quiz</a>
-                        <span class="hyphen">-</span>
-                        <a href="story.html?book=${num}&unit=${unit}" style="text-decoration: underline;">Story</a><br />`;
-                });
-
-                bookContent.innerHTML += `<a href="vocabularies.html?book=${num}">
-                        <span style="font-weight: bold">Vocabularies</span>
-                    </a><br />`;
-            });
+        book.forEach(x => {
+            var unit = x.unit.split(" ")[1];
+            bookContent.innerHTML += `
+                <a href="flashcard.html?book=${num}&unit=${unit}">
+                    <span style="font-weight: bold">${x.unit}: </span>${x.name}
+                </a>
+                <span class="hyphen">-</span>
+                <a href="quiz.html?book=${num}&unit=${unit}" style="text-decoration: underline;">Quiz</a>
+                <span class="hyphen">-</span>
+                <a href="story.html?book=${num}&unit=${unit}" style="text-decoration: underline;">Story</a><br />
+            `;
         });
+
+        bookContent.innerHTML += `
+            <a href="vocabularies.html?book=${num}">
+                <span style="font-weight: bold">Vocabularies</span>
+            </a><br />
+        `;
+    });
 }
 
-fetchUnits();
+fetchData();
 
 const toggleBlock = (event) => {
     event.classList.toggle("active");

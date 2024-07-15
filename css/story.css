@@ -1,22 +1,8 @@
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
+    height: 100%;
 }
 
-.container {
-    width: 90%;
-}
-
-.story-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#story-container {
+#container {
     color: #333333;
     background-color: #8acfff;
     border-radius: 10px;
@@ -42,6 +28,7 @@ body {
     font-size: 14px;
     text-indent: 25px;
     font-weight: normal;
+    text-align: left;
 }
 
 .story-content p {

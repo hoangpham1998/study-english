@@ -1,24 +1,9 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
 h1 {
     margin-bottom: 50px;
 }
 
 .btn {
     font-weight: 600;
-}
-
-.container {
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
 }
 
 .card-container {

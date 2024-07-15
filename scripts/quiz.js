@@ -1,30 +1,22 @@
-const quizContainer = document.getElementById('quiz-container');
 let currentCard = 0;
 let totalCorrect = 0;
 let totalIncorrect = 0;
 
-var url = new URL(window.location.href);
-var book = url.searchParams.get("book");
-var unit = url.searchParams.get("unit");
+const fetchData = async () => {
+    const data = await fetchJson(`${jsonPath}books/book-${book}`);
+    var unitData = data[unit - 1];
+    var date = new Date();
+    for (let i = unitData.length - 1; i > 0; i--) {
+        unitData[i].dueDate = date;
+        unitData[i].disabled = false;
+        
+        const j = Math.floor(Math.random() * (i + 1));
+        [unitData[i], unitData[j]] = [unitData[j], unitData[i]];
+    }
 
-const fetchData = () => {
-    fetch(`assets\\data\\4000-enssential-english-words\\books\\book-${book}.json`)
-    .then(response => response.json())
-    .then(data => {
-        var unitData = data[unit - 1];
-        var date = new Date();
-        for (let i = unitData.length - 1; i > 0; i--) {
-            unitData[i].dueDate = date;
-            unitData[i].disabled = false;
-            
-            const j = Math.floor(Math.random() * (i + 1));
-            [unitData[i], unitData[j]] = [unitData[j], unitData[i]];
-        }
-
-        questions = unitData;
-        showCurrentCard();
-        document.getElementById("previous").disabled = true;
-    });
+    questions = unitData;
+    showCurrentCard();
+    document.getElementById("previous").disabled = true;
 }
 
 // Display current flashcard
@@ -42,10 +34,7 @@ const showCurrentCard = () => {
             }
         }
 
-        for (let i = answer.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [answer[i], answer[j]] = [answer[j], answer[i]];
-        }
+        answer = shuffleData(answer);
 
         card.aIndex = answer[0];
         card.bIndex = answer[1];
@@ -55,7 +44,7 @@ const showCurrentCard = () => {
         card.isGen = true;
     }
     
-    quizContainer.innerHTML = `<span class="quiz-status">${currentCard + 1}/${questions.length}</span>
+    container.innerHTML = `<span class="quiz-status">${currentCard + 1}/${questions.length}</span>
         <h2>${card.vi}</h2>
         <ul class="answer-options">
             <li>
