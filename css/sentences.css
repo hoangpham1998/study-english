@@ -1,10 +1,18 @@
 body {
     text-align: center;
     margin: 20px auto;
+    display: block;
+}
+
+.container {
+    max-width: none;
+    padding-bottom: 20px;
 }
 
 .flip-card {
     height: 40px;
+    box-shadow: none;
+    border-radius: 0.25rem;
 }
 
 .flip-card-inner {
@@ -22,4 +30,9 @@ body {
 
 .flip-card-back {
     transform: rotateX(180deg);
+}
+
+.btn {
+    font-weight: bold;
+    font-size: 14px;
 }

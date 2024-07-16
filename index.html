@@ -8,19 +8,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/master.css">
     <style>
+        .content {
+            color: white;
+            height: 80%;
+            align-items: center;
+            background: black;
+            display: flex;
+            padding: 15px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            background: #2980b9;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        .container {
+            background: #8acfff;
+            text-align: left;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
         a {
-            color: #424242;
-            font-size: x-large;
-            font-weight: bold;
+            color: white;
         }
     </style>
 </head>
 
 <body>
-    <h1>Study English</h1>
-    <div class="container" id="container">
-        <p><a href="flashcard-list.html">4000 essential english words</a></p>
-        <p><a href="sentences.html">Sentences</a></p>
+    <h1 class="content title">Study English</h1>
+    <div class="container content" id="container">
+        <div>
+            <p><a href="flashcard-list.html">4000 essential english words</a></p>
+            <p><a href="sentences.html">Sentences</a></p>
+        </div>
     </div>
 </body>
 
