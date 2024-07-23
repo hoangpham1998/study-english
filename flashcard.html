@@ -13,7 +13,7 @@
 
 <body>
     <div class="container">
-        <h1>Flashcards</h1><br />
+        <h1>Flashcards <span id="unit"></span></h1><br />
         <div class="tab-content">
             <div class="card-container" id="container"></div>
         </div>
@@ -34,15 +34,14 @@
         </div>
 
         <div class="row" style="margin-top: 15px; padding: 0 10px;">
-            <div class="col-4 action">
-                <button class="btn btn-purple" onclick="openQuiz()">Quiz</button>
-            </div>
-            <div class="col-4 action">
-                <button class="btn btn-orange" onclick="openStory()">Story</button>
-            </div>
-            <div class="col-4 action">
+            <div class="col action">
                 <button class="btn btn-basic" onclick="memorizeCard()">Memorized</button>
             </div>
+        </div>
+
+        <div class="row" style="margin-top: 15px;">
+            <div class="col pagination" id="pagination">
+              </div>
         </div>
     </div>
 

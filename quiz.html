@@ -13,7 +13,7 @@
 
 <body>
     <div class="container">
-        <h1>Quiz</h1>
+        <h1>Quiz <span id="unit"></span></h1>
         <h6 style="font-weight: bold; color: #007bff">Answered: <span id="total-answered">0</span></h6>
             <div style="display: inline-flex;">
                 <h6 style="font-weight: bold; color: #f44336">Incorrect: <span id="total-incorrect">0</span></h6>
@@ -23,15 +23,19 @@
             <div id="container"></div>
             <div class="row" style="margin-top: 15px;">
                 <div class="col-3">
-                    <button class="btn btn-info" id="previous" onclick="previous()"><</button>
+                    <button class="btn btn-info" id="previous" onclick="previous()">&#8592;</button>
                 </div>
                 <div class="col-6">
                     <button class="btn btn-success" id="submit" onclick="submit()">Check</button>
                 </div>
                 <div class="col-3">
-                    <button class="btn btn-info" id="next" onclick="next()">></button>
+                    <button class="btn btn-info" id="next" onclick="next()">&#8594;</button>
                 </div>
             </div>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col pagination" id="pagination">
+              </div>
         </div>
     </div>
 

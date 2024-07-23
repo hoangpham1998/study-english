@@ -38,7 +38,7 @@ const fetchData = async () => {
 
     container.innerHTML = `
         <img class="story-img" src="${path}${story.image}" title="${story.en}" />
-        <h3 class="story-title">${story.en.toUpperCase()}</h3>
+        <h3 class="story-title">UNIT ${unit}: ${story.en.toUpperCase()}</h3>
         <audio controls>
             <source src="${path}${story.sound}" type="audio/mp3">
         </audio>

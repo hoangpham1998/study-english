@@ -29,6 +29,7 @@ const handleIndexBlockItemClick = (event) => {
 };
 
 const fetchData = async () => {
+    document.getElementById('book').textContent = book;
     const data = await fetchJson(`${jsonPath}vocabularies/index-${book}`);
     container.innerHTML = data.map(createBookItem).join('');
 

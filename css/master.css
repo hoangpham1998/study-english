@@ -118,3 +118,33 @@ input {
     background-color: #2980b9;
     color: white;
 }
+
+.pagination {
+    display: inline-block;
+    padding-left: 20px;
+}
+
+.pagination a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    font-weight: normal;
+    font-size: small;
+}
+
+.pagination a.active {
+    background-color: #2980b9;
+    border-radius: .25rem;
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+a.disabled {
+    pointer-events: none;
+    color: #939393;
+}
