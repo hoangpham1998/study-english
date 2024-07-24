@@ -1,15 +1,16 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: cursive;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    color: white;
+    background-color: #1f1147;
 }
 
 h1 {
-    color: #424242;
-    font-family: sans-serif;
+    color: #37e9bb;
     font-weight: bold;
     text-align: center;
 }
@@ -81,7 +82,7 @@ input {
 
 .btn-purple {
     color: white;
-    background-color: #663399a1;
+    background-color: #6745fd;
 }
 
 .flip-card {
@@ -107,15 +108,7 @@ input {
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-}
-
-.flip-card-front {
-    background-color: #8acfff;
-    color: white;
-}
-
-.flip-card-back {
-    background-color: #2980b9;
+    background-color: #775bf6;
     color: white;
 }
 
@@ -125,7 +118,7 @@ input {
 }
 
 .pagination a {
-    color: black;
+    color: white;
     padding: 8px 16px;
     text-decoration: none;
     transition: background-color .3s;
@@ -134,14 +127,16 @@ input {
 }
 
 .pagination a.active {
-    background-color: #2980b9;
+    background-color: #6745fd;
     border-radius: .25rem;
     color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .pagination a:hover:not(.active) {
-    background-color: #ddd;
+    background-color: #664dd1;
+    border-radius: .25rem;
+    color: white;
 }
 
 a.disabled {

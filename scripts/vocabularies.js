@@ -1,3 +1,5 @@
+document.title = `Book ${book}`;
+
 const createBookItem = ({ en, story }) => `
     <div class="book-item">
         <button class="collapsible">${en.toUpperCase()}</button>
@@ -22,14 +24,10 @@ const handleIndexBlockItemClick = (event) => {
     
     const idioms = listItem.querySelector(".tool-index-idioms");
     idioms.style.display = "table-cell";
-    idioms.style.background = "antiquewhite";
-    idioms.style.padding = "10px";
-    idioms.style.borderRadius = "5px";
-    idioms.style.color = "black";
 };
 
 const fetchData = async () => {
-    document.getElementById('book').textContent = book;
+    document.getElementById('book').textContent = `Book ${book}`;
     const data = await fetchJson(`${jsonPath}vocabularies/index-${book}`);
     container.innerHTML = data.map(createBookItem).join('');
 

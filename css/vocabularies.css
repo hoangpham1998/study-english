@@ -11,7 +11,7 @@ body {
 }
 
 .collapsible {
-    background-color: #2980b9;
+    background-color: #6745fd;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -31,10 +31,6 @@ body {
     margin-left: 5px;
 }
 
-.collapsible:hover {
-    background-color: #138496;
-}
-
 .active:after {
     content: "\2212";
 }
@@ -43,7 +39,7 @@ body {
     padding: 18px;
     display: none;
     overflow: hidden;
-    background-color: #8acfff;
+    background-color: #664dd1;
     color: aliceblue
 }
 
@@ -74,6 +70,10 @@ body {
     font-size: medium;
     display: none;
     cursor: default;
+    background-color: #37e9bb;
+    color: #1f1147;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .en-word {

@@ -11,26 +11,16 @@ h6 {
 
 .btn {
     font-weight: 600;
-    width: 70%;
 }
 
 .btn-info {
     font-size: large;
 }
 
-.tab-content {
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    background-color: #8acfff;
-    padding: 20px;
-}
-
 .quiz-status {
-    text-align: right;
-    margin-bottom: 0;
     display: block;
     font-size: small;
-    color: white;
+    color: #37e9bb;
 }
 
 .row {
@@ -53,8 +43,7 @@ input[type="radio"] {
 label {
     display: block;
     padding: 12px 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    border: 1px solid #775bf6;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -62,13 +51,13 @@ label {
 }
 
 .correct {
-    background-color: #8bc34a;
+    background-color: #37e9bb;
     color: #fff;
-    border-color: rgb(105 195 0);
+    border-color: #37e9bb;
 }
 
 .incorrect {
-    background-color: #f44336;
+    background-color: #ff7066;
     color: #fff;
-    border-color: rgb(255 47 32);
+    border-color: #ff7066;
 }

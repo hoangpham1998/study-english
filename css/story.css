@@ -3,22 +3,18 @@ body {
 }
 
 #container {
-    color: #333333;
-    background-color: #8acfff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    color: #ffffff;
+    padding: 10px;
     max-width: 600px;
     width: 100%;
     margin-top: 20px;
-    margin-bottom: 20px;
     box-sizing: border-box;
 }
 
 .story-title {
     margin-top: 15px;
     margin-bottom: 5px;
-    color: #fff;
+    color: #37e9bb;
     font-size: 24px;
     text-align: center;
 }
@@ -52,7 +48,7 @@ audio {
 }
 
 .idiom-tip {
-    color: #2980b9;
+    color: #37eabb;
     font-style: italic;
     cursor: pointer;
     text-decoration: underline;
@@ -70,7 +66,7 @@ audio {
     display: none;
     position: absolute;
     z-index: 1000;
-    background-color: #2980b9;
+    background-color: #1f1147;
     color: #fff;
     border-radius: 6px;
     padding: 5px;
