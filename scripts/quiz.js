@@ -1,6 +1,4 @@
 let currentCard = 0;
-let totalCorrect = 0;
-let totalIncorrect = 0;
 
 const fetchData = async () => {
     const data = await fetchJson(`${jsonPath}books/book-${book}`);
@@ -17,6 +15,7 @@ const fetchData = async () => {
     questions = unitData;
     showCurrentCard();
     document.getElementById("previous").disabled = true;
+    document.getElementById("next").disabled = true;
 }
 
 // Display current flashcard
@@ -47,19 +46,19 @@ const showCurrentCard = () => {
     container.innerHTML = `<span class="quiz-status">${currentCard + 1}/${questions.length}</span>
         <h2>${card.vi}</h2>
         <ul class="answer-options">
-            <li>
+            <li onclick="check(${card.aIndex})">
                 <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.aIndex}" name="${currentCard}" value="${card.aIndex}">
                 <label for="${currentCard}-${card.aIndex}">${questions[card.aIndex].en}</label>
             </li>
-            <li>
+            <li onclick="check(${card.bIndex})">
                 <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.bIndex}" name="${currentCard}" value="${card.bIndex}">
                 <label for="${currentCard}-${card.bIndex}">${questions[card.bIndex].en}</label>
             </li>
-            <li>
+            <li onclick="check(${card.cIndex})">
                 <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.cIndex}" name="${currentCard}" value="${card.cIndex}">
                 <label for="${currentCard}-${card.cIndex}">${questions[card.cIndex].en}</label>
             </li>
-            <li>
+            <li onclick="check(${card.dIndex})">
                 <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.dIndex}" name="${currentCard}" value="${card.dIndex}">
                 <label for="${currentCard}-${card.dIndex}">${questions[card.dIndex].en}</label>
             </li>
@@ -73,8 +72,6 @@ const previous = () => {
     if (currentCard > 0) {
         currentCard--;
         showCurrentCard();
-        
-        document.getElementById("submit").disabled = questions[currentCard].disabled;
     }
     
     document.getElementById("previous").disabled = currentCard == 0;
@@ -85,47 +82,27 @@ const next = () => {
     if (currentCard < questions.length - 1) {
         currentCard++;
         showCurrentCard();
-
-        document.getElementById("submit").disabled = questions[currentCard].disabled;
     }
 
     document.getElementById("previous").disabled = false;
-    document.getElementById("next").disabled = currentCard == questions.length - 1;
+    document.getElementById("next").disabled = !questions[currentCard].disabled;
 }
 
-const submit = () => {
-    var selectedAnswer = document.querySelector(`input[name="${currentCard}"]:checked`);
-    if (!selectedAnswer) {
-        alert("Please select an answer.");
-        return;
-    }
-
-    questions[currentCard].disabled = true;
-    
-    var answer = selectedAnswer.value;
-    setCorrect();
+const check = (answer) => {
+    document.querySelectorAll(`input[name="${currentCard}"]`).forEach(input => {
+        if (input.nextElementSibling.classList.contains("incorrect")) {
+            input.nextElementSibling.classList.remove("incorrect");
+        }
+    });
 
     if (answer != currentCard) {
         questions[currentCard].incorrectIndex = answer;
         setIncorrect(answer);
-        totalIncorrect++;
     }
     else {
-        totalCorrect++;
+        setCorrect();
+        questions[currentCard].disabled = true;
     }
-
-    document.querySelectorAll(`input[name="${currentCard}"]`).forEach(input => {
-        input.disabled = true;
-        input.nextElementSibling.style.cursor = "not-allowed";
-    });
-
-    document.getElementById("total-correct").textContent = totalCorrect;
-    document.getElementById("total-incorrect").textContent = totalIncorrect;
-
-    var totalAnswered = questions.filter(x => x.disabled).length;
-    document.getElementById("total-answered").textContent = totalAnswered;
-
-    document.getElementById("submit").disabled = questions[currentCard].disabled;
 
     if (questions.filter(x => x.disabled).length == questions.length)
         alert("Quiz completed!");
@@ -135,20 +112,18 @@ const setCorrect = () => {
     if (!questions[currentCard].disabled)
         return;
 
-    var correctAnsStyle = document.getElementById(`${currentCard}-${currentCard}`).nextElementSibling.style;
-    correctAnsStyle.backgroundColor = "#8bc34a";
-    correctAnsStyle.borderColor = "rgb(105 195 0)";
-    correctAnsStyle.color = "#ffffff";
+    document.getElementById(`${currentCard}-${currentCard}`)
+        .nextElementSibling.classList.add("correct");
+
+    document.getElementById("next").disabled = false;
 }
 
 const setIncorrect = (index) => {
-    if (!questions[currentCard].disabled || !index)
+    if (questions[currentCard].disabled || index == null)
         return;
     
-    var selectedAnsStyle = document.getElementById(`${currentCard}-${index}`).nextElementSibling.style;
-    selectedAnsStyle.backgroundColor = "#f44336";
-    selectedAnsStyle.borderColor = "rgb(255 47 32)";
-    selectedAnsStyle.color = "#ffffff";
+    document.getElementById(`${currentCard}-${index}`)
+        .nextElementSibling.classList.add("incorrect");
 }
 
 fetchData();

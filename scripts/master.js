@@ -11,8 +11,11 @@ const src = `https://www.essentialenglish.review/apps-data/4000-essential-englis
 const jsonPath = `assets/data/4000-enssential-english-words/`;
 
 if (unit) {
+    var title = `Unit ${unit}`;
+    document.title += title;
+    
     if (unitText) {
-        unitText.textContent = unit;
+        unitText.textContent = title;
     }
 
     if (pagination) {
