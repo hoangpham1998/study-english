@@ -1,9 +1,11 @@
 let currentCard = 0;
+let questions = [];
 
 const fetchData = async () => {
     const data = await fetchJson(`${jsonPath}books/book-${book}`);
     var unitData = data[unit - 1];
     var date = new Date();
+    
     for (let i = unitData.length - 1; i > 0; i--) {
         unitData[i].dueDate = date;
         unitData[i].disabled = false;
@@ -11,9 +13,10 @@ const fetchData = async () => {
         const j = Math.floor(Math.random() * (i + 1));
         [unitData[i], unitData[j]] = [unitData[j], unitData[i]];
     }
-
+    
     questions = unitData;
     showCurrentCard();
+
     document.getElementById("previous").disabled = true;
     document.getElementById("next").disabled = true;
 }
@@ -89,7 +92,9 @@ const next = () => {
     }
 
     document.getElementById("previous").disabled = false;
-    document.getElementById("next").disabled = !questions[currentCard].disabled;
+
+    document.getElementById("next").disabled = !questions[currentCard].disabled
+        || currentCard == questions.length - 1;
 }
 
 const check = (answer) => {
@@ -111,7 +116,7 @@ const check = (answer) => {
     if (questions.filter(x => x.disabled).length == questions.length) {
         var popup = document.getElementById('popup');
         popup.style.display = 'block';
-        document.getElementsByClassName("container")[0].style.opacity = ".5";
+        document.getElementsByClassName("container")[0].style.opacity = ".4";
     }
 }
 
@@ -122,7 +127,9 @@ const setCorrect = () => {
     document.getElementById(`${currentCard}-${currentCard}`)
         .nextElementSibling.classList.add("correct");
 
-    document.getElementById("next").disabled = false;
+    if (currentCard != questions.length - 1) {
+        document.getElementById("next").disabled = false;
+    }
 }
 
 const setIncorrect = (index) => {

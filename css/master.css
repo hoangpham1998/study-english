@@ -72,6 +72,10 @@ button:focus {
     color: white;
 }
 
+.btn.disabled, .btn:disabled {
+    pointer-events: none;
+}
+
 .action {
     padding: 0px 5px 0px 5px;
 }
