@@ -28,6 +28,7 @@ ul {
 
 *:disabled {
     cursor: not-allowed;
+    pointer-events: none;
 }
 
 .nav.nav-tabs {
@@ -54,6 +55,10 @@ input {
     font-size: 15px !important;
 }
 
+button:focus {
+    outline: none;
+}
+
 .btn {
     width: 100%;
     height: 40px;
@@ -64,6 +69,7 @@ input {
 
 .btn:hover {
     opacity: .8;
+    color: white;
 }
 
 .action {
@@ -139,7 +145,7 @@ input {
 }
 
 .pagination a:hover:not(.active) {
-    background-color: #664dd1;
+    background-color: #5468ff1a;
     border-radius: .25rem;
     color: white;
 }
@@ -163,5 +169,5 @@ a.disabled {
 .close-button:after {
     content: '\2573';
     font-weight: bold;
-    font-size: medium;
+    font-size: x-large;
 }
