@@ -21,7 +21,7 @@ body {
     text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgb(0 0 0 / 10%);
 }
 
 .flip-card-inner.active {
@@ -35,4 +35,25 @@ body {
 .btn {
     font-weight: bold;
     font-size: 14px;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #232148;
+}
+
+.nav-link {
+    color: #ffffff;
+    background-color: #232148;
+    border-color: #232148;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #232148;
+    border-color: #232148;
+    color: #00d9ce;
+    font-weight: bold;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid #171531;
 }

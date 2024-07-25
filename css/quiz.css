@@ -1,5 +1,5 @@
 h2 {
-    font-size: 1.5rem;
+    font-size: xx-large;
     margin-bottom: 20px;
     font-weight: bold;
     color: aliceblue;
@@ -13,14 +13,14 @@ h6 {
     font-weight: 600;
 }
 
-.btn-info {
+.btn-purple {
     font-size: large;
 }
 
 .quiz-status {
     display: block;
     font-size: small;
-    color: #37e9bb;
+    color: #514f67;
 }
 
 .row {
@@ -43,7 +43,8 @@ input[type="radio"] {
 label {
     display: block;
     padding: 12px 20px;
-    border: 1px solid #775bf6;
+    border: 1px solid #232148;
+    background-color: #232148;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -51,9 +52,9 @@ label {
 }
 
 .correct {
-    background-color: #37e9bb;
+    background-color: #00d9ce;
     color: #fff;
-    border-color: #37e9bb;
+    border-color: #00d9ce;
 }
 
 .incorrect {

@@ -1,22 +1,22 @@
 body {
-    font-family: cursive;
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
     color: white;
-    background-color: #1f1147;
+    background-color: #171531;
 }
 
 h1 {
-    color: #37e9bb;
+    color: #00d9ce;
     font-weight: bold;
     text-align: center;
 }
 
 a {
-    color: #424242;
+    color: white;
     font-size: x-large;
     font-weight: bold;
     text-decoration: none;
@@ -39,7 +39,7 @@ ul {
 .container {
     width: 90%;
     text-align: center;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .tab-content {
@@ -47,7 +47,7 @@ ul {
 }
 
 input {
-    box-shadow: 0 3px 3px -2px rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
     margin: 0px;
     margin-bottom: 15px;
     width: 100%;
@@ -59,15 +59,20 @@ input {
     height: 40px;
     font-weight: 500;
     font-size: 12px;
-    box-shadow: 0 3px 3px -2px rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%)
+    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
 }
 
 .btn:hover {
-    color: #fff;
+    opacity: .8;
 }
 
 .action {
     padding: 0px 5px 0px 5px;
+}
+
+.btn-info {
+    background-color: #00d9ce;
+    border-color: #00d9ce;
 }
 
 .btn-basic {
@@ -82,7 +87,7 @@ input {
 
 .btn-purple {
     color: white;
-    background-color: #6745fd;
+    background-color: #5468ff;
 }
 
 .flip-card {
@@ -94,7 +99,7 @@ input {
     text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgb(0 0 0 / 10%);
     justify-items: center;
 }
 
@@ -108,7 +113,7 @@ input {
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    background-color: #775bf6;
+    background-color: #232148;
     color: white;
 }
 
@@ -127,10 +132,10 @@ input {
 }
 
 .pagination a.active {
-    background-color: #6745fd;
+    background-color: #5468ff;
     border-radius: .25rem;
     color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
 }
 
 .pagination a:hover:not(.active) {

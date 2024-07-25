@@ -14,7 +14,7 @@ body {
 .story-title {
     margin-top: 15px;
     margin-bottom: 5px;
-    color: #37e9bb;
+    color: #00d9ce;
     font-size: 24px;
     text-align: center;
 }
@@ -34,7 +34,7 @@ body {
 .story-img {
     width: 8rem;
     border-radius: 10px;
-    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
     display: block;
     margin: auto;
 }
@@ -66,13 +66,13 @@ audio {
     display: none;
     position: absolute;
     z-index: 1000;
-    background-color: #1f1147;
+    background-color: #232148;
     color: #fff;
     border-radius: 6px;
     padding: 5px;
     max-width: 300px;
     width: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
     pointer-events: none;
     box-sizing: border-box;
     text-align: center;

@@ -11,7 +11,7 @@ body {
 }
 
 .collapsible {
-    background-color: #6745fd;
+    background-color: #232148;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -27,28 +27,34 @@ body {
     content: '\002B';
     color: white;
     font-weight: bold;
+    content: '\276D';
     float: right;
+    color: #9897a7;
     margin-left: 5px;
 }
 
 .active:after {
     content: "\2212";
+    content: "﹀";
 }
 
 .content {
     padding: 18px;
+    padding-top: 0;
     display: none;
     overflow: hidden;
-    background-color: #664dd1;
-    color: aliceblue
+    background-color: #232148;
 }
 
 .content a {
     color: white;
+    font-size: large;
+    font-size: medium;
 }
 
 .book-item {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgb(0 0 0 / 10%);
     border-radius: 0.25rem;
     margin: 15px;
 }
@@ -70,8 +76,9 @@ body {
     font-size: medium;
     display: none;
     cursor: default;
-    background-color: #37e9bb;
-    color: #1f1147;
+    border: 1px solid #00d9ce;
+    background: #171531;
+    color: #ffffff;
     padding: 10px;
     border-radius: 5px;
 }
