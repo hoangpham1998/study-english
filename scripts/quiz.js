@@ -46,20 +46,24 @@ const showCurrentCard = () => {
     container.innerHTML = `<span class="quiz-status">${currentCard + 1}/${questions.length}</span>
         <h2>${card.vi}</h2>
         <ul class="answer-options">
-            <li onclick="check(${card.aIndex})">
-                <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.aIndex}" name="${currentCard}" value="${card.aIndex}">
+            <li>
+                <input onclick="check(${card.aIndex})" type="radio" ${card.disabled ? "disabled" : ""}
+                    id="${currentCard}-${card.aIndex}" name="${currentCard}" value="${card.aIndex}">
                 <label for="${currentCard}-${card.aIndex}">${questions[card.aIndex].en}</label>
             </li>
-            <li onclick="check(${card.bIndex})">
-                <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.bIndex}" name="${currentCard}" value="${card.bIndex}">
+            <lix>
+                <input onclick="check(${card.bIndex})" type="radio" ${card.disabled ? "disabled" : ""}
+                    id="${currentCard}-${card.bIndex}" name="${currentCard}" value="${card.bIndex}">
                 <label for="${currentCard}-${card.bIndex}">${questions[card.bIndex].en}</label>
             </li>
-            <li onclick="check(${card.cIndex})">
-                <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.cIndex}" name="${currentCard}" value="${card.cIndex}">
+            <li>
+                <input onclick="check(${card.cIndex})" type="radio" ${card.disabled ? "disabled" : ""}
+                    id="${currentCard}-${card.cIndex}" name="${currentCard}" value="${card.cIndex}">
                 <label for="${currentCard}-${card.cIndex}">${questions[card.cIndex].en}</label>
             </li>
-            <li onclick="check(${card.dIndex})">
-                <input type="radio" ${card.disabled ? "disabled" : ""} id="${currentCard}-${card.dIndex}" name="${currentCard}" value="${card.dIndex}">
+            <li>
+                <input onclick="check(${card.dIndex})" type="radio" ${card.disabled ? "disabled" : ""}
+                    id="${currentCard}-${card.dIndex}" name="${currentCard}" value="${card.dIndex}">
                 <label for="${currentCard}-${card.dIndex}">${questions[card.dIndex].en}</label>
             </li>
         </ul>`;
@@ -100,12 +104,15 @@ const check = (answer) => {
         setIncorrect(answer);
     }
     else {
-        setCorrect();
         questions[currentCard].disabled = true;
+        setCorrect();
     }
 
-    if (questions.filter(x => x.disabled).length == questions.length)
-        alert("Quiz completed!");
+    if (questions.filter(x => x.disabled).length == questions.length) {
+        var popup = document.getElementById('popup');
+        popup.style.display = 'block';
+        document.getElementsByClassName("container")[0].style.opacity = ".5";
+    }
 }
 
 const setCorrect = () => {
@@ -124,6 +131,12 @@ const setIncorrect = (index) => {
     
     document.getElementById(`${currentCard}-${index}`)
         .nextElementSibling.classList.add("incorrect");
+}
+
+const hidePopup = () => {
+    var popup = document.getElementById('popup');
+    popup.style.display = 'none';
+    document.getElementsByClassName("container")[0].style.opacity = "unset";
 }
 
 fetchData();
