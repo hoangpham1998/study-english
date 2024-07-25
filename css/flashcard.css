@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 .btn {
     font-weight: 600;
 }
@@ -40,7 +44,7 @@
 .card-img {
     max-width: 100px;
     border-radius: 300px;
-    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
+    box-shadow: 0 0 20px rgb(255 255 255 / 10%);
 }
 
 strong {

@@ -47,7 +47,7 @@ ul {
 }
 
 input {
-    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
+    box-shadow: 0 0 20px rgb(255 255 255 / 10%);
     margin: 0px;
     margin-bottom: 15px;
     width: 100%;
@@ -59,7 +59,7 @@ input {
     height: 40px;
     font-weight: 500;
     font-size: 12px;
-    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
+    box-shadow: 0 0 20px rgb(255 255 255 / 10%);
 }
 
 .btn:hover {
@@ -135,7 +135,7 @@ input {
     background-color: #5468ff;
     border-radius: .25rem;
     color: white;
-    box-shadow: 0 0 15px rgb(255 255 255 / 10%);
+    box-shadow: 0 0 20px rgb(255 255 255 / 10%);
 }
 
 .pagination a:hover:not(.active) {
@@ -147,4 +147,21 @@ input {
 a.disabled {
     pointer-events: none;
     color: #939393;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    background-color: transparent;
+    color: #5468ff;
+    border: none;
+    cursor: pointer;
+}
+
+.close-button:after {
+    content: '\2573';
+    font-weight: bold;
+    font-size: medium;
 }

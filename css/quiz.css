@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 h2 {
     font-size: xx-large;
     margin-bottom: 20px;

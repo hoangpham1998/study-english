@@ -75,3 +75,7 @@ const shuffleData = (data) => {
 
     return data;
 }
+
+const closePage = () => {
+    location.href = `unit.html?book=${book}&unit=${unit}`;
+}
