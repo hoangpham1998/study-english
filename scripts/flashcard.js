@@ -4,7 +4,6 @@ const path = `${src}wordlist/`;
 
 let currentCard = 0;
 let flashcards = [];
-let memorizedCards = [];
 
 const fetchData = async () => {
     const data = await fetchJson(`${jsonPath}books/book-${book}`);
@@ -65,13 +64,13 @@ const showCurrentCard = () => {
 function rate(rating) {
     let card = flashcards[currentCard];
     supermemo(card, rating);
-    saveFlashcardsToLocalStorage(book, unit);
+    saveFlashcardsToLocalStorage();
     showNextCard();
 }
 
 function memorizeCard() {
     let card = flashcards[currentCard];
-    memorizedCards.push(card.en);
+    card.memorized = true;
 
     if (currentCard > -1) {
         flashcards.splice(currentCard, 1);
@@ -126,7 +125,7 @@ function loadFlashcardsFromLocalStorage() {
     const key = `flashcards_${book}_${unit}`;
     const storedFlashcards = localStorage.getItem(key);
     if (storedFlashcards) {
-        flashcards = JSON.parse(storedFlashcards);
+        flashcards = JSON.parse(storedFlashcards).filter(x => !x.memorized);
         showCurrentCard();
     }
     else {

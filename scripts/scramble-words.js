@@ -55,7 +55,7 @@ const showCurrentCard = () => {
             </button>`;
     });
     lettersContainer.innerHTML += `<button class="letter" id="remove-btn" ${card.disabled ? "disabled" : ""}
-        onclick="remove()">&#8592;</button>`;
+        onclick="remove()"><i class="remove-icons">backspace</i></button>`;
 };
 
 const check = (index, letter) => {
