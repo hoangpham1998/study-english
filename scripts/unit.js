@@ -10,6 +10,10 @@ const openFlashcard = () => {
     location.href = `flashcard.html?book=${book}&unit=${unit}`;
 }
 
+const openScrambleWords = () => {
+    location.href = `scramble-words.html?book=${book}&unit=${unit}`;
+}
+
 const back = () => {
     location.href = `flashcard-list.html?book=${book}`;
 }

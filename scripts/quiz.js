@@ -21,7 +21,6 @@ const fetchData = async () => {
     document.getElementById("next").disabled = true;
 }
 
-// Display current flashcard
 const showCurrentCard = () => {
     let card = questions[currentCard];
     if (!card)
@@ -37,7 +36,6 @@ const showCurrentCard = () => {
         }
 
         answer = shuffleData(answer);
-
         card.aIndex = answer[0];
         card.bIndex = answer[1];
         card.cIndex = answer[2];
@@ -92,7 +90,6 @@ const next = () => {
     }
 
     document.getElementById("previous").disabled = false;
-
     document.getElementById("next").disabled = !questions[currentCard].disabled
         || currentCard == questions.length - 1;
 }
@@ -138,12 +135,6 @@ const setIncorrect = (index) => {
     
     document.getElementById(`${currentCard}-${index}`)
         .nextElementSibling.classList.add("incorrect");
-}
-
-const hidePopup = () => {
-    var popup = document.getElementById('popup');
-    popup.style.display = 'none';
-    document.getElementsByClassName("container")[0].style.opacity = "unset";
 }
 
 fetchData();

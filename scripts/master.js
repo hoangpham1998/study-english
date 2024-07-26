@@ -79,3 +79,9 @@ const shuffleData = (data) => {
 const closePage = () => {
     location.href = `unit.html?book=${book}&unit=${unit}`;
 }
+
+const hidePopup = () => {
+    var popup = document.getElementById('popup');
+    popup.style.display = 'none';
+    document.getElementsByClassName("container")[0].style.opacity = "unset";
+}

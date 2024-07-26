@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/scramble-words.css">
+</head>
+
+<body>
+    <div class="container">
+        <button class="close-button" onclick="closePage()"></button>
+        <h1 id="unit"></h1>
+        <div class="tab-content" id="container">
+            <span id="question-index"></span>
+            <h2 id="question"></h2>
+            <div id="word-container"></div>
+            <div id="letters-container"></div>
+        </div>
+        <div class="row" style="margin-top: 15px; padding: 5px;">
+            <div class="col">
+                <button class="btn btn-purple" id="previous" onclick="previous()">&#8592;</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-purple" id="next" onclick="next()">&#8594;</button>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col pagination" id="pagination">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="scripts/master.js"></script>
+    <script type="text/javascript" src="scripts/scramble-words.js"></script>
+</body>
+
+<div id="popup" class="popup">
+    <p style="font-size: x-large;">Completed!</p>
+    <button class="btn close-btn" onclick="hidePopup()">Close</button>
+</div>
+
+</html>

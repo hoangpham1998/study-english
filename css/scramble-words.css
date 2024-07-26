@@ -1,0 +1,39 @@
+#question-index {
+    display: block;
+    font-size: small;
+    color: #514f67;
+}
+
+#word-container {
+    margin: 20px 0;
+    font-size: 24px;
+}
+
+#letters-container {
+    margin-top: 20px;
+}
+
+.letter {
+    width: 50px;
+    color: #fff;
+    margin: 5px;
+    padding: 10px 0;
+    border: 1px solid #232148;
+    background-color: #232148;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+*:disabled {
+    opacity: .5;
+}
+
+.correct {
+    color: #00d9ce;
+    font-weight: bold;
+}
+
+.incorrect {
+    color: #ff7066;
+    font-weight: bold;
+}
