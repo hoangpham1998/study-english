@@ -1,4 +1,5 @@
-const path = `${src}reading/`;
+const imgPath = `${imgSrc}story/`;
+const audioPath = `${audioSrc}story/`;
 const popup = document.getElementById('tooltip-popup');
 const content = document.getElementById('tooltip-content');
 
@@ -37,10 +38,10 @@ const fetchData = async () => {
     const story = storiesData[unit - 1][0];
 
     container.innerHTML = `
-        <img class="story-img" src="${path}${story.image}" title="${story.en}" />
+        <img class="story-img" src="${imgPath}${story.image}" title="${story.en}" />
         <h3 class="story-title">UNIT ${unit}: ${story.en.toUpperCase()}</h3>
         <audio controls>
-            <source src="${path}${story.sound}" type="audio/mp3">
+            <source src="${audioPath}${story.sound}" type="audio/mp3">
         </audio>
         <div class="story-content">
             <h3>${story.story}</h3>

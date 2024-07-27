@@ -1,6 +1,8 @@
 const timeInterval = 86400000;
 const easeFactor = 1.3;
-const path = `${src}wordlist/`;
+
+const imgPath = `${imgSrc}book/`;
+const audioPath = `${audioSrc}book/`;
 
 let currentCard = 0;
 let flashcards = [];
@@ -34,9 +36,9 @@ const showCurrentCard = () => {
                 </div>
                 <div class="flip-card-back">
                     <div class="flip-card-back-content">
-                        <img class="card-img" onclick="playAudio('${path}${card.sound}')" src='${path}${card.image}' title="${card.en}" /><br/>
+                        <img class="card-img" onclick="playAudio('${audioPath}${card.sound}')" src='${imgPath}${card.image}' title="${card.en}" /><br/>
                         <audio controls>
-                            <source src="${path}${card.sound}" type="audio/mp3">
+                            <source src="${audioPath}${card.sound}" type="audio/mp3">
                         </audio><br />
                         <span class="card-detail">Vietnamese:</span> ${!card.vi ? "N/A" : card.vi}<br/>
                         <span class="card-detail">Define:</span> ${card.desc}<br/>

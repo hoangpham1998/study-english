@@ -7,8 +7,9 @@ const url = new URL(window.location.href);
 const book = url.searchParams.get("book");
 const unit = url.searchParams.get("unit");
 const pathname = url.pathname;
-const src = `https://www.essentialenglish.review/apps-data/4000-essential-english-words-${book}/data/unit-${unit}/`;
 const jsonPath = `assets/data/4000-enssential-english-words/`;
+const imgSrc = `${jsonPath}files/Book-${book}/Image/`;
+const audioSrc = `${jsonPath}files/Book-${book}/Audio/`;
 
 if (unit) {
     var title = `Unit ${unit}`;
