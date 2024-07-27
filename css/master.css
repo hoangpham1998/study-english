@@ -55,6 +55,10 @@ input {
     font-size: 15px !important;
 }
 
+button, a {
+    touch-action: manipulation;
+}
+
 button:focus {
     outline: none;
 }
