@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 #question-index {
     display: block;
     font-size: small;
