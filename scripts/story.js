@@ -36,15 +36,20 @@ const fetchData = async () => {
 
     const storiesData = await fetchJson(`${jsonPath}stories/stories-${book}`);
     const story = storiesData[unit - 1][0];
-
+    
     container.innerHTML = `
-        <img class="story-img" src="${imgPath}${story.image}" title="${story.en}" />
-        <h3 class="story-title">UNIT ${unit}: ${story.en.toUpperCase()}</h3>
+        <img class="story-img" src="${imgPath}${story.image}" title="${story.en}" /><br/>
+        <h3 class="story-title" id="en-title">UNIT ${unit}: ${story.en.toUpperCase()}</h3>
         <audio controls>
             <source src="${audioPath}${story.sound}" type="audio/mp3">
         </audio>
-        <div class="story-content">
+        <div class="story-content" id="en-story">
             <h3>${story.story}</h3>
+        </div>
+        <hr/>
+        <h3 class="story-title" id="vi-title">${story.name.toUpperCase()}</h3>
+        <div class="story-content" id="vi-story">
+            <h3>${story.vi}</h3>
         </div>
     `;
 
