@@ -12,9 +12,8 @@ const fetchData = async () => {
         var bookContent = document.getElementById(`book-${num}`);
 
         book.forEach(x => {
-            var unit = x.unit.split(" ")[1];
             bookContent.innerHTML += `
-                <a href="unit.html?book=${num}&unit=${unit}">
+                <a href="unit.html?book=${num}&unit=${x.id}">
                     <span style="font-weight: bold">${x.unit}: </span>${x.name}
                 </a><br />
             `;
