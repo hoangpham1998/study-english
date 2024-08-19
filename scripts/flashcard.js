@@ -1,5 +1,4 @@
 const timeInterval = 86400000;
-const easeFactor = 1.3;
 
 const imgPath = `${imgSrc}book/`;
 const audioPath = `${audioSrc}book/`;
@@ -10,7 +9,7 @@ let flashcards = [];
 const fetchData = async () => {
     const data = await fetchJson(`${jsonPath}books/book-${book}`);
     var unitData = data[unit - 1];
-    var date = new Date();
+    var date = new Date(Date.now());
     for (let i = unitData.length - 1; i > 0; i--) {
         unitData[i].dueDate = date;
         
@@ -84,33 +83,37 @@ function memorizeCard() {
 
 // Display next flashcard
 function showNextCard() {
-    currentCard = (currentCard + 1) % flashcards.length;
+    flashcards = flashcards.sort((a, b) => a.dueDate - b.dueDate);
     showCurrentCard();
 }
 
 // SuperMemo algorithm implementation
 function supermemo(card, rating) {
-    if (rating >= 3) {
+    card.easeFactor += 0.1 - (5 - rating) * (0.08 + (5 - rating) * 0.02);
+    card.easeFactor = Math.max(1.3, Math.min(card.easeFactor, 2.5));
+    
+    if (rating === 1) {
+        card.repetition = 0;
+        card.interval = 1;
+    } else {
         switch (card.repetition) {
             case 0:
                 card.interval = 1;
                 break;
             case 1:
-                card.interval = 6;
+                card.interval = 3;
                 break;
             default:
-                card.interval *= card.easeFactor;
+                let intervalMultiplier = 1;
+                if (rating === 2) {
+                    intervalMultiplier = 0.8;
+                } else if (rating === 4) {
+                    intervalMultiplier = 1.2;
+                }
+                card.interval *= card.easeFactor * intervalMultiplier;
                 break;
         }
         card.repetition += 1;
-    } else {
-        card.repetition = 0;
-        card.interval = 1;
-    }
-
-    card.easeFactor += 0.1 - (5 - rating) * (0.08 + (5 - rating) * 0.02);
-    if (card.easeFactor < easeFactor) {
-        card.easeFactor = easeFactor;
     }
 
     card.dueDate = new Date(Date.now() + card.interval * timeInterval);
@@ -144,4 +147,44 @@ const openQuiz = () => {
 
 const openStory = () => {
     location.href = `story.html?book=${book}&unit=${unit}`;
+}
+
+// Get modal element
+const editForm = document.getElementById('editForm');
+const modal = document.getElementById('editModal');
+const closeBtn = document.querySelector('.close');
+
+let enInput = document.getElementById('enInput');
+let viInput = document.getElementById('viInput');
+let descInput = document.getElementById('descInput');
+let examInput = document.getElementById('examInput');
+
+const editWord = () => {
+    let card = flashcards[currentCard];
+    
+    enInput.value = card.en;
+    viInput.value = card.vi;
+    descInput.value = card.desc;
+    examInput.value = card.exam;
+
+    modal.style.display = 'flex';
+}
+
+const cancel = () => {
+    event.preventDefault();
+    modal.style.display = 'none';
+}
+
+const updateCard = () => {
+    event.preventDefault();
+
+    let card = flashcards[currentCard];
+    card.vi = viInput.value;
+    card.desc = descInput.value;
+    card.exam = examInput.value;
+
+    showCurrentCard();
+    saveFlashcardsToLocalStorage();
+
+    modal.style.display = 'none';
 }

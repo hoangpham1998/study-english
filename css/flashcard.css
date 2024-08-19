@@ -64,3 +64,64 @@ strong {
 audio {
     padding: 10px;
 }
+
+/* TEST */
+.modal {
+    display: none;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    background-color: rgb(0 0 0 / 48%);
+}
+
+.modal-content {
+    background-color: #232148;
+    margin: 15% auto;
+    padding: 20px;
+    box-shadow: 0 0 15px rgb(0 0 0 / 10%);
+    border-radius: 0.25rem;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close {
+    color: #5468ff;
+    font-size: 45px;
+    font-weight: normal;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
+    text-shadow: none;
+}
+
+.close:hover,
+.close:focus {
+    color: #5468ff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    padding-left: 2px;
+}
+
+input {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #171531;
+    border: none;
+    border-radius: 0.25rem;
+    color: white;
+}
+
+h2 {
+    color: #00d9ce;
+    font-weight: bold;
+}

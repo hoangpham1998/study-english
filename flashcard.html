@@ -32,6 +32,9 @@
 
         <div class="row" style="margin-top: 20px; padding: 0 10px;">
             <div class="col action">
+                <button class="btn btn-white" onclick="editWord()">Edit</button>
+            </div>
+            <div class="col action">
                 <button class="btn btn-basic" onclick="memorizeCard()">Memorized</button>
             </div>
         </div>
@@ -39,6 +42,31 @@
         <div class="row">
             <div class="col pagination" id="pagination">
               </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cancel()">&times;</span>
+            <h2>Edit Card</h2>
+            <form id="editForm">
+                <label for="enInput">English</label>
+                <input type="text" disabled id="enInput" name="enInput">
+                <label for="viInput">Vietnamese</label>
+                <input type="text" id="viInput" name="viInput">
+                <label for="descInput">Description</label>
+                <input type="text" id="descInput" name="descInput">
+                <label for="examInput">Example</label>
+                <input type="text" id="examInput" name="examInput">
+                <div class="row" style="margin-top: 1%; padding: 0 10px;">
+                    <div class="col action">
+                        <button class="btn btn-basic" onclick="cancel()">Cancel</button>
+                    </div>
+                    <div class="col action">
+                        <button class="btn btn-purple" type="submit" onclick="updateCard()">Save</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

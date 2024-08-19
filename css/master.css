@@ -55,6 +55,10 @@ input {
     font-size: 15px !important;
 }
 
+input:disabled {
+    opacity: .5;
+}
+
 button, a {
     touch-action: manipulation;
 }
@@ -102,6 +106,11 @@ button:focus {
 .btn-purple {
     color: white;
     background-color: #5468ff;
+}
+
+.btn-white {
+    background-color: white;
+    color: #171531;
 }
 
 .flip-card {
