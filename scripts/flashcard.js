@@ -1,29 +1,82 @@
+//#region Init
 const timeInterval = 86400000;
-
 const imgPath = `${imgSrc}book/`;
 const audioPath = `${audioSrc}book/`;
 
-let currentCard = 0;
+let card = null;
 let flashcards = [];
 
-const fetchData = async () => {
-    const data = await fetchJson(`${jsonPath}books/book-${book}`);
-    var unitData = data[unit - 1];
-    var date = new Date(Date.now());
-    for (let i = unitData.length - 1; i > 0; i--) {
-        unitData[i].dueDate = date;
-        
-        const j = Math.floor(Math.random() * (i + 1));
-        [unitData[i], unitData[j]] = [unitData[j], unitData[i]];
+const CardStatus = {
+    NEW: 0,
+    LEARNING: 1,
+    MEMORIZED: 2,
+};
+
+const CardRating = {
+    AGAIN: 0,
+    HARD: 1,
+    GOOD: 2,
+    EASY: 3
+};
+//#endregion
+
+//#region Card
+const rate = (rating) => {
+    if (card.rating !== rating) {
+        card.repetition = 0;
+        card.rating = rating;
     }
 
-    flashcards = unitData;
-    showCurrentCard();
+    card.repetition++;
+    card.status = CardStatus.LEARNING;
+    card.dueDate = new Date(Date.now());
+
+    showNextCard();
 }
 
-// Display current flashcard
-const showCurrentCard = () => {
-    let card = flashcards[currentCard];
+const memorizeCard = () => {
+    card.status = CardStatus.MEMORIZED;
+    var cardIndex = flashcards.indexOf(card);
+    if (cardIndex > -1) {
+        flashcards.splice(cardIndex, 1);
+    }
+
+    showNextCard();
+}
+//#endregion
+
+//#region Algorithm
+const sortFlashcards = () => {
+    flashcards = flashcards.sort((a, b) => {
+        if (a.status !== b.status) {
+            return a.status - b.status;
+        }
+
+        if (a.rating !== b.rating) {
+            return a.rating - b.rating;
+        }
+
+        if (a.repetition !== b.repetition) {
+            return a.repetition - b.repetition;
+        }
+
+        return a.dueDate - b.dueDate;
+    });
+}
+//#endregion
+
+//#region Load data
+const showNextCard = () => {
+    sortFlashcards();
+    saveFlashcards();
+    displayCard();
+}
+
+const displayCard = () => {
+    if (flashcards.length > 0) {
+        card = flashcards[0];
+    }
+
     if (card) {
         container.innerHTML = `
             <div class="flip-card" onclick="this.classList.toggle('active')">
@@ -61,86 +114,36 @@ const showCurrentCard = () => {
     }
 };
 
-// Function to rate the flashcard
-function rate(rating) {
-    let card = flashcards[currentCard];
-    supermemo(card, rating);
-    saveFlashcardsToLocalStorage();
-    showNextCard();
-}
-
-function memorizeCard() {
-    let card = flashcards[currentCard];
-    card.memorized = true;
-
-    if (currentCard > -1) {
-        flashcards.splice(currentCard, 1);
+const getFlashcards = async () => {
+    const key = `flashcards_${book}_${unit}`;
+    const storedFlashcards = localStorage.getItem(key);
+    if (!storedFlashcards) {
+        const data = await fetchJson(`${jsonPath}books/book-${book}`);
+        var unitData = data[unit - 1];
+        var date = new Date(Date.now());
+        unitData.forEach(x => { 
+            x.dueDate = date;
+            x.status = CardStatus.NEW;
+        });
+        localStorage.setItem(key, JSON.stringify(unitData));
     }
 
-    saveFlashcardsToLocalStorage();
-    showNextCard();
-}
-
-// Display next flashcard
-function showNextCard() {
-    flashcards = flashcards.sort((a, b) => a.dueDate - b.dueDate);
-    showCurrentCard();
-}
-
-// SuperMemo algorithm implementation
-function supermemo(card, rating) {
-    card.easeFactor += 0.1 - (5 - rating) * (0.08 + (5 - rating) * 0.02);
-    card.easeFactor = Math.max(1.3, Math.min(card.easeFactor, 2.5));
+    flashcards = JSON.parse(localStorage.getItem(key))
+        .filter(x => x.status !== CardStatus.MEMORIZED)
+        .sort((a, b) => a.interval - b.interval);
     
-    if (rating === 1) {
-        card.repetition = 0;
-        card.interval = 1;
-    } else {
-        switch (card.repetition) {
-            case 0:
-                card.interval = 1;
-                break;
-            case 1:
-                card.interval = 3;
-                break;
-            default:
-                let intervalMultiplier = 1;
-                if (rating === 2) {
-                    intervalMultiplier = 0.8;
-                } else if (rating === 4) {
-                    intervalMultiplier = 1.2;
-                }
-                card.interval *= card.easeFactor * intervalMultiplier;
-                break;
-        }
-        card.repetition += 1;
-    }
-
-    card.dueDate = new Date(Date.now() + card.interval * timeInterval);
+    displayCard();
 }
 
-// Function to save flashcards data to localStorage
-function saveFlashcardsToLocalStorage() {
+const saveFlashcards = () => {
     const key = `flashcards_${book}_${unit}`;
     localStorage.setItem(key, JSON.stringify(flashcards));
 }
 
-// Function to load flashcards data from localStorage
-function loadFlashcardsFromLocalStorage() {
-    const key = `flashcards_${book}_${unit}`;
-    const storedFlashcards = localStorage.getItem(key);
-    if (storedFlashcards) {
-        flashcards = JSON.parse(storedFlashcards).filter(x => !x.memorized);
-        showCurrentCard();
-    }
-    else {
-        fetchData();
-    }
-}
+getFlashcards();
+//#endregion
 
-// Load flashcards from localStorage on page load
-loadFlashcardsFromLocalStorage();
-
+//#region Navigate
 const openQuiz = () => {
     location.href = `quiz.html?book=${book}&unit=${unit}`;
 }
@@ -148,8 +151,9 @@ const openQuiz = () => {
 const openStory = () => {
     location.href = `story.html?book=${book}&unit=${unit}`;
 }
+//#endregion
 
-// Get modal element
+//#region Edit vietnamese
 const editForm = document.getElementById('editForm');
 const modal = document.getElementById('editModal');
 const closeBtn = document.querySelector('.close');
@@ -164,8 +168,6 @@ const editWord = () => {
     
     enInput.value = card.en;
     viInput.value = card.vi;
-    descInput.value = card.desc;
-    examInput.value = card.exam;
 
     modal.style.display = 'flex';
 }
@@ -180,11 +182,10 @@ const updateCard = () => {
 
     let card = flashcards[currentCard];
     card.vi = viInput.value;
-    card.desc = descInput.value;
-    card.exam = examInput.value;
 
-    showCurrentCard();
-    saveFlashcardsToLocalStorage();
+    displayCard();
+    saveFlashcards();
 
     modal.style.display = 'none';
 }
+//#endregion

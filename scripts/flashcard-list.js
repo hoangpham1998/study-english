@@ -105,8 +105,6 @@ const mapData = (srcData, desData) => {
         const srcItem = srcDataMap.get(item.image);
         if (srcItem) {
             item.vi = item.vi !== srcItem.vi ? srcItem.vi : item.vi;
-            item.desc = item.desc !== srcItem.desc ? srcItem.desc : item.desc;
-            item.exam = item.exam !== srcItem.exam ? srcItem.exam : item.exam;
         }
     });
 }
