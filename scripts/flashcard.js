@@ -1,5 +1,4 @@
 //#region Init
-const timeInterval = 86400000;
 const imgPath = `${imgSrc}book/`;
 const audioPath = `${audioSrc}book/`;
 
@@ -75,9 +74,6 @@ const showNextCard = () => {
 const displayCard = () => {
     if (flashcards.length > 0) {
         card = flashcards[0];
-    }
-
-    if (card) {
         container.innerHTML = `
             <div class="flip-card" onclick="this.classList.toggle('active')">
                 <div class="flip-card-front">
@@ -111,6 +107,11 @@ const displayCard = () => {
                 </div>
             </div>
         `;
+
+        document.querySelectorAll(".update-card").forEach(x => {
+            console.log(x)
+            x.disabled = true;
+        });
     }
 };
 
@@ -163,9 +164,7 @@ let viInput = document.getElementById('viInput');
 let descInput = document.getElementById('descInput');
 let examInput = document.getElementById('examInput');
 
-const editWord = () => {
-    let card = flashcards[currentCard];
-    
+const editWord = (event) => {
     enInput.value = card.en;
     viInput.value = card.vi;
 
@@ -180,7 +179,6 @@ const cancel = () => {
 const updateCard = () => {
     event.preventDefault();
 
-    let card = flashcards[currentCard];
     card.vi = viInput.value;
 
     displayCard();
