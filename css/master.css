@@ -26,6 +26,12 @@ ul {
     list-style-type: none;
 }
 
+i {
+    cursor: pointer;
+    font-size: smaller;
+    color: #00d9ce;
+}
+
 *:disabled {
     cursor: not-allowed;
     pointer-events: none;

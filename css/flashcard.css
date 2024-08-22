@@ -49,7 +49,7 @@ body {
 
 strong {
     color: #00d9ce;
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 
 .card-detail {
@@ -57,8 +57,15 @@ strong {
 }
 
 .word-en {
-    margin-bottom: 0;
+    margin-bottom: -10px;
     font-weight: bold;
+    font-size: larger;
+}
+
+.accent {
+    font-size: small;
+    margin-right: 5px;
+    vertical-align: text-bottom;
 }
 
 audio {

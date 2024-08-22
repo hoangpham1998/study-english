@@ -10,6 +10,7 @@ const pathname = url.pathname;
 const jsonPath = `assets/data/4000-enssential-english-words/`;
 const imgSrc = `${jsonPath}files/Book-${book}/Image/`;
 const audioSrc = `${jsonPath}files/Book-${book}/Audio/`;
+const ttsUrl = "https://dailydictation.com/tts/en";
 
 if (unit) {
     var title = `Unit ${unit}`;

@@ -79,18 +79,31 @@ const displayCard = () => {
                 <div class="flip-card-front">
                     <div class="flip-card-front-content">
                         <p class="word-en">${card.en}</p>
-                        <p style="font-size: medium">${card.pron}</p>
+                        <p style="font-size: medium; margin-bottom: 0">${card.pron}</p>
+                        <p style="font-size: large; margin-bottom: 0">
+                            <i class="fa fa-volume-up" onclick="speechCard(event, 'audio-${card.sound}-us')"></i> 
+                            <span class="accent">US</span>
+                            <i class="fa fa-volume-up" onclick="speechCard(event, 'audio-${card.sound}-gb', 'GB')"></i>
+                            <span class="accent">UK</span>
+                        </p>
+                        <audio id="audio-${card.sound}-us" src="${ttsUrl}-US/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
+                        <audio id="audio-${card.sound}-gb" src="${ttsUrl}-GB/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
                     </div>
                 </div>
                 <div class="flip-card-back">
                     <div class="flip-card-back-content">
-                        <img class="card-img" onclick="playAudio('${audioPath}${card.sound}')" src='${imgPath}${card.image}' title="${card.en}" /><br/>
+                        <img class="card-img" src='${imgPath}${card.image}' title="${card.en}" /><br/>
                         <audio controls>
                             <source src="${audioPath}${card.sound}" type="audio/mp3">
                         </audio><br />
+                        <i class="fa fa-volume-up" style="margin-right: 2px;" onclick="speech(event, '${card.vi}', 1)"></i>
                         <span class="card-detail">Vietnamese:</span> ${!card.vi ? "N/A" : card.vi}<br/>
-                        <span class="card-detail">Define:</span> ${card.desc}<br/>
+
+                        <i class="fa fa-volume-up" style="margin-right: 2px;" onclick="speech(event, '${card.desc}')"></i>
+                        <span class="card-detail">Description:</span> ${card.desc}
+                        
                         <div style="font-style: italic">
+                            <i class="fa fa-volume-up" style="margin-right: 2px;" onclick="speech(event, '${card.exam}')"></i>
                             <span class="card-detail">Ex: </span>${card.exam}
                         </div>
                     </div>
@@ -109,7 +122,6 @@ const displayCard = () => {
         `;
 
         document.querySelectorAll(".update-card").forEach(x => {
-            console.log(x)
             x.disabled = true;
         });
     }
@@ -185,5 +197,21 @@ const updateCard = () => {
     saveFlashcards();
 
     modal.style.display = 'none';
+}
+//#endregion
+
+//#region TTS
+const speechCard = (event, id) => {
+    event.stopPropagation();
+    let audio = document.getElementById(id);
+    audio.play();
+}
+
+const speech = async (event, text, isVi = false) => {
+    event.stopPropagation();
+
+    const audio = new Audio();
+    audio.src = await generateAudio(text.replace(/<\/?[^>]+>/gi, ''), isVi);
+    audio.play();
 }
 //#endregion
