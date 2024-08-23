@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Speech to Text</title>
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+			background-color: #f0f4f8;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			color: #333;
+		}
+
+		h1 {
+			font-size: 2rem;
+			color: #4a90e2;
+			margin-bottom: 20px;
+		}
+
+		form {
+			text-align: center;
+		}
+
+		input {
+			width: -webkit-fill-available;
+			padding: 10px;
+			margin-bottom: 10px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+		}
+
+		button {
+			padding: 12px 24px;
+			font-size: 1rem;
+			cursor: pointer;
+			border: none;
+			border-radius: 8px;
+			background-color: #4a90e2;
+			color: white;
+			transition: background-color 0.3s ease;
+		}
+
+		button:disabled {
+			background-color: #aaa;
+			cursor: not-allowed;
+		}
+
+		button:hover:not(:disabled) {
+			background-color: #357ABD;
+		}
+
+		@media (max-width: 600px) {
+			h1 {
+				font-size: 1.5rem;
+			}
+
+			button {
+				padding: 10px 20px;
+				font-size: 0.9rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Speech Assessment</h1>
+	<form action="" method="post" enctype="multipart/form-data" id="form" name="form_en">
+		<input id="refText" type="text" /><br />
+		<button type="button" id="startRecord">Start Recording</button>
+		<button type="button" id="stopRecord" disabled>Stop Recording</button>
+	</form>
+
+	<script type="text/javascript" src="scripts/sha.js"></script>
+	<script>
+		var baseUrl = "https://api.speechsuper.com/";
+		var appKey = "16467320730000a7";
+		var secretKey = "68078c49b31235e0bf1091ecb9d380b1";
+		var coreType = "word.eval.promax";
+		var refText = "supermarket";
+		var audioType = "wav";
+		var sampleRate = 16000;
+		var userId = "guest";
+
+		var url = baseUrl + coreType;
+
+		var getConnectSig = function () {
+			var timestamp = new Date().getTime().toString();
+			var sig = new jsSHA(appKey + timestamp + secretKey, 'TEXT').getHash("SHA-1", "HEX");
+			return {sig: sig, timestamp: timestamp};
+		}
+
+		var getStartSig = function () {
+			var timestamp = new Date().getTime().toString();
+			var sig = new jsSHA(appKey + timestamp + userId + secretKey, 'TEXT').getHash("SHA-1", "HEX");
+			return {sig: sig, timestamp: timestamp, userId: userId};
+		}
+
+		var createUUID = (function (uuidRegEx, uuidReplacer) {
+			return function () {
+				return "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(uuidRegEx, uuidReplacer).toUpperCase();
+			};
+		})(/[xy]/g, function (c) {
+			var r = Math.random() * 16 | 0,
+				v = c == "x" ? r : (r & 3 | 8);
+			return v.toString(16);
+		});
+
+		var connectSig = getConnectSig();
+		var startSig = getStartSig();
+		var params = {
+			connect: {
+				cmd: "connect",
+				param: {
+					sdk: {
+						version: 16777472,
+						source: 9,
+						protocol: 2
+					},
+					app: {
+						applicationId: appKey,
+						sig: connectSig.sig,
+						timestamp: connectSig.timestamp
+					}
+				}
+			},
+			start: {
+				cmd: "start",
+				param: {
+					app: {
+						applicationId: appKey,
+						sig: startSig.sig,
+						userId: startSig.userId,
+						timestamp: startSig.timestamp
+					},
+					audio: {
+						audioType: audioType,
+						sampleRate: sampleRate,
+						channel: 1,
+						sampleBytes: 2
+					},
+					request: {
+						coreType: coreType,
+						refText: refText,
+						tokenId: createUUID(),
+						getParam: 1,
+						precision: 1,
+						dict_type: "IPA88",
+						phoneme_output: 1,
+					}
+				}
+			}
+		};
+
+		let mediaRecorder;
+		let audioChunks = [];
+		let recording = false;
+
+		const startBtn = document.getElementById('startRecord');
+		const stopBtn = document.getElementById('stopRecord');
+
+		if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+			alert('Your browser does not support audio recording.');
+		} else {
+			startBtn.addEventListener('click', function () {
+				navigator.mediaDevices.getUserMedia({audio: true})
+					.then(function (stream) {
+						mediaRecorder = new MediaRecorder(stream);
+						mediaRecorder.ondataavailable = event => {
+							audioChunks.push(event.data);
+						};
+						mediaRecorder.onstop = () => {
+							const audioBlob = new Blob(audioChunks, {type: 'audio/wav'});
+							const fromData = new FormData();
+							fromData.append("audio", audioBlob, "recording.wav");
+							fromData.append("text", JSON.stringify(params));
+
+							var xhr = new XMLHttpRequest();
+							xhr.open("post", url);
+							xhr.setRequestHeader("Request-Index", "0");
+							xhr.send(fromData);
+							xhr.onreadystatechange = function () {
+								if (xhr.readyState == 4 && xhr.status == 200) {
+									console.log(JSON.parse(xhr.responseText).result);
+								}
+							};
+						};
+						mediaRecorder.start();
+						recording = true;
+
+						startBtn.disabled = true;
+						stopBtn.disabled = false;
+					});
+			});
+
+			stopBtn.addEventListener('click', function () {
+				if (recording) {
+					mediaRecorder.stop();
+					recording = false;
+					startBtn.disabled = false;
+					stopBtn.disabled = true;
+				}
+			});
+		}
+	</script>
+</body>
+
+</html>
