@@ -76,6 +76,8 @@
 		<button type="button" id="startRecord">Start Recording</button>
 		<button type="button" id="stopRecord" disabled>Stop Recording</button>
 	</form>
+	<p id="overall"></p>
+	<pre id="log" style="height: 200px; width: 300px; overflow: auto; border: 1px solid #ff7907; padding: 5px;"></pre>
 
 	<script type="text/javascript" src="scripts/sha.js"></script>
 	<script>
@@ -187,7 +189,10 @@
 							xhr.send(fromData);
 							xhr.onreadystatechange = function () {
 								if (xhr.readyState == 4 && xhr.status == 200) {
-									console.log(JSON.parse(xhr.responseText).result);
+									var result = JSON.parse(xhr.responseText).result;
+									document.getElementById('log').innerHTML = JSON.stringify(result, undefined, 2);
+									console.log(result);
+									document.getElementById('overall').textContent = `Overall: ${result.overall}`;
 								}
 							};
 						};
