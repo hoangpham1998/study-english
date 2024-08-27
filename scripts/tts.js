@@ -1,27 +1,18 @@
-const speechifyUrl = "https://audio.api.speechify.com/generateAudioFiles";
 const generateAudio = async (text, isVi) => {
     const headers = {
         "Content-Type": "application/json; charset=UTF-8"
     };
 
-    var voiceParams = isVi ? {
-        engine: "azure",
-        languageCode: "vi-VN",
-        name: "hoaimy"
-    } : {
-        name: "snoop",
-        engine: "resemble",
-        languageCode: "en-US"
-    }
-
     const body = {
         audioFormat: "mp3",
         paragraphChunks: [text],
-        voiceParams: voiceParams
+        voiceParams: isVi 
+            ? TEXT_TO_SPEECH.VI_OPTION
+            : TEXT_TO_SPEECH.EN_OPTION
     };
 
     try {
-        const response = await fetch(speechifyUrl, {
+        const response = await fetch(TEXT_TO_SPEECH.BASE_URL, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(body)

@@ -31,8 +31,7 @@ const handleClickOutsidePopup = (event) => {
 };
 
 const fetchData = async () => {
-    const dictsData = await fetchJson(`${jsonPath}books/book-${book}`);
-    dicts = dictsData[unit - 1];
+    dicts = await getDataBook();
 
     const storiesData = await fetchJson(`${jsonPath}stories/stories-${book}`);
     const story = storiesData[unit - 1][0];

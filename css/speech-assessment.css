@@ -1,0 +1,230 @@
+.btn {
+    vertical-align: text-top;
+    margin-top: 10px;
+}
+
+h1 {
+    margin-top: 10px;
+}
+
+body {
+    overflow: hidden;
+    display: block;
+}
+
+#progress {
+    width: 100%;
+    background-color: #ddd;
+}
+
+#progress-bar {
+    margin: 10px 0;
+    height: 5px;
+    width: 0%;
+    background-color: #00d9ce;
+}
+
+.header {
+    width: 100%;
+    text-align: right;
+}
+
+.close-button {
+    position: absolute;
+    top: 5px;
+    background-color: transparent;
+    color: #5468ff;
+    border: none;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.card-container {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+
+.tab-content {
+    text-align: left;
+    height: calc(100vh - 300px);
+    overflow-y: auto;
+    margin-top: 0;
+}
+
+.tab-content::-webkit-scrollbar {
+    display: none;
+}
+
+.row {
+    margin-top: 20px;
+}
+
+#word-en {
+    margin-bottom: -10px;
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+#word-type {
+    font-size: large;
+    font-weight: lighter;
+    color: #00d9ce;
+}
+
+#word-pron {
+    color: lightgray;
+}
+
+.accent {
+    font-size: small;
+    margin-right: 5px;
+    vertical-align: text-bottom;
+}
+
+.audio {
+    margin: 5px 0 10px 0;
+}
+
+audio {
+    padding: 10px;
+}
+
+.icon-recorder {
+    border-radius: 50%;
+    margin: 30px 40px;
+    width: 95px;
+    height: 95px;
+}
+
+.icon-recorder i {
+    font-size: 50px;
+}
+
+i {
+    font-size: medium;
+}
+
+.audio i {
+    color: #00d9ce;
+}
+
+.word-detail {
+    display: none;
+}
+
+.word-detail.active {
+    display: block;
+}
+
+.circle {
+    vertical-align: middle;
+    width: 40px;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.circle i {
+    vertical-align: middle;
+}
+
+.record-dock {
+    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.record-dock .circle {
+    margin-top: 0;
+}
+
+.record-dock i {
+    color: white;
+}
+
+.icon-recorder i {
+    color: #00d9ce;
+}
+
+.card-detail {
+    font-weight: bold;
+}
+
+#view-detail {
+    margin-top: 25px;
+    color: #00d9ce;
+    text-decoration: underline;
+    font-size: medium;
+    cursor: pointer;
+}
+
+.detail {
+    margin-bottom: 5px;
+}
+
+.result-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.progress-container {
+    position: relative;
+    display: inline-block;
+}
+
+.progress-ring {
+    display: block;
+}
+
+.progress-ring__background {
+    stroke-width: 8;
+}
+
+.progress-ring__background {
+    stroke: #e6e6e6;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: white;
+
+    /* bottom value */
+    /* position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #333;
+    bottom: 0;
+    padding: 30px 10px;
+    background: #171531; */
+}
+
+#ref-stress {
+    color: #00d9ce;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#word-stress-result {
+    font-size: large;
+    margin-top: 10px;
+}

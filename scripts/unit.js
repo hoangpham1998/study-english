@@ -14,6 +14,10 @@ const openScrambleWords = () => {
     location.href = `scramble-words.html?book=${book}&unit=${unit}`;
 }
 
+const openSpeechAssessment = () => {
+    location.href = `speech-assessment.html?book=${book}&unit=${unit}`;
+}
+
 const back = () => {
     location.href = `flashcard-list.html?book=${book}`;
 }

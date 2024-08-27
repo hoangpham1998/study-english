@@ -7,16 +7,18 @@ let question = document.getElementById("question");
 let questionIndex = document.getElementById("question-index");
 const wordContainer = document.getElementById("word-container");
 const lettersContainer = document.getElementById("letters-container");
+const preBtn = document.getElementById("previous");
+const nextBtn = document.getElementById("next");
+const removeBtn = document.getElementById("remove-btn");
 
 const fetchData = async () => {
-    const data = await fetchJson(`${jsonPath}books/book-${book}`);
-    questions = shuffleData(data[unit - 1]);
+    questions = await getDataBook(true);
 
     showCurrentCard();
 
-    document.getElementById("previous").disabled = true;
-    document.getElementById("next").disabled = true;
-    document.getElementById("remove-btn").disabled = true
+    preBtn.disabled = true;
+    nextBtn.disabled = true;
+    removeBtn.disabled = true
 }
 
 const showCurrentCard = () => {
@@ -68,16 +70,16 @@ const check = (index, letter) => {
     wordIndexs.push(index);
 
     document.getElementById(`${currentCard}-${index}`).disabled = true;
-    document.getElementById("remove-btn").disabled = false;
+    removeBtn.disabled = false;
 
     if (!wordToGuess.includes('_')) {
         wordContainer.innerHTML = wordToGuess.join("");
         if (wordToGuess.join("") == card.en) {
             wordContainer.classList.add("correct");
 
-            document.getElementById("remove-btn").disabled = true;
+            removeBtn.disabled = true;
             if (currentCard != questions.length - 1) {
-                document.getElementById("next").disabled = false;
+                nextBtn.disabled = false;
             }
 
             card.wordToGuess = card.en
@@ -112,9 +114,9 @@ const remove = () => {
 
     numOfUnderscoreAfterRemove = numOfUnderscore + 1;
     if (numOfUnderscoreAfterRemove == 0 || numOfUnderscoreAfterRemove == card.words.length) {
-        document.getElementById("remove-btn").disabled = true;
+        removeBtn.disabled = true;
     } else {
-        document.getElementById("remove-btn").disabled = false;
+        removeBtn.disabled = false;
     }
 }
 
@@ -124,8 +126,8 @@ const previous = () => {
         showCurrentCard();
     }
     
-    document.getElementById("previous").disabled = currentCard == 0;
-    document.getElementById("next").disabled = false;
+    preBtn.disabled = currentCard == 0;
+    nextBtn.disabled = false;
 }
 
 const next = () => {
@@ -134,8 +136,8 @@ const next = () => {
         showCurrentCard();
     }
 
-    document.getElementById("previous").disabled = false;
-    document.getElementById("next").disabled = !questions[currentCard].disabled
+    preBtn.disabled = false;
+    nextBtn.disabled = !questions[currentCard].disabled
         || currentCard == questions.length - 1;
 }
 

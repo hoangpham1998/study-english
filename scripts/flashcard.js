@@ -4,19 +4,6 @@ const audioPath = `${audioSrc}book/`;
 
 let card = null;
 let flashcards = [];
-
-const CardStatus = {
-    NEW: 0,
-    LEARNING: 1,
-    MEMORIZED: 2,
-};
-
-const CardRating = {
-    AGAIN: 0,
-    HARD: 1,
-    GOOD: 2,
-    EASY: 3
-};
 //#endregion
 
 //#region Card
@@ -27,14 +14,14 @@ const rate = (rating) => {
     }
 
     card.repetition++;
-    card.status = CardStatus.LEARNING;
+    card.status = CARD_STATUS.LEARNING;
     card.dueDate = new Date(Date.now());
 
     showNextCard();
 }
 
 const memorizeCard = () => {
-    card.status = CardStatus.MEMORIZED;
+    card.status = CARD_STATUS.MEMORIZED;
     var cardIndex = flashcards.indexOf(card);
     if (cardIndex > -1) {
         flashcards.splice(cardIndex, 1);
@@ -86,8 +73,8 @@ const displayCard = () => {
                             <i class="fa fa-volume-up" onclick="speechCard(event, 'audio-${card.sound}-gb', 'GB')"></i>
                             <span class="accent">UK</span>
                         </p>
-                        <audio id="audio-${card.sound}-us" src="${ttsUrl}-US/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
-                        <audio id="audio-${card.sound}-gb" src="${ttsUrl}-GB/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
+                        <audio id="audio-${card.sound}-us" src="${TEXT_TO_SPEECH.WORD_URL}-US/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
+                        <audio id="audio-${card.sound}-gb" src="${TEXT_TO_SPEECH.WORD_URL}-GB/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
                     </div>
                 </div>
                 <div class="flip-card-back">
@@ -96,15 +83,16 @@ const displayCard = () => {
                         <audio controls>
                             <source src="${audioPath}${card.sound}" type="audio/mp3">
                         </audio><br />
-                        <i class="fa fa-volume-up" style="margin-right: 2px;" onclick="speech(event, '${card.vi}', 1)"></i>
-                        <span class="card-detail">Vietnamese:</span> ${!card.vi ? "N/A" : card.vi}<br/>
+                        
+                        <span class="card-detail">Vietnamese:</span> ${!card.vi ? "N/A" : card.vi}
+                        <i class="fa fa-volume-up" style="margin-left: 2px;" onclick="speech(event, '${card.vi}', 1)"></i><br/>
 
-                        <i class="fa fa-volume-up" style="margin-right: 2px;" onclick="speech(event, '${card.desc}')"></i>
                         <span class="card-detail">Description:</span> ${card.desc}
+                        <i class="fa fa-volume-up" style="margin-left: 2px;" onclick="speech(event, '${card.desc}')"></i>
                         
                         <div style="font-style: italic">
-                            <i class="fa fa-volume-up" style="margin-right: 2px;" onclick="speech(event, '${card.exam}')"></i>
                             <span class="card-detail">Ex: </span>${card.exam}
+                            <i class="fa fa-volume-up" style="margin-left: 2px;" onclick="speech(event, '${card.exam}')"></i>
                         </div>
                     </div>
                 </div>
@@ -131,18 +119,17 @@ const getFlashcards = async () => {
     const key = `flashcards_${book}_${unit}`;
     const storedFlashcards = localStorage.getItem(key);
     if (!storedFlashcards) {
-        const data = await fetchJson(`${jsonPath}books/book-${book}`);
-        var unitData = data[unit - 1];
+        var unitData = await getDataBook();
         var date = new Date(Date.now());
         unitData.forEach(x => { 
             x.dueDate = date;
-            x.status = CardStatus.NEW;
+            x.status = CARD_STATUS.NEW;
         });
         localStorage.setItem(key, JSON.stringify(unitData));
     }
 
     flashcards = JSON.parse(localStorage.getItem(key))
-        .filter(x => x.status !== CardStatus.MEMORIZED)
+        .filter(x => x.status !== CARD_STATUS.MEMORIZED)
         .sort((a, b) => a.interval - b.interval);
     
     displayCard();
@@ -154,16 +141,6 @@ const saveFlashcards = () => {
 }
 
 getFlashcards();
-//#endregion
-
-//#region Navigate
-const openQuiz = () => {
-    location.href = `quiz.html?book=${book}&unit=${unit}`;
-}
-
-const openStory = () => {
-    location.href = `story.html?book=${book}&unit=${unit}`;
-}
 //#endregion
 
 //#region Edit vietnamese

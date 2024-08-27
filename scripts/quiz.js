@@ -1,13 +1,12 @@
 let currentCard = 0;
 let questions = [];
+const preBtn = document.getElementById("previous");
+const nextBtn = document.getElementById("next");
 
 const fetchData = async () => {
-    const data = await fetchJson(`${jsonPath}books/book-${book}`);
-    var unitData = data[unit - 1];
-    var date = new Date();
+    var unitData = await getDataBook();
     
     for (let i = unitData.length - 1; i > 0; i--) {
-        unitData[i].dueDate = date;
         unitData[i].disabled = false;
         
         const j = Math.floor(Math.random() * (i + 1));
@@ -17,8 +16,8 @@ const fetchData = async () => {
     questions = unitData;
     showCurrentCard();
 
-    document.getElementById("previous").disabled = true;
-    document.getElementById("next").disabled = true;
+    preBtn.disabled = true;
+    nextBtn.disabled = true;
 }
 
 const showCurrentCard = () => {
@@ -79,8 +78,8 @@ const previous = () => {
         showCurrentCard();
     }
     
-    document.getElementById("previous").disabled = currentCard == 0;
-    document.getElementById("next").disabled = false;
+    preBtn.disabled = currentCard == 0;
+    nextBtn.disabled = false;
 }
 
 const next = () => {
@@ -89,8 +88,8 @@ const next = () => {
         showCurrentCard();
     }
 
-    document.getElementById("previous").disabled = false;
-    document.getElementById("next").disabled = !questions[currentCard].disabled
+    preBtn.disabled = false;
+    nextBtn.disabled = !questions[currentCard].disabled
         || currentCard == questions.length - 1;
 }
 
@@ -125,7 +124,7 @@ const setCorrect = () => {
         .nextElementSibling.classList.add("correct");
 
     if (currentCard != questions.length - 1) {
-        document.getElementById("next").disabled = false;
+        nextBtn.disabled = false;
     }
 }
 

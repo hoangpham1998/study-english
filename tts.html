@@ -22,6 +22,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
         }
 
         input[type="text"] {
@@ -47,8 +48,8 @@
         }
 
         audio {
-            margin-top: 20px;
-            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
         }
     </style>
 </head>
@@ -56,10 +57,9 @@
 <body>
     <div class="container">
         <h1>Text to Speech</h1>
-        <input id="input-text" type="text" placeholder="Enter text here" />
-        <br />
-        <button type="button" onclick="fetchData()">Generate Speech</button>
         <audio controls id="audio"></audio>
+        <input id="input-text" type="text" placeholder="Enter text here" /><br />
+        <button type="button" onclick="fetchData()">Generate</button>
     </div>
 
     <script>

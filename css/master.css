@@ -173,6 +173,10 @@ button:focus {
     color: white;
 }
 
+.skip-button {
+    vertical-align: text-bottom;
+}
+
 a.disabled {
     pointer-events: none;
     color: #939393;
