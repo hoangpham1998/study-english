@@ -16,7 +16,11 @@ const SPEECH_ASSESSMENT = {
     DICT_DIALECT: "en_us",
     PHONEME_OUTPUT: 1,
     PRECISION: 1,
-    GET_PARAM: 1
+    GET_PARAM: 1,
+    SLACK: 0,
+    AGE_GROUP: 2,
+    PHONEME_DIAGNOSIS: 0,
+    DURATION: 3000
 }
 
 const TEXT_TO_SPEECH = {

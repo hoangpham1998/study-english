@@ -8,6 +8,8 @@ let mediaRecorder;
 let audioChunks = [];
 let recording = false;
 
+//const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
 let saUrl = SPEECH_ASSESSMENT.BASE_URL + SPEECH_ASSESSMENT.CORE_TYPE;
 var connectSig = getConnectSig();
 var startSig = getStartSig();
@@ -44,11 +46,17 @@ var params = {
             },
             request: {
                 coreType: SPEECH_ASSESSMENT.CORE_TYPE,
-                tokenId: createUUID(),
-                getParam: SPEECH_ASSESSMENT.GET_PARAM,
-                precision: SPEECH_ASSESSMENT.PRECISION,
-                dict_type: SPEECH_ASSESSMENT.DICT_TYPE,
-                phoneme_output: SPEECH_ASSESSMENT.PHONEME_OUTPUT,
+                tokenId: createUUID()
+                // getParam: SPEECH_ASSESSMENT.GET_PARAM,
+                // precision: SPEECH_ASSESSMENT.PRECISION,
+                // dict_type: SPEECH_ASSESSMENT.DICT_TYPE,
+                // phoneme_output: SPEECH_ASSESSMENT.PHONEME_OUTPUT,
+                // slack: 0,
+                // userId: SPEECH_ASSESSMENT.USER_ID,
+                // agegroup: 2,
+                // dict_dialect: SPEECH_ASSESSMENT.DICT_DIALECT,
+                // phoneme_diagnosis: SPEECH_ASSESSMENT.PHONEME_DIAGNOSIS,
+                // duration: SPEECH_ASSESSMENT.DURATION
             }
         }
     }
@@ -57,6 +65,8 @@ var params = {
 const progressBar = document.getElementById("progress-bar");
 const startBtn = document.getElementById('start-record');
 const stopBtn = document.getElementById('stop-record');
+const listenBtn = document.getElementById('listen-voice');
+const openSoundBtn = document.getElementById('open-sound');
 const preBtn = document.getElementById("previous");
 const nextBtn = document.getElementById("next");
 const recordSound = document.getElementById("record-sound");
@@ -73,9 +83,14 @@ const showDetail = () => {
 const displayWord = () => {
     if (wordList.length > 0) {
         document.getElementById("result").style.display = "none";
+        listenBtn.style.display = "none";
+        openSoundBtn.disabled = false;
+        listenBtn.disabled = false;
+        audioChunks = [];
 
         let word = wordList[wordIndex];
         params.start.param.request.refText = word.en;
+        //params.start.param.request.question_prompt = word.en;
 
         let pron = word.pron.split('] ');
         let partOfSpeech = getPartOfSpeech(pron[1]);
@@ -89,15 +104,15 @@ const displayWord = () => {
 
         wordDetail.innerHTML = `
             <p class="detail">
-                <span class="card-detail">Vietnamese</span><br />
+                <span class="card-detail">Vietnamese: </span>
                 <span id="word-vi">${word.vi}</span>
             </p>
             <p class="detail">
-                <span class="card-detail">Description</span><br />
+                <span class="card-detail">Description: </span>
                 <span id="word-desc">${word.desc}</span>
             </p>
             <div style="font-styleitalic">
-                <span class="card-detail">Example</span><br />
+                <span class="card-detail">Example: </span>
                 <span id="word-exam">${word.exam}</span>
             </div>
         `;
@@ -127,6 +142,8 @@ const listen = () => {
 }
 
 const startRecord = () => {
+    // let audioRequest = params.start.param.audio;
+    // let request = params.start.param.request;
     navigator.mediaDevices.getUserMedia({
         audio: true
     }).then(function (stream) {
@@ -136,10 +153,18 @@ const startRecord = () => {
         };
         mediaRecorder.onstop = async () => {
             const audioBlob = new Blob(audioChunks);
+            // const arrayBuffer = await audioBlob.arrayBuffer();
+            // const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            // request.duration = audioBuffer.duration;
+            // audioRequest.duration = audioBuffer.duration;
+            // audioRequest.sampleRate = audioBuffer.sampleRate;
+            // audioRequest.channel = audioBuffer.numberOfChannels;
 
             const formData = new FormData();
-            formData.append("audio", audioBlob, "recording.spx");
+            formData.append("audio", audioBlob, `record-${request.tokenId}.${audioRequest.audioType}`);
             formData.append("text", JSON.stringify(params));
+
+            console.log(JSON.stringify(params));
 
             var xhr = new XMLHttpRequest();
             xhr.open("post", saUrl);
@@ -148,8 +173,7 @@ const startRecord = () => {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText) {
                     const result = JSON.parse(xhr.responseText).result;
-                    console.log(result);
-
+                    console.log(JSON.parse(xhr.responseText));
                     document.getElementById("result").style.display = "block";
 
                     var wordResult = getWordResult(result.words);
@@ -169,8 +193,11 @@ const startRecord = () => {
                     setProgress(result.overall ?? 0);
                 }
             };
-            
+
             recordAudio.src = URL.createObjectURL(audioBlob);
+            
+            openSoundBtn.disabled = false;
+            listenBtn.disabled = false;
         };
         mediaRecorder.start();
         recording = true;
@@ -179,10 +206,13 @@ const startRecord = () => {
         
         startBtn.style.display = "none";
         stopBtn.style.display = "block";
+        openSoundBtn.disabled = true;
+        listenBtn.disabled = true;
+        audioChunks = [];
 
         setTimeout(() => {
             stopRecord()
-        }, 5000);
+        }, 4000);
     });
 }
 
@@ -193,6 +223,7 @@ const stopRecord = () => {
     mediaRecorder.stop();
     recording = false;
 
+    listenBtn.style.display = "inline-block";
     startBtn.style.display = "block";
     stopBtn.style.display = "none";
 }
