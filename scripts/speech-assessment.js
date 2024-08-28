@@ -4,64 +4,6 @@ let wordList = [];
 let countPercent = 5;
 let progressStatus = 0;
 
-let mediaRecorder;
-let audioChunks = [];
-let recording = false;
-
-//const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-let saUrl = SPEECH_ASSESSMENT.BASE_URL + SPEECH_ASSESSMENT.CORE_TYPE;
-var connectSig = getConnectSig();
-var startSig = getStartSig();
-var params = {
-    connect: {
-        cmd: "connect",
-        param: {
-            sdk: {
-                version: SPEECH_ASSESSMENT.SDK_VERSION,
-                source: SPEECH_ASSESSMENT.SDK_SOURCE,
-                protocol: SPEECH_ASSESSMENT.SDK_PROTOCOL
-            },
-            app: {
-                applicationId: SPEECH_ASSESSMENT.APP_KEY,
-                sig: connectSig.sig,
-                timestamp: connectSig.timestamp
-            }
-        }
-    },
-    start: {
-        cmd: "start",
-        param: {
-            app: {
-                applicationId: SPEECH_ASSESSMENT.APP_KEY,
-                sig: startSig.sig,
-                userId: startSig.userId,
-                timestamp: startSig.timestamp
-            },
-            audio: {
-                audioType: SPEECH_ASSESSMENT.AUDIO_TYPE,
-                sampleRate: SPEECH_ASSESSMENT.SAMPLE_RATE,
-                channel: SPEECH_ASSESSMENT.CHANNEL,
-                sampleBytes: SPEECH_ASSESSMENT.SAMPLE_BYTES
-            },
-            request: {
-                coreType: SPEECH_ASSESSMENT.CORE_TYPE,
-                tokenId: createUUID()
-                // getParam: SPEECH_ASSESSMENT.GET_PARAM,
-                // precision: SPEECH_ASSESSMENT.PRECISION,
-                // dict_type: SPEECH_ASSESSMENT.DICT_TYPE,
-                // phoneme_output: SPEECH_ASSESSMENT.PHONEME_OUTPUT,
-                // slack: 0,
-                // userId: SPEECH_ASSESSMENT.USER_ID,
-                // agegroup: 2,
-                // dict_dialect: SPEECH_ASSESSMENT.DICT_DIALECT,
-                // phoneme_diagnosis: SPEECH_ASSESSMENT.PHONEME_DIAGNOSIS,
-                // duration: SPEECH_ASSESSMENT.DURATION
-            }
-        }
-    }
-};
-
 const progressBar = document.getElementById("progress-bar");
 const startBtn = document.getElementById('start-record');
 const stopBtn = document.getElementById('stop-record');
@@ -84,13 +26,12 @@ const displayWord = () => {
     if (wordList.length > 0) {
         document.getElementById("result").style.display = "none";
         listenBtn.style.display = "none";
+        startBtn.style.display = "block";
+        stopBtn.style.display = "none";
         openSoundBtn.disabled = false;
         listenBtn.disabled = false;
-        audioChunks = [];
 
         let word = wordList[wordIndex];
-        params.start.param.request.refText = word.en;
-        //params.start.param.request.question_prompt = word.en;
 
         let pron = word.pron.split('] ');
         let partOfSpeech = getPartOfSpeech(pron[1]);
@@ -111,7 +52,7 @@ const displayWord = () => {
                 <span class="card-detail">Description: </span>
                 <span id="word-desc">${word.desc}</span>
             </p>
-            <div style="font-styleitalic">
+            <div style="font-style: italic">
                 <span class="card-detail">Example: </span>
                 <span id="word-exam">${word.exam}</span>
             </div>
@@ -138,94 +79,114 @@ const speech = () => {
 }
 
 const listen = () => {
-    recordAudio.play();
+    let word = wordList[wordIndex];
+    
+    recorder.stopReplay({
+        recordId: wordList[wordIndex - 1].tokenId
+    });
+    listenRecord(word.tokenId);
 }
 
 const startRecord = () => {
-    // let audioRequest = params.start.param.audio;
-    // let request = params.start.param.request;
-    navigator.mediaDevices.getUserMedia({
-        audio: true
-    }).then(function (stream) {
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = (event) => {
-            audioChunks.push(event.data);
-        };
-        mediaRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunks);
-            // const arrayBuffer = await audioBlob.arrayBuffer();
-            // const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-            // request.duration = audioBuffer.duration;
-            // audioRequest.duration = audioBuffer.duration;
-            // audioRequest.sampleRate = audioBuffer.sampleRate;
-            // audioRequest.channel = audioBuffer.numberOfChannels;
+    if (!canRecord || !recorder.canRecord)
+        return;
 
-            const formData = new FormData();
-            formData.append("audio", audioBlob, `record-${request.tokenId}.${audioRequest.audioType}`);
-            formData.append("text", JSON.stringify(params));
+    let word = wordList[wordIndex];
+    word.pronResult = null;
+    const params = Object.assign({
+        coreType: SPEECH_ASSESSMENT.CORE_TYPE,
+        refText: word.en,
+        question_prompt: word.en,
+        userId: SPEECH_ASSESSMENT.USER_ID
+    }, settingForm, serverParams);
 
-            console.log(JSON.stringify(params));
+    recorder.record({
+        duration: duration,
+        serverParams: params,
+        onRecordIdGenerated: (id, token) => { },
+        onStart: () => {
+            isRecording = true;
+            startTimer();
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("post", saUrl);
-            xhr.setRequestHeader("Request-Index", "0");
-            xhr.send(formData);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText) {
-                    const result = JSON.parse(xhr.responseText).result;
-                    console.log(JSON.parse(xhr.responseText));
-                    document.getElementById("result").style.display = "block";
+            startBtn.style.display = "none";
+            stopBtn.style.display = "block";
+            openSoundBtn.disabled = true;
+            listenBtn.disabled = true;
+        },
+        onStop: () => {
+            isScoring = true;
+            recordProgress = 0;
+            clearInterval(recordTimer);
+        },
+        onComplete: (result) => {
+            const response = JSON.parse(result);
+            console.log("response: ", response)
+            if (response.error) {
+                isRecording = false;
+                word.pronResult = null;
+                clearInterval(recordTimer);
+                recordProgress = 0;
+                return;
+            }
+            if (response.eof === 1) {
+                var responseResult = response.result;
+                isRecording = false;
+                word.pronResult = responseResult;
+                word.tokenId = response.tokenId;
+                wordsResult = responseResult.words;
+                
+                document.getElementById("result").style.display = "block";
 
-                    var wordResult = getWordResult(result.words);
-                    if (wordResult !== "") {
-                        document.getElementById("word-en").innerHTML = wordResult;
-                    }
-
-                    var pronResult = getPhonemeResults(result.words);
-                    if (pronResult !== "") {
-                        document.getElementById("word-pron").innerHTML = pronResult;
-                    }
-                    var wordStressResult = getWordStressResult(result.words);
-                    if (wordStressResult !== "") {
-                        document.getElementById("word-stress-result").innerHTML = wordStressResult;
-                    }
-
-                    setProgress(result.overall ?? 0);
+                var phonicsResult = getPhonicsResult(wordsResult);
+                if (phonicsResult !== "") {
+                    document.getElementById("word-en").innerHTML = phonicsResult;
                 }
-            };
 
-            recordAudio.src = URL.createObjectURL(audioBlob);
-            
-            openSoundBtn.disabled = false;
-            listenBtn.disabled = false;
-        };
-        mediaRecorder.start();
-        recording = true;
+                var pronResult = getPhonemeResults(wordsResult);
+                if (pronResult !== "") {
+                    document.getElementById("word-pron").innerHTML = pronResult;
+                }
+                
+                var wordStressResult = getWordStressResult(wordsResult);
+                if (wordStressResult !== "") {
+                    document.getElementById("word-stress-result").innerHTML = wordStressResult;
+                }
 
-        recordSound.play();
-        
-        startBtn.style.display = "none";
-        stopBtn.style.display = "block";
-        openSoundBtn.disabled = true;
-        listenBtn.disabled = true;
-        audioChunks = [];
+                setProgress(word.pronResult.overall ?? 0);
 
-        setTimeout(() => {
-            stopRecord()
-        }, 4000);
+                stopRecord();
+            }
+        },
+        onError: () => {
+            isRecording = false;
+            pronResult = null;
+            clearInterval(recordTimer);
+            recordProgress = 0;
+        }
     });
 }
 
 const stopRecord = () => {
-    if (!recording)
+    if (isRecording)
         return;
 
-    mediaRecorder.stop();
-    recording = false;
+    recorder.stop({
+        onStop: () => {
+            isScoring = true;
+            recordProgress = 0;
+            clearInterval(recordTimer);
+        }
+    });
 
+    resetUI();
+}
+
+const resetUI = () => {
     listenBtn.style.display = "inline-block";
     startBtn.style.display = "block";
     stopBtn.style.display = "none";
+    openSoundBtn.disabled = false;
+    listenBtn.disabled = false;
 }
 
 const setProgress = (percent) => {
@@ -239,11 +200,11 @@ const setProgress = (percent) => {
     progressCircle.style.strokeDashoffset = offset;
 
     let stroke = SCORE_RESULT_COLOR.NORMAL;
-    if (percent < 70) {
+    if (percent < SCORE_RANGE.MIN) {
         stroke = SCORE_RESULT_COLOR.BAD;
-    } else if (percent >= 70 && percent < 85) {
+    } else if (percent >= SCORE_RANGE.MIN && percent < SCORE_RANGE.MAX) {
         stroke = SCORE_RESULT_COLOR.GOOD;
-    } else if (percent >= 85) {
+    } else if (percent >= SCORE_RANGE.MAX) {
         stroke = SCORE_RESULT_COLOR.EXCELLENT;
     }
     progressCircle.style.stroke = stroke;
@@ -258,7 +219,7 @@ const setProgress = (percent) => {
     document.getElementById("progress-ring-circle").style.filter = strokeFilter;
 }
 
-const getWordResult = (words) => {
+const getPhonicsResult = (words) => {
     if (!words) {
         return "";
     }
@@ -268,16 +229,49 @@ const getWordResult = (words) => {
         .join("");
 }
 
-const getPhonemeResults = (words) => {
+const getPhonemeResults = (words, withStress = true) => {
     if (!words) {
         return "";
     }
 
-    var phonemes = words[0].phonemes
+    if (!withStress) {
+        var phonemes = words[0].phonemes
         .map(e => getSpanResult(e.pronunciation, e.phoneme))
         .join("");
 
-    return `/${phonemes}/`;
+        return `/${phonemes}/`;
+    }
+
+    return wordPhonicsResult(words);
+}
+
+
+const wordPhonicsResult = (words) => {
+    if (!words) {
+        return "";
+    }
+
+    var phonemeArray = [];
+    words[0].phonics.forEach(function(word) {
+        word.phoneme.forEach(function(phoneme) {
+            phonemeArray.push({
+                overall: word.overall,
+                phoneme: phoneme
+            });
+        });
+    });
+
+    if (words[0].scores.stress.length > 1) {
+        words[0].scores.stress.forEach(function(stress) {
+            if (stress.ref_stress === 1) {
+                phonemeArray[stress.phoneme_offset].phoneme = "ˈ" + phonemeArray[stress.phoneme_offset].phoneme;
+            }
+        });
+    }
+
+    return `/${phonemeArray
+        .map(item => getSpanResult(item.overall, item.phoneme))
+        .join("")}/`;
 }
 
 const sentResult = (result) => {
@@ -286,21 +280,11 @@ const sentResult = (result) => {
     }
     
     return result.words.map(e => {
-        let pronunciation = e.scores.pronunciation;
         let wordCheck = e.word;
         if (e.charType === 1) {
             return getSpanTag(SCORE_RESULT_COLOR.NORMAL, wordCheck);
-        } 
-        if (pronunciation < 60) {
-            return getSpanTag(SCORE_RESULT_COLOR.BAD, wordCheck);
-        } 
-        if (pronunciation >= 60 && pronunciation < 80) {
-            return getSpanTag(SCORE_RESULT_COLOR.GOOD, wordCheck);
-        } 
-        if (pronunciation >= 80) {
-            return getSpanTag(SCORE_RESULT_COLOR.EXCELLENT, wordCheck);
         }
-        return "";
+        return getSpanResult(e.scores.pronunciation, wordCheck);
     }).join(" ");
 }
 
@@ -337,13 +321,13 @@ const getWordStressResult = (words) => {
 const getSpanTag = (color, word) => `<span style='color: ${color}'>${word}</span>`;
 
 const getSpanResult = (score, word) => {
-    if (score < 70) {
+    if (score < SCORE_RANGE.MIN) {
         return getSpanTag(SCORE_RESULT_COLOR.BAD, word);
     }
-    if (score >= 70 && score < 85) {
+    if (score >= SCORE_RANGE.MIN && score < SCORE_RANGE.MAX) {
         return getSpanTag(SCORE_RESULT_COLOR.GOOD, word);
     }
-    if (score >= 85) {
+    if (score >= SCORE_RANGE.MAX) {
         return getSpanTag(SCORE_RESULT_COLOR.EXCELLENT, word);
     }
     return "";

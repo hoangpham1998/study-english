@@ -87,6 +87,11 @@ body {
     color: lightgray;
 }
 
+#word-exam strong {
+    color: #00d9ce;
+    text-decoration: underline;
+}
+
 .accent {
     font-size: small;
     margin-right: 5px;

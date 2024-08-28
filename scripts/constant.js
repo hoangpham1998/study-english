@@ -1,8 +1,10 @@
 const SPEECH_ASSESSMENT = {
     UUID_FORMAT: "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx",
     BASE_URL: "https://api.speechsuper.com/",
+    WS_SERVER: "wss://gray.stkouyu.com:8443",
     APP_KEY: "16467320730000a7",
     SECRET_KEY: "68078c49b31235e0bf1091ecb9d380b1",
+    MODE: 2,
     CORE_TYPE: "word.eval.promax",
     AUDIO_TYPE: "spx",
     SAMPLE_RATE: 16000,
@@ -64,6 +66,11 @@ const PART_OF_SPEECH = {
     PREPOSITION: "prep.",
     CONJUNCTION: "conj.",
     INTERJECTION: "int."
+}
+
+const SCORE_RANGE = {
+    MIN: 60,
+    MAX: 75
 }
 
 const SCORE_RESULT_COLOR = {
