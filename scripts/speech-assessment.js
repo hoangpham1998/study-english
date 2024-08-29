@@ -79,12 +79,7 @@ const speech = () => {
 }
 
 const listen = () => {
-    let word = wordList[wordIndex];
-    
-    recorder.stopReplay({
-        recordId: wordList[wordIndex - 1].tokenId
-    });
-    listenRecord(word.tokenId);
+    listenRecord(wordList[wordIndex].tokenId);
 }
 
 const startRecord = () => {

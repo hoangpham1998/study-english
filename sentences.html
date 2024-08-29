@@ -8,19 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="css/sentences.css">
 </head>
 
 <body>
     <h1>Sentences</h1><br />
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <form enctype="multipart/form-data">
-                    <input id="upload" type="file" accept=".xls,.xlsx" name="files[]" />
-                </form>
-            </div>
-        </div>
         <div class="row">
             <div class="col">
                 <button class="btn btn-info" type="button" disabled id="show-all">Flip all</button>
@@ -39,10 +33,12 @@
         <div class="tab-content" id="nav-tabContent"></div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="scripts/sentences.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="scripts/constant.js"></script>
+    <script type="text/javascript" src="scripts/master.js"></script>
+    <script type="text/javascript" src="scripts/tts.js"></script>
+    <script type="text/javascript" src="scripts/sentences.js"></script>
 </body>
 
 </html>

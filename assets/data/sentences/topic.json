@@ -1,0 +1,22 @@
+[
+    {
+        "id": 0,
+        "code": "DAI",
+        "name": "Daily"
+    },
+    {
+        "id": 1,
+        "code": "LNY",
+        "name": "Lunar new year"
+    },
+    {
+        "id": 2,
+        "code": "CHR",
+        "name": "Christmas"
+    },
+    {
+        "id": 3,
+        "code": "CUL",
+        "name": "Culture"
+    }
+]

@@ -37,11 +37,13 @@ const TEXT_TO_SPEECH = {
         name: "snoop",
         engine: "resemble",
         languageCode: "en-US"
-    }
+    },
+    AUDIO_TYPE: "mp3"
 }
 
 const PATH = {
-    ESSENTIAL: "assets/data/4000-enssential-english-words/"
+    ESSENTIAL: "assets/data/4000-enssential-english-words/",
+    SENTENCES: "assets/data/sentences/"
 }
 
 const CARD_STATUS = {

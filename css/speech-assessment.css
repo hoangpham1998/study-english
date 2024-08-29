@@ -159,8 +159,13 @@ i {
     color: white;
 }
 
-.icon-recorder i {
+#start-record i {
     color: #00d9ce;
+}
+
+#stop-record {
+    filter: drop-shadow(0 0 5px #ff4b5c);
+    display: none;
 }
 
 .card-detail {

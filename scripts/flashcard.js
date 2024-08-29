@@ -176,19 +176,3 @@ const updateCard = () => {
     modal.style.display = 'none';
 }
 //#endregion
-
-//#region TTS
-const speechCard = (event, id) => {
-    event.stopPropagation();
-    let audio = document.getElementById(id);
-    audio.play();
-}
-
-const speech = async (event, text, isVi = false) => {
-    event.stopPropagation();
-
-    const audio = new Audio();
-    audio.src = await generateAudio(text.replace(/<\/?[^>]+>/gi, ''), isVi);
-    audio.play();
-}
-//#endregion

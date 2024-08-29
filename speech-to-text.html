@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/master.css">
+    <style>
+        .container {
+            background-color: #232148;
+            padding: 50px 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: -webkit-center;
+        }
+
+        .btn {
+            width: fit-content;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        #output {
+            width: 90%;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            overflow-wrap: break-word;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Speech to Text</h1>
+        <div id="output">Your transcribed text will appear here...</div><br />
+        <button id="start-btn" class="btn btn-info" type="button" onclick="fetchData()">Start Recording</button>
+    </div>
+
+    <script>
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert('Speech Recognition API not supported in this browser.');
+            throw new Error('Speech Recognition API not supported.');
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        const startButton = document.getElementById('start-btn');
+        const outputDiv = document.getElementById('output');
+
+        startButton.addEventListener('click', () => {
+            recognition.start();
+            startButton.disabled = true;
+            outputDiv.textContent = 'Listening...';
+        });
+
+        recognition.addEventListener('result', (event) => {
+            const transcript = event.results[0][0].transcript;
+            console.log(transcript)
+            outputDiv.textContent = transcript;
+            startButton.disabled = false;
+        });
+
+        recognition.addEventListener('end', () => {
+            startButton.disabled = false;
+        });
+
+        recognition.addEventListener('error', (event) => {
+            outputDiv.textContent = `Error: ${event.error}`;
+            startButton.disabled = false;
+        });
+    </script>
+</body>
+
+</html>

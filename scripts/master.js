@@ -84,35 +84,6 @@ const shuffleData = (data) => {
     return data;
 }
 
-const getConnectSig = () => {
-    var timestamp = new Date().getTime().toString();
-    var sig = new jsSHA(
-        SPEECH_ASSESSMENT.APP_KEY +
-        timestamp + 
-        SPEECH_ASSESSMENT.SECRET_KEY,'TEXT')
-    .getHash("SHA-1", "HEX");
-    return {sig: sig, timestamp: timestamp};
-}
-
-const getStartSig = () => {
-    var timestamp = new Date().getTime().toString();
-    var sig = new jsSHA(
-        SPEECH_ASSESSMENT.APP_KEY +
-        timestamp + SPEECH_ASSESSMENT.USER_ID +
-        SPEECH_ASSESSMENT.SECRET_KEY,'TEXT')
-    .getHash("SHA-1", "HEX");
-    return {sig: sig, timestamp: timestamp, userId: SPEECH_ASSESSMENT.USER_ID};
-}
-
-const createUUID = ((uuidRegEx, uuidReplacer) => 
-    () => SPEECH_ASSESSMENT.UUID_FORMAT
-            .replace(uuidRegEx, uuidReplacer).toUpperCase()
-    )(/[xy]/g, c => {
-        const r = Math.random() * 16 | 0;
-        const v = c === "x" ? r : (r & 3 | 8);
-        return v.toString(16);
-});
-
 const getPartOfSpeech = (value) => {
     // for (const key in PART_OF_SPEECH) {
     //     if (PART_OF_SPEECH[key] === value) {

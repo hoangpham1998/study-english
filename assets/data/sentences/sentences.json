@@ -1,0 +1,158 @@
+[
+  {
+    "id": 0,
+    "topicId": 0,
+    "en": "Have you been waiting a long time?",
+    "vi": "Bạn đợi có lâu không?"
+  },
+  {
+    "id": 1,
+    "topicId": 0,
+    "en": "Sorry, I made you to wait for long time",
+    "vi": "Xin lỗi đã để bạn đợi lâu"
+  },
+  {
+    "id": 2,
+    "topicId": 0,
+    "en": "What did you do while...",
+    "vi": "Bạn đã làm gì trong khi..."
+  },
+  {
+    "id": 3,
+    "topicId": 0,
+    "en": "How long will it take?",
+    "vi": "Còn bao lâu nữa"
+  },
+  {
+    "id": 4,
+    "topicId": 0,
+    "en": "How long have you been...",
+    "vi": "Được bao lâu rồi..."
+  },
+  {
+    "id": 5,
+    "topicId": 0,
+    "en": "I have just...",
+    "vi": "Tôi vừa mới..."
+  },
+  {
+    "id": 6,
+    "topicId": 0,
+    "en": "Do you often...",
+    "vi": "Bạn có thường..."
+  },
+  {
+    "id": 7,
+    "topicId": 0,
+    "en": "Which sth do you like most",
+    "vi": "Bạn thích cái gì nhất"
+  },
+  {
+    "id": 8,
+    "topicId": 0,
+    "en": "How much time do you spend on...",
+    "vi": "Bạn dành bao nhiêu thời gian vào..."
+  },
+  {
+    "id": 9,
+    "topicId": 0,
+    "en": "Are you still...?",
+    "vi": "Bạn còn .... chứ?"
+  },
+  {
+    "id": 10,
+    "topicId": 1,
+    "en": "Do you come back to your hometown on Tet holiday?",
+    "vi": "Bạn có kế hoạch gì vào giáng sinh không?"
+  },
+  {
+    "id": 11,
+    "topicId": 1,
+    "en": "Do you get lucky money on Tet holiday?",
+    "vi": "Bạn có nhận được tiền lì xì vào tết không?"
+  },
+  {
+    "id": 12,
+    "topicId": 1,
+    "en": "Did you get a lot of lucky money?",
+    "vi": "Bạn có nhận được nhiều tiền lì xì không?"
+  },
+  {
+    "id": 13,
+    "topicId": 2,
+    "en": "Do you have any plan on Christmas?",
+    "vi": "Bạn có kế hoạch gì vào giáng sinh không?"
+  },
+  {
+    "id": 14,
+    "topicId": 2,
+    "en": "Who will you go out with for Christmas?",
+    "vi": "Bạn sẽ đi cùng ai vào ngày giáng sinh?"
+  },
+  {
+    "id": 15,
+    "topicId": 2,
+    "en": "Are you Christian?",
+    "vi": "Bạn có phải người công giáo không?"
+  },
+  {
+    "id": 16,
+    "topicId": 2,
+    "en": "Do you get presents for Chrismas?",
+    "vi": "Bạn có nhận được quà vào giáng sinh không?"
+  },
+  {
+    "id": 17,
+    "topicId": 2,
+    "en": "What will you do on Christmas day?",
+    "vi": "Bạn sẽ làm gì vào ngày giáng sinh?"
+  },
+  {
+    "id": 18,
+    "topicId": 2,
+    "en": "What gift would you like to get this Christmas?",
+    "vi": "Bạn mong sẽ nhận được quà gì vào giáng sinh?"
+  },
+  {
+    "id": 19,
+    "topicId": 2,
+    "en": "I hope to get...",
+    "vi": "Tôi mong sẽ nhận..."
+  },
+  {
+    "id": 20,
+    "topicId": 2,
+    "en": "Do you go to confession bebefor Christmas day?",
+    "vi": "Bạn có đi xưng tội trước ngày giáng sinh không?"
+  },
+  {
+    "id": 21,
+    "topicId": 2,
+    "en": "Have you went to confession?",
+    "vi": "Bạn đã đi xưng tội chưa?"
+  },
+  {
+    "id": 22,
+    "topicId": 2,
+    "en": "What kind of gift did you get for last Christmas?",
+    "vi": "Bạn đã nhận được quà gì vào giáng sinh năm ngoái?"
+  },
+  {
+    "id": 23,
+    "topicId": 2,
+    "en": "Do you celebrate Christmas with family?",
+    "vi": "Bạn có đón giáng sinh cùng gia đình không?"
+  },
+  {
+    "id": 24,
+    "topicId": 2,
+    "en": "What do you often pray for at Christmas?",
+    "vi": "Bạn thường cầu nguyện gì vào dịp giáng sinh?"
+  },
+  {
+    "id": 25,
+    "topicId": 3,
+    "en": "Is there anything interesting in Canada?",
+    "vi": "Ở Canada có gì thú vị không?"
+  }
+]

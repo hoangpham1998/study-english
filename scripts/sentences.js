@@ -1,57 +1,52 @@
-let readFile = () => {
-    let e = $("#upload")[0].files[0],
-    l = new FileReader();
+let readFile = async () => {
+    var topics = await fetchJson(`${PATH.SENTENCES}/topic`);
+    if (!topics)
+        return;
+    
+    var data = await fetchJson(`${PATH.SENTENCES}/sentences`);
+    if (!data)
+        return;
 
-    (l.onload = ((e) => (e) => {
-        $("#input").removeAttr('disabled');
-        $(".btn").removeAttr('disabled');
+    $("#input").removeAttr('disabled');
+    $(".btn").removeAttr('disabled');
 
-        var data = new Uint8Array(e.target.result);
-        var arr = new Array();
-        for (var i = 0; i != data.length; ++i) 
-            arr[i] = String.fromCharCode(data[i]);
+    // Get sheets
+    let topicTab = "";
+    let content = "";
+    topics.forEach((topic, index) => {
+        let topicId = topic.id;
+        let dataObj = data.filter(x => x.topicId == topicId);
+        let text = "";
 
-        var bstr = arr.join("");
-        var workbook = XLSX.read(bstr, {
-            type: "binary"
+        dataObj.forEach(element => {
+            let textId = `${topicId}-${element.id}`;
+            text += `<div class="row" style="margin-top: 15px;">
+                <div class="col">
+                    <div class="flip-card" onclick="flip('${textId}')">
+                        <div class="flip-card-inner sheet-${topicId} card-${textId}">
+                            <div class="flip-card-front">
+                                ${element.en}
+                                <i class="fa fa-volume-up" style="margin-left: 2px;" onclick="speech(event, '${element.en}')"></i>
+                            </div>
+                            <div class="flip-card-back">${element.vi}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
         });
 
-        // Get sheets
-        let sheetTab = "";
-        let content = "";
-        workbook.SheetNames.forEach((sheet, index) => {
-            let sheetId = sheet.replace(' ', '');
-            let worksheet = workbook.Sheets[sheet];
-            let dataObj = XLSX.utils.sheet_to_json(worksheet);
-            let text = "";
+        topicTab += '<button class="nav-link ' + (index === 0 ? 'active' : '') + '" id="nav-'
+            + topicId + '-tab" data-sheet="' + topicId + '" data-bs-toggle="tab" data-bs-target="#nav-'
+            + topicId + '"type="button" role="tab" aria-controls="nav-'
+            + topicId + '" aria-selected="' + (index === 0 ? 'true' : 'false') + '">' + topic.name + '</button>';
 
-            dataObj.forEach((element, rowIndex) => {
-                let textId = `${sheetId}-${rowIndex}`;
-                text += '<div class="row" style="margin-top: 15px;">\
-                    <div class="col">\
-                        <div class="flip-card" onclick="flip(\'' + textId + '\')">\
-                            <div class="flip-card-inner sheet-' + sheetId + ' card-' + textId + '">\
-                                <div class="flip-card-front">' + element.english + '</div>\
-                                <div class="flip-card-back">' + element.vietnamese + '</div>\
-                            </div>\
-                        </div>\
-                    </div>\
-                </div>';
-            });
+        content += '<div class="tab-pane fade ' + (index === 0 ? "show active" : '')
+            + '" id="nav-' + topicId + '" role="tabpanel" aria-labelledby="nav-'
+            + topicId + '-tab"><div id="table-' + topicId + '">' + text + '</div></div>';
+    });
 
-            sheetTab += '<button class="nav-link ' + (index === 0 ? 'active' : '') + '" id="nav-'
-                + sheetId + '-tab" data-sheet="' + sheetId + '" data-bs-toggle="tab" data-bs-target="#nav-'
-                + sheetId + '"type="button" role="tab" aria-controls="nav-'
-                + sheetId + '" aria-selected="' + (index === 0 ? 'true' : 'false') + '">' + sheet + '</button>';
-
-            content += '<div class="tab-pane fade ' + (index === 0 ? "show active" : '')
-                + '" id="nav-' + sheetId + '" role="tabpanel" aria-labelledby="nav-'
-                + sheetId + '-tab"><div id="table-' + sheetId + '">' + text + '</div></div>';
-        });
-
-        $("#nav-tab").html(sheetTab);
-        $("#nav-tabContent").html(content);
-    })()), l.readAsArrayBuffer(e);
+    $("#nav-tab").html(topicTab);
+    $("#nav-tabContent").html(content);
 };
 
 let flip = (id) => {
@@ -62,10 +57,6 @@ let flip = (id) => {
     }
 };
 
-$("#upload").change(() => {
-    readFile();
-});
-
 $("#show-all").click(() => {
     let id = $(".nav-link.active").data('sheet');
     $(".sheet-" + id).addClass("active");
@@ -75,3 +66,5 @@ $("#reset").click(() => {
     let id = $(".nav-link.active").data('sheet');
     $(".sheet-" + id).removeClass("active");
 });
+
+readFile();
