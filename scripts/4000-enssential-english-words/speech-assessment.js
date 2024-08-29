@@ -11,7 +11,6 @@ const listenBtn = document.getElementById('listen-voice');
 const openSoundBtn = document.getElementById('open-sound');
 const preBtn = document.getElementById("previous");
 const nextBtn = document.getElementById("next");
-const recordSound = document.getElementById("record-sound");
 const recordAudio = document.getElementById("record-audio");
 const wordInfo = document.getElementById("word-info");
 const wordDetail = document.getElementById("word-detail");
@@ -162,9 +161,6 @@ const startRecord = () => {
 }
 
 const stopRecord = () => {
-    if (isRecording)
-        return;
-
     recorder.stop({
         onStop: () => {
             isScoring = true;

@@ -2,20 +2,26 @@
 <html>
 
 <head>
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/master.css">
-    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="../../css/master.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/4000-enssential-english-words/scramble-words.css">
 </head>
 
 <body>
     <div class="container">
         <button class="close-button" onclick="closePage()"></button>
         <h1 id="unit"></h1>
-        <div class="tab-content" id="container"></div>
-        <div class="row" style="margin-top: 15px;">
+        <div class="tab-content" id="container">
+            <span id="question-index"></span>
+            <h2 id="question"></h2>
+            <div id="word-container"></div>
+            <div id="letters-container"></div>
+        </div>
+        <div class="row" style="margin-top: 15px; padding: 5px;">
             <div class="col">
                 <button class="btn btn-purple" id="previous" onclick="previous()">&#8592;</button>
             </div>
@@ -28,14 +34,14 @@
             </div>
         </div>
     </div>
-    
-    <script type="text/javascript" src="scripts/constant.js"></script>
-    <script type="text/javascript" src="scripts/master.js"></script>
-    <script type="text/javascript" src="scripts/quiz.js"></script>
+
+    <script type="text/javascript" src="../../scripts/constant.js"></script>
+    <script type="text/javascript" src="../../scripts/master.js"></script>
+    <script type="text/javascript" src="../../scripts/4000-enssential-english-words/scramble-words.js"></script>
 </body>
 
 <div id="popup" class="popup">
-    <p style="font-size: x-large;">Quiz completed!</p>
+    <p style="font-size: x-large;">Completed!</p>
     <button class="btn close-btn" onclick="hidePopup()">Close</button>
 </div>
 

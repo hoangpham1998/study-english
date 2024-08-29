@@ -9,7 +9,6 @@ const wordContainer = document.getElementById("word-container");
 const lettersContainer = document.getElementById("letters-container");
 const preBtn = document.getElementById("previous");
 const nextBtn = document.getElementById("next");
-const removeBtn = document.getElementById("remove-btn");
 
 const fetchData = async () => {
     questions = await getDataBook(true);
@@ -18,7 +17,7 @@ const fetchData = async () => {
 
     preBtn.disabled = true;
     nextBtn.disabled = true;
-    removeBtn.disabled = true
+    document.getElementById("remove-btn").disabled = true;
 }
 
 const showCurrentCard = () => {
@@ -70,14 +69,14 @@ const check = (index, letter) => {
     wordIndexs.push(index);
 
     document.getElementById(`${currentCard}-${index}`).disabled = true;
-    removeBtn.disabled = false;
+    document.getElementById("remove-btn").disabled = false;
 
     if (!wordToGuess.includes('_')) {
         wordContainer.innerHTML = wordToGuess.join("");
         if (wordToGuess.join("") == card.en) {
             wordContainer.classList.add("correct");
 
-            removeBtn.disabled = true;
+            document.getElementById("remove-btn").disabled = true;
             if (currentCard != questions.length - 1) {
                 nextBtn.disabled = false;
             }
@@ -114,9 +113,9 @@ const remove = () => {
 
     numOfUnderscoreAfterRemove = numOfUnderscore + 1;
     if (numOfUnderscoreAfterRemove == 0 || numOfUnderscoreAfterRemove == card.words.length) {
-        removeBtn.disabled = true;
+        document.getElementById("remove-btn").disabled = true;
     } else {
-        removeBtn.disabled = false;
+        document.getElementById("remove-btn").disabled = false;
     }
 }
 

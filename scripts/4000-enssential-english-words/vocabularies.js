@@ -28,7 +28,7 @@ const handleIndexBlockItemClick = (event) => {
 
 const fetchData = async () => {
     document.getElementById('book').textContent = `Book ${book}`;
-    const data = await fetchJson(`${jsonPath}vocabularies/index-${book}`);
+    const data = await fetchJson(`${essentialDataPath}vocabularies/index-${book}`);
     container.innerHTML = data.map(createBookItem).join('');
 
     document.querySelectorAll('.collapsible').forEach(button => {
@@ -39,5 +39,9 @@ const fetchData = async () => {
         item.addEventListener('click', handleIndexBlockItemClick);
     });
 };
+
+const backToList = () => {
+    location.href = `flashcard-list.html?book=${book}`;
+}
 
 fetchData();

@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text to Speech</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="../css/master.css">
     <style>
         .container {
             background-color: #232148;
@@ -38,6 +38,7 @@
 </head>
 
 <body>
+    <button class="close-button" onclick="backToHome()"></button>
     <div class="container">
         <h1>Text to Speech</h1>
         <audio controls id="audio"></audio>
@@ -51,8 +52,8 @@
         <button class="btn btn-info" type="button" onclick="fetchData()">Generate</button>
     </div>
 
-    <script type="text/javascript" src="scripts/constant.js"></script>
-    <script type="text/javascript" src="scripts/master.js"></script>
+    <script type="text/javascript" src="../scripts/constant.js"></script>
+    <script type="text/javascript" src="../scripts/master.js"></script>
     <script>
         const fetchData = async () => {
             const inputText = document.getElementById('input-text').value;

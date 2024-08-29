@@ -7,9 +7,10 @@ const url = new URL(window.location.href);
 const book = url.searchParams.get("book");
 const unit = url.searchParams.get("unit");
 const pathname = url.pathname;
-const jsonPath = PATH.ESSENTIAL;
-const imgSrc = `${jsonPath}files/Book-${book}/Image/`;
-const audioSrc = `${jsonPath}files/Book-${book}/Audio/`;
+const essentialDataRoute = PATH.ESSENTIAL_ROUTE;
+const essentialDataPath = PATH.ESSENTIAL_DATA;
+const imgSrc = `${essentialDataPath}files/Book-${book}/Image/`;
+const audioSrc = `${essentialDataPath}files/Book-${book}/Audio/`;
 
 if (unit) {
     var title = `Unit ${unit}`;
@@ -69,7 +70,7 @@ const fetchJson = async (path) => {
 };
 
 const getDataBook = async (isRandom = false) => {
-    var data = await fetchJson(`${jsonPath}books/book-${book}`);
+    var data = await fetchJson(`${essentialDataPath}books/book-${book}`);
     return isRandom 
         ? shuffleData(data[unit - 1])
         : data[unit - 1];
@@ -118,4 +119,8 @@ const hidePopup = () => {
     var popup = document.getElementById('popup');
     popup.style.display = 'none';
     document.getElementsByClassName("container")[0].style.opacity = "unset";
+}
+
+const backToHome = () => {
+    location.href = '../../';
 }

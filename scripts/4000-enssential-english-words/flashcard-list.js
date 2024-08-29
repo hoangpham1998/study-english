@@ -1,5 +1,5 @@
 const fetchData = async () => {
-    const data = await fetchJson(`${jsonPath}book-list`);
+    const data = await fetchJson(`${essentialDataPath}book-list`);
     data.forEach((book, index) => {
         var num = index + 1;
         container.innerHTML += `
@@ -46,7 +46,7 @@ const toggleBlock = (event) => {
 }
 
 const downloadData = async (num) => {
-    const data = await fetchJson(`${jsonPath}books/book-${num}`);
+    const data = await fetchJson(`${essentialDataPath}books/book-${num}`);
     const prefix = `flashcards_${num}_`;
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -80,7 +80,7 @@ const downloadData = async (num) => {
 }
 
 const syncData = async (num) => {
-    const data = await fetchJson(`${jsonPath}books/book-${num}`);
+    const data = await fetchJson(`${essentialDataPath}books/book-${num}`);
     const prefix = `flashcards_${num}_`;
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);

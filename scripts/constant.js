@@ -42,8 +42,10 @@ const TEXT_TO_SPEECH = {
 }
 
 const PATH = {
-    ESSENTIAL: "assets/data/4000-enssential-english-words/",
-    SENTENCES: "assets/data/sentences/"
+    DEFAULT_ROUTE: "pages/",
+    ESSENTIAL_ROUTE: "../pages/4000-enssential-english-words/",
+    ESSENTIAL_DATA: "../../assets/data/4000-enssential-english-words/",
+    SENTENCES: "../assets/data/sentences/"
 }
 
 const CARD_STATUS = {

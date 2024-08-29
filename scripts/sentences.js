@@ -1,9 +1,9 @@
 let readFile = async () => {
-    var topics = await fetchJson(`${PATH.SENTENCES}/topic`);
+    var topics = await fetchJson(`${PATH.SENTENCES}topic`);
     if (!topics)
         return;
     
-    var data = await fetchJson(`${PATH.SENTENCES}/sentences`);
+    var data = await fetchJson(`${PATH.SENTENCES}sentences`);
     if (!data)
         return;
 

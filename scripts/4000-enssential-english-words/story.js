@@ -33,7 +33,7 @@ const handleClickOutsidePopup = (event) => {
 const fetchData = async () => {
     dicts = await getDataBook();
 
-    const storiesData = await fetchJson(`${jsonPath}stories/stories-${book}`);
+    const storiesData = await fetchJson(`${essentialDataPath}stories/stories-${book}`);
     const story = storiesData[unit - 1][0];
     
     container.innerHTML = `
