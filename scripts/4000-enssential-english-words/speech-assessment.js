@@ -87,9 +87,6 @@ const speech = () => {
 }
 
 const listen = () => {
-    
-
-    console.log(recorder)
     listenRecord(wordList[wordIndex].tokenId);
 }
 const startRecord = () => {
