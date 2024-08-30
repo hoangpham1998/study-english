@@ -145,34 +145,25 @@ getFlashcards();
 
 //#region Edit vietnamese
 const editForm = document.getElementById('editForm');
-const modal = document.getElementById('editModal');
-const closeBtn = document.querySelector('.close');
 
 let enInput = document.getElementById('enInput');
 let viInput = document.getElementById('viInput');
 let descInput = document.getElementById('descInput');
 let examInput = document.getElementById('examInput');
 
-const editWord = (event) => {
+const editWord = () => {
     enInput.value = card.en;
     viInput.value = card.vi;
-
-    modal.style.display = 'flex';
-}
-
-const cancel = () => {
-    event.preventDefault();
-    modal.style.display = 'none';
+    document.getElementById('popup').style.display = 'block';
+    document.getElementsByClassName("container")[0].style.opacity = ".4";
 }
 
 const updateCard = () => {
-    event.preventDefault();
-
     card.vi = viInput.value;
 
     displayCard();
     saveFlashcards();
 
-    modal.style.display = 'none';
+    hidePopup();
 }
 //#endregion

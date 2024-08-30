@@ -46,31 +46,29 @@
         </div>
     </div>
 
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="cancel()">&times;</span>
-            <h2>Edit Card</h2>
-            <form id="editForm">
-                <label for="enInput">English</label>
-                <input type="text" disabled id="enInput" name="enInput">
-                <label for="viInput">Vietnamese</label>
-                <input type="text" id="viInput" name="viInput">
-                <div class="row" style="margin-top: 1%; padding: 0 10px;">
-                    <div class="col action">
-                        <button class="btn btn-basic" onclick="cancel()">Cancel</button>
-                    </div>
-                    <div class="col action">
-                        <button class="btn btn-purple" type="submit" onclick="updateCard()">Save</button>
-                    </div>
+    <div id="popup" class="popup">
+        <span class="close" onclick="hidePopup()">&times;</span>
+        <h2>Edit Card</h2>
+        <form id="editForm">
+            <label for="enInput">English</label>
+            <input type="text" disabled id="enInput" name="enInput">
+            <label for="viInput">Vietnamese</label>
+            <input type="text" id="viInput" name="viInput">
+            <div class="row" style="margin-top: 1%; padding: 0 10px;">
+                <div class="col action">
+                    <button type="button" class="btn btn-basic" onclick="hidePopup()">Cancel</button>
                 </div>
-            </form>
-        </div>
+                <div class="col action">
+                    <button type="button" class="btn btn-purple" type="submit" onclick="updateCard()">Save</button>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <script defer asynctype="text/javascript" src="../../scripts/constant.js"></script>
-    <script defer asynctype="text/javascript" src="../../scripts/master.js"></script>
-    <script defer asynctype="text/javascript" src="../../scripts/tts.js"></script>
-    <script defer asynctype="text/javascript" src="../../scripts/4000-enssential-english-words/flashcard.js"></script>
+    <script defer async type="text/javascript" src="../../scripts/constant.js"></script>
+    <script defer async type="text/javascript" src="../../scripts/master.js"></script>
+    <script defer async type="text/javascript" src="../../scripts/tts.js"></script>
+    <script defer async type="text/javascript" src="../../scripts/4000-enssential-english-words/flashcard.js"></script>
 
 </body>
 

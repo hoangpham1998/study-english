@@ -3,7 +3,6 @@ let wordIndex = 0;
 let wordList = [];
 let countPercent = 5;
 let progressStatus = 0;
-let isSuccess = false;
 
 const progressBar = document.getElementById("progress-bar");
 const startBtn = document.getElementById('start-record');
@@ -35,7 +34,7 @@ const initWord = () => {
 const displayWord = () => {
     let header = document.getElementById('header');
     let footer = document.getElementById('footer');
-    var remainHeight = header.offsetHeight + progressBar.offsetHeight + footer.offsetHeight + 30;
+    var remainHeight = header.offsetHeight + progressBar.offsetHeight + footer.offsetHeight + 50;
     container.style.height = `calc(100vh - ${remainHeight}px)`;
     if (wordList.length > 0) {
         initWord();
@@ -88,13 +87,16 @@ const speech = () => {
 }
 
 const listen = () => {
+    
+
+    console.log(recorder)
     listenRecord(wordList[wordIndex].tokenId);
 }
-
 const startRecord = () => {
     if (!canRecord || !recorder.canRecord)
         return;
 
+    let currentIndex = wordIndex;
     let word = wordList[wordIndex];
     word.pronResult = null;
     const params = Object.assign({
@@ -108,7 +110,6 @@ const startRecord = () => {
         serverParams: params,
         onRecordIdGenerated: (id, token) => { },
         onStart: () => {
-            isSuccess = false;
             isRecording = true;
             startTimer();
 
@@ -123,9 +124,8 @@ const startRecord = () => {
             clearInterval(recordTimer);
         },
         onComplete: (result) => {
-            isSuccess = true;
             const response = JSON.parse(result);
-            console.log("response: ", response)
+            //console.log("response: ", response)
             if (response.error) {
                 isRecording = false;
                 word.pronResult = null;
@@ -133,7 +133,7 @@ const startRecord = () => {
                 recordProgress = 0;
                 return;
             }
-            if (response.eof === 1) {
+            if (wordIndex == currentIndex && response.eof === 1) {
                 var responseResult = response.result;
                 isRecording = false;
                 word.pronResult = responseResult;
@@ -172,7 +172,7 @@ const startRecord = () => {
     });
 
     setTimeout(() => {
-        if (!isSuccess) {
+        if (isRecording && wordIndex == currentIndex) {
             stopRecord();
             notify(MESSAGE_RESOURCE.RECORD_TIMEOUT);
         }
@@ -193,7 +193,6 @@ const stopRecord = () => {
     stopBtn.style.display = "none";
     openSoundBtn.disabled = false;
     listenBtn.disabled = false;
-    isSuccess = true;
 }
 
 const setProgress = (percent) => {
