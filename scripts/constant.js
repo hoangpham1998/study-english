@@ -22,7 +22,8 @@ const SPEECH_ASSESSMENT = {
     SLACK: 0,
     AGE_GROUP: 2,
     PHONEME_DIAGNOSIS: 0,
-    DURATION: 3000
+    DURATION: 3000,
+    TIMEOUT: 10000
 }
 
 const TEXT_TO_SPEECH = {
@@ -89,4 +90,10 @@ const ORDINAL_NUMBER_SUFFIXES = {
     ND: "nd",
     RD: "rd",
     TH: "th",
+}
+
+const MESSAGE_RESOURCE = {
+    RECORD_TIMEOUT: "Recording timeout, please try again!",
+    RECORD_ERROR: "Recording error, please try again!",
+    QUIZ_COMPLETED: "Quiz completed!"
 }

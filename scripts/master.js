@@ -111,6 +111,12 @@ const getOrdinalNumberSuffixes = (number) => {
     }
 };
 
+const notify = (message) => {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('notify-content').textContent = message;
+    document.getElementsByClassName("container")[0].style.opacity = ".4";
+}
+
 const closePage = () => {
     location.href = `unit.html?book=${book}&unit=${unit}`;
 }

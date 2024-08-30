@@ -36,9 +36,24 @@ const fetchData = async () => {
     });
 
     document.querySelectorAll(".index-block-item li").forEach(item => {
+        var text = item.firstChild.data.trim();
+        item.innerHTML = `<i class="fa fa-volume-up" style="margin-left: 2px;" onclick="speechWord(event, '${text}')"></i> ${item.innerHTML}`;
         item.addEventListener('click', handleIndexBlockItemClick);
     });
 };
+
+const speechWord = async (event, text) => {
+    event.stopPropagation();
+    let source = `${TEXT_TO_SPEECH.WORD_URL}-US/${text}.mp3`;
+    fetch(source).then(async(response) => {
+        if (!response.ok) {
+            source = await generateAudio(text, false);
+        }        
+        const audio = new Audio();
+        audio.src = source;
+        audio.play();
+    });
+}
 
 const backToList = () => {
     location.href = `flashcard-list.html?book=${book}`;

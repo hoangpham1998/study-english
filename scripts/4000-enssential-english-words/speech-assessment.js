@@ -3,6 +3,7 @@ let wordIndex = 0;
 let wordList = [];
 let countPercent = 5;
 let progressStatus = 0;
+let isSuccess = false;
 
 const progressBar = document.getElementById("progress-bar");
 const startBtn = document.getElementById('start-record');
@@ -21,17 +22,25 @@ const showDetail = () => {
     wordDetail.classList.toggle('active');
 }
 
+const initWord = () => {
+    document.getElementById("result").style.display = "none";
+    wordDetail.classList.remove('active')
+    listenBtn.style.display = "none";
+    startBtn.style.display = "block";
+    stopBtn.style.display = "none";
+    openSoundBtn.disabled = false;
+    listenBtn.disabled = false;
+}
+
 const displayWord = () => {
+    let header = document.getElementById('header');
+    let footer = document.getElementById('footer');
+    var remainHeight = header.offsetHeight + progressBar.offsetHeight + footer.offsetHeight + 30;
+    container.style.height = `calc(100vh - ${remainHeight}px)`;
     if (wordList.length > 0) {
-        document.getElementById("result").style.display = "none";
-        listenBtn.style.display = "none";
-        startBtn.style.display = "block";
-        stopBtn.style.display = "none";
-        openSoundBtn.disabled = false;
-        listenBtn.disabled = false;
+        initWord();
 
         let word = wordList[wordIndex];
-
         let pron = word.pron.split('] ');
         let partOfSpeech = getPartOfSpeech(pron[1]);
         let phoneme = `${pron[0].replace('[','/')}/`;
@@ -65,6 +74,7 @@ const getWordList = async () => {
     progressStatus = countPercent;
     progressBar.style.width = `${progressStatus}%`;
     displayWord();
+    initRecorder();
 }
 
 getWordList();
@@ -73,7 +83,7 @@ getWordList();
 const speech = () => {
     let word = wordList[wordIndex];
     const audio = new Audio();
-    audio.src = `${TEXT_TO_SPEECH.WORD_URL}-US/${word.en}.mp3`
+    audio.src = `${TEXT_TO_SPEECH.WORD_URL}-US/${word.en}.mp3`;
     audio.play();
 }
 
@@ -93,12 +103,12 @@ const startRecord = () => {
         question_prompt: word.en,
         userId: SPEECH_ASSESSMENT.USER_ID
     }, settingForm, serverParams);
-
     recorder.record({
         duration: duration,
         serverParams: params,
         onRecordIdGenerated: (id, token) => { },
         onStart: () => {
+            isSuccess = false;
             isRecording = true;
             startTimer();
 
@@ -113,6 +123,7 @@ const startRecord = () => {
             clearInterval(recordTimer);
         },
         onComplete: (result) => {
+            isSuccess = true;
             const response = JSON.parse(result);
             console.log("response: ", response)
             if (response.error) {
@@ -156,8 +167,16 @@ const startRecord = () => {
             pronResult = null;
             clearInterval(recordTimer);
             recordProgress = 0;
+            notify(MESSAGE_RESOURCE.RECORD_ERROR);
         }
     });
+
+    setTimeout(() => {
+        if (!isSuccess) {
+            stopRecord();
+            notify(MESSAGE_RESOURCE.RECORD_TIMEOUT);
+        }
+    }, SPEECH_ASSESSMENT.TIMEOUT);
 }
 
 const stopRecord = () => {
@@ -169,15 +188,12 @@ const stopRecord = () => {
         }
     });
 
-    resetUI();
-}
-
-const resetUI = () => {
     listenBtn.style.display = "inline-block";
     startBtn.style.display = "block";
     stopBtn.style.display = "none";
     openSoundBtn.disabled = false;
     listenBtn.disabled = false;
+    isSuccess = true;
 }
 
 const setProgress = (percent) => {
@@ -199,6 +215,7 @@ const setProgress = (percent) => {
         stroke = SCORE_RESULT_COLOR.EXCELLENT;
     }
     progressCircle.style.stroke = stroke;
+    document.getElementById("word-stress-result").style.color = stroke;
 
     var strokeFilter = `drop-shadow(0 0 5px ${stroke})`;
 
@@ -235,7 +252,6 @@ const getPhonemeResults = (words, withStress = true) => {
 
     return wordPhonicsResult(words);
 }
-
 
 const wordPhonicsResult = (words) => {
     if (!words) {

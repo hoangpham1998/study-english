@@ -110,9 +110,7 @@ const check = (answer) => {
     }
 
     if (questions.filter(x => x.disabled).length == questions.length) {
-        var popup = document.getElementById('popup');
-        popup.style.display = 'block';
-        document.getElementsByClassName("container")[0].style.opacity = ".4";
+        notify(MESSAGE_RESOURCE.QUIZ_COMPLETED);
     }
 }
 
