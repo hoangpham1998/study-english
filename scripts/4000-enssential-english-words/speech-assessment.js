@@ -42,7 +42,7 @@ const displayWord = () => {
         let word = wordList[wordIndex];
         let pron = word.pron.split('] ');
         let partOfSpeech = getPartOfSpeech(pron[1]);
-        let phoneme = `${pron[0].replace('[','/')}/`;
+        let phoneme = `${pron[0].replace('[', '/')}/`;
 
         wordInfo.innerHTML = `
             <span id="word-en">${word.en}</span>
@@ -136,7 +136,7 @@ const startRecord = () => {
                 word.pronResult = responseResult;
                 word.tokenId = response.tokenId;
                 wordsResult = responseResult.words;
-                
+
                 document.getElementById("result").style.display = "block";
 
                 var phonicsResult = getPhonicsResult(wordsResult);
@@ -148,7 +148,7 @@ const startRecord = () => {
                 if (pronResult !== "") {
                     document.getElementById("word-pron").innerHTML = pronResult;
                 }
-                
+
                 var wordStressResult = getWordStressResult(wordsResult);
                 if (wordStressResult !== "") {
                     document.getElementById("word-stress-result").innerHTML = wordStressResult;
@@ -164,14 +164,12 @@ const startRecord = () => {
             pronResult = null;
             clearInterval(recordTimer);
             recordProgress = 0;
-            notify(MESSAGE_RESOURCE.RECORD_ERROR);
         }
     });
 
     setTimeout(() => {
         if (isRecording && wordIndex == currentIndex) {
             stopRecord();
-            notify(MESSAGE_RESOURCE.RECORD_TIMEOUT);
         }
     }, SPEECH_ASSESSMENT.TIMEOUT);
 }
@@ -240,8 +238,8 @@ const getPhonemeResults = (words, withStress = true) => {
 
     if (!withStress) {
         var phonemes = words[0].phonemes
-        .map(e => getSpanResult(e.pronunciation, e.phoneme))
-        .join("");
+            .map(e => getSpanResult(e.pronunciation, e.phoneme))
+            .join("");
 
         return `/${phonemes}/`;
     }
@@ -255,8 +253,8 @@ const wordPhonicsResult = (words) => {
     }
 
     var phonemeArray = [];
-    words[0].phonics.forEach(function(word) {
-        word.phoneme.forEach(function(phoneme) {
+    words[0].phonics.forEach(function (word) {
+        word.phoneme.forEach(function (phoneme) {
             phonemeArray.push({
                 overall: word.overall,
                 phoneme: phoneme
@@ -265,7 +263,7 @@ const wordPhonicsResult = (words) => {
     });
 
     if (words[0].scores.stress.length > 1) {
-        words[0].scores.stress.forEach(function(stress) {
+        words[0].scores.stress.forEach(function (stress) {
             if (stress.ref_stress === 1) {
                 phonemeArray[stress.phoneme_offset].phoneme = "ˈ" + phonemeArray[stress.phoneme_offset].phoneme;
             }
@@ -281,7 +279,7 @@ const sentResult = (result) => {
     if (!result) {
         return "";
     }
-    
+
     return result.words.map(e => {
         let wordCheck = e.word;
         if (e.charType === 1) {
@@ -295,10 +293,10 @@ const getWordStressResult = (words) => {
     if (!words) {
         return "";
     }
-    
+
     var refStressIndex = -1;
     var actStressIndex = -1;
-    
+
     words[0].scores.stress.forEach((stressInfo, index) => {
         if (stressInfo.ref_stress === 1) {
             refStressIndex = index;
@@ -307,15 +305,15 @@ const getWordStressResult = (words) => {
             actStressIndex = index;
         }
     });
-    
+
     if (refStressIndex === -1) {
         return "";
     }
-    
+
     if (refStressIndex === actStressIndex) {
         return `You pronounced the correct word stress. It’s on the <span id="ref-stress">${getOrdinalNumberSuffixes(refStressIndex + 1)}</span> syllable.`;
     }
-    
+
     return "You pronounced the wrong word stress. "
         + (actStressIndex === -1 ? "" : `It’s on the <span id="ref-stress">${getOrdinalNumberSuffixes(actStressIndex + 1)}</span> syllable.`)
         + `You should stress the <span id="ref-stress">${getOrdinalNumberSuffixes(refStressIndex + 1)}</span> syllable.`;
@@ -344,7 +342,7 @@ const previous = () => {
         progressStatus -= countPercent;
         progressBar.style.width = `${progressStatus}%`;
     }
-    
+
     preBtn.disabled = wordIndex == 0;
     nextBtn.disabled = false;
 }
@@ -357,7 +355,7 @@ const next = () => {
         progressStatus += countPercent;
         progressBar.style.width = `${progressStatus}%`;
     }
-    
+
     preBtn.disabled = false;
     nextBtn.disabled = wordIndex == wordList.length - 1;
 }
