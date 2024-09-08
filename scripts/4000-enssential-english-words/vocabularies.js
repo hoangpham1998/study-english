@@ -21,7 +21,7 @@ const handleIndexBlockItemClick = (event) => {
     listItem.style.display = "table";
     listItem.style.width = "-webkit-fill-available";
     listItem.style.margin = "20px 0";
-    
+
     const idioms = listItem.querySelector(".tool-index-idioms");
     idioms.style.display = "table-cell";
 };
@@ -44,15 +44,7 @@ const fetchData = async () => {
 
 const speechWord = async (event, text) => {
     event.stopPropagation();
-    let source = `${TEXT_TO_SPEECH.WORD_URL}-US/${text}.mp3`;
-    fetch(source).then(async(response) => {
-        if (!response.ok) {
-            source = await generateAudio(text, false);
-        }        
-        const audio = new Audio();
-        audio.src = source;
-        audio.play();
-    });
+    speechText(text);
 }
 
 const backToList = () => {

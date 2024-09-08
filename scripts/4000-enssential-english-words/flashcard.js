@@ -68,13 +68,11 @@ const displayCard = () => {
                         <p class="word-en">${card.en}</p>
                         <p style="font-size: medium; margin-bottom: 0">${card.pron}</p>
                         <p style="font-size: large; margin-bottom: 0">
-                            <i class="fa fa-volume-up" onclick="speechCard(event, 'audio-${card.sound}-us')"></i> 
+                            <i class="fa fa-volume-up" onclick="speechCard(event, '${card.en}')"></i> 
                             <span class="accent">US</span>
-                            <i class="fa fa-volume-up" onclick="speechCard(event, 'audio-${card.sound}-gb', 'GB')"></i>
+                            <i class="fa fa-volume-up" onclick="speechCard(event, '${card.en}', 0)"></i>
                             <span class="accent">UK</span>
                         </p>
-                        <audio id="audio-${card.sound}-us" src="${TEXT_TO_SPEECH.WORD_URL}-US/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
-                        <audio id="audio-${card.sound}-gb" src="${TEXT_TO_SPEECH.WORD_URL}-GB/${card.en}.mp3" type="audio/mp3" style="display: none;"></audio>
                     </div>
                 </div>
                 <div class="flip-card-back">
@@ -121,7 +119,7 @@ const getFlashcards = async () => {
     if (!storedFlashcards) {
         var unitData = await getDataBook();
         var date = new Date(Date.now());
-        unitData.forEach(x => { 
+        unitData.forEach(x => {
             x.dueDate = date;
             x.status = CARD_STATUS.NEW;
         });
@@ -131,7 +129,7 @@ const getFlashcards = async () => {
     flashcards = JSON.parse(localStorage.getItem(key))
         .filter(x => x.status !== CARD_STATUS.MEMORIZED)
         .sort((a, b) => a.interval - b.interval);
-    
+
     displayCard();
 }
 
@@ -142,6 +140,19 @@ const saveFlashcards = () => {
 
 getFlashcards();
 //#endregion
+
+const speech = async (event, text, isVi = false) => {
+    event.stopPropagation();
+    var textWithoutTag = text.replace(/<\/?[^>]+>/gi, '');
+    const audio = new Audio();
+    audio.src = await generateAudio(textWithoutTag, isVi);
+    audio.play();
+}
+
+const speechCard = (event, text, isEn = true) => {
+    event.stopPropagation();
+    speechText(text, isEn);
+}
 
 //#region Edit vietnamese
 const editForm = document.getElementById('editForm');

@@ -1,3 +1,19 @@
+const AUDIO_TYPE = {
+    WAV: "wav",
+    MP3: "mp3",
+    SPX: "spx"
+}
+
+const LANGUAGE_CODE = {
+    EN_US: "en-US",
+    EN_UK: "en-GB",
+    VI_VN: "vi-VN",
+}
+
+const CORE_TYPE = {
+    WORD: "word.eval.promax"
+}
+
 const SPEECH_ASSESSMENT = {
     UUID_FORMAT: "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx",
     BASE_URL: "https://api.speechsuper.com/",
@@ -5,8 +21,8 @@ const SPEECH_ASSESSMENT = {
     APP_KEY: "16467320730000a7",
     SECRET_KEY: "68078c49b31235e0bf1091ecb9d380b1",
     MODE: 2,
-    CORE_TYPE: "word.eval.promax",
-    AUDIO_TYPE: "spx",
+    CORE_TYPE: CORE_TYPE.WORD,
+    AUDIO_TYPE: AUDIO_TYPE.SPX,
     SAMPLE_RATE: 16000,
     USER_ID: "guest",
     SDK_VERSION: 16777472,
@@ -23,7 +39,7 @@ const SPEECH_ASSESSMENT = {
     AGE_GROUP: 2,
     PHONEME_DIAGNOSIS: 0,
     DURATION: 3000,
-    TIMEOUT: 10000
+    TIMEOUT: 5000
 }
 
 const TEXT_TO_SPEECH = {
@@ -31,15 +47,20 @@ const TEXT_TO_SPEECH = {
     BASE_URL: "https://audio.api.speechify.com/generateAudioFiles",
     VI_OPTION: {
         engine: "azure",
-        languageCode: "vi-VN",
+        languageCode: LANGUAGE_CODE.VI_VN,
         name: "hoaimy"
     },
-    EN_OPTION: {
+    EN_US_OPTION: {
         name: "snoop",
         engine: "resemble",
-        languageCode: "en-US"
+        languageCode: LANGUAGE_CODE.EN_US
     },
-    AUDIO_TYPE: "mp3"
+    EN_UK_OPTION: {
+        name: "aliabdaal",
+        engine: "speechify",
+        languageCode: LANGUAGE_CODE.EN_UK
+    },
+    AUDIO_TYPE: AUDIO_TYPE.MP3
 }
 
 const PATH = {

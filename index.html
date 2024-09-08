@@ -43,6 +43,15 @@
                 </button>
             </div>
         </div>
+
+        <div class="row" style="margin-top: 15px; padding: 0 10px;">
+            <div class="col action">
+                <button class="btn btn-orange" onclick="openSpeechAssessment()">
+                    <img src="../../assets/images/speaking.png" />
+                    Speech Assessment
+                </button>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript" src="scripts/constant.js"></script>
@@ -52,6 +61,7 @@
         const openSentences = ()  => location.href = `${PATH.DEFAULT_ROUTE}sentences.html`;
         const openSTT = () => location.href = `${PATH.DEFAULT_ROUTE}speech-to-text.html`;
         const openTTS = () => location.href = `${PATH.DEFAULT_ROUTE}text-to-speech.html`;
+        const openSpeechAssessment = ()  => location.href = `${PATH.DEFAULT_ROUTE}speech-assessment.html`;
     </script>
 </body>
 

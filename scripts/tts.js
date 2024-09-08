@@ -6,9 +6,9 @@ const generateAudio = async (text, isVi) => {
     const body = {
         audioFormat: "mp3",
         paragraphChunks: [text],
-        voiceParams: isVi 
+        voiceParams: isVi
             ? TEXT_TO_SPEECH.VI_OPTION
-            : TEXT_TO_SPEECH.EN_OPTION
+            : TEXT_TO_SPEECH.EN_US_OPTION
     };
 
     try {
@@ -30,16 +30,14 @@ const generateAudio = async (text, isVi) => {
     }
 };
 
-const speechCard = (event, id) => {
-    event.stopPropagation();
-    let audio = document.getElementById(id);
-    audio.play();
-}
-
-const speech = async (event, text, isVi = false) => {
-    event.stopPropagation();
-
-    const audio = new Audio();
-    audio.src = await generateAudio(text.replace(/<\/?[^>]+>/gi, ''), isVi);
-    audio.play();
+const speechText = async (text, isEn = true) => {
+    let source = `${TEXT_TO_SPEECH.WORD_URL}-${isEn ? "US" : "GB"}/${text}.mp3`;
+    fetch(source).then(async (response) => {
+        if (!response.ok) {
+            source = await generateAudio(text, false);
+        }
+        const audio = new Audio();
+        audio.src = source;
+        audio.play();
+    });
 }

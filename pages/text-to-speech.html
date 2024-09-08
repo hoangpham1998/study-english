@@ -45,7 +45,9 @@
         <input id="input-text" type="text" placeholder="Enter text here" /><br />
         <div>
             <input type="radio" id="en-us" checked name="language-code" value="en-US" />
-            <label for="html" style="margin-right: 10px;">English</label>
+            <label for="html" style="margin-right: 10px;">English - US</label>
+            <input type="radio" id="en-gb" name="language-code" value="en-GB" />
+            <label for="html" style="margin-right: 10px;">English - UK</label>
             <input type="radio" name="language-code" value="vi-VN" />
             <label for="css">Vietnamese</label>
         </div>
@@ -61,10 +63,24 @@
             const body = {
                 audioFormat: TEXT_TO_SPEECH.AUDIO_TYPE,
                 paragraphChunks: [inputText],
-                voiceParams: isEn
-                    ? TEXT_TO_SPEECH.EN_OPTION
-                    : TEXT_TO_SPEECH.VI_OPTION
+                voiceParams: ""
             };
+
+            const lang = document.querySelector('input[name="language-code"]:checked').value;
+            switch (lang) {
+                case LANGUAGE_CODE.EN_US:
+                    body.voiceParams = TEXT_TO_SPEECH.EN_US_OPTION;
+                    break;
+                case LANGUAGE_CODE.EN_UK:
+                    body.voiceParams = TEXT_TO_SPEECH.EN_UK_OPTION;
+                    break;
+                case LANGUAGE_CODE.VI_VN:
+                    body.voiceParams = TEXT_TO_SPEECH.VI_OPTION;
+                    break;
+                default:
+                    body.voiceParams = TEXT_TO_SPEECH.EN_US_OPTION;
+                    break;
+            }
 
             try {
                 const response = await fetch(TEXT_TO_SPEECH.BASE_URL, {
