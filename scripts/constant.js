@@ -4,6 +4,12 @@ const AUDIO_TYPE = {
     SPX: "spx"
 }
 
+const COUNTRY_CODE = {
+    US: "US",
+    GB: "GB",
+    VN: "VN",
+}
+
 const LANGUAGE_CODE = {
     EN_US: "en-US",
     EN_UK: "en-GB",
@@ -11,7 +17,9 @@ const LANGUAGE_CODE = {
 }
 
 const CORE_TYPE = {
-    WORD: "word.eval.promax"
+    WORD: "word.eval.promax",
+    SENTENCES: "sent.eval.promax",
+    PARAGRAPH: "para.eval.promax"
 }
 
 const SPEECH_ASSESSMENT = {
@@ -21,7 +29,7 @@ const SPEECH_ASSESSMENT = {
     APP_KEY: "16467320730000a7",
     SECRET_KEY: "68078c49b31235e0bf1091ecb9d380b1",
     MODE: 2,
-    CORE_TYPE: CORE_TYPE.WORD,
+    CORE_TYPE: CORE_TYPE.SENTENCES,
     AUDIO_TYPE: AUDIO_TYPE.SPX,
     SAMPLE_RATE: 16000,
     USER_ID: "guest",
@@ -43,7 +51,7 @@ const SPEECH_ASSESSMENT = {
 }
 
 const TEXT_TO_SPEECH = {
-    WORD_URL: "https://dailydictation.com/tts/en",
+    WORD_URL: "../../assets/data/tts/",
     BASE_URL: "https://audio.api.speechify.com/generateAudioFiles",
     VI_OPTION: {
         engine: "azure",
