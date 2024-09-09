@@ -108,3 +108,7 @@ const mapData = (srcData, desData) => {
         }
     });
 }
+
+const backToHomePage = () => {
+    location.href = '../../';
+}

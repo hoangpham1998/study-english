@@ -32,12 +32,11 @@ const generateAudio = async (text, isVi) => {
 
 const speechText = async (text, isEn = true) => {
     let source = `${TEXT_TO_SPEECH.WORD_URL}-${isEn ? "US" : "GB"}/${text}.mp3`;
-    fetch(source).then(async (response) => {
-        if (!response.ok) {
-            source = await generateAudio(text, false);
-        }
-        const audio = new Audio();
-        audio.src = source;
-        audio.play();
-    });
+    const response = await fetch(source);
+    if (!response.ok) {
+        source = await generateAudio(text, false);
+    }
+    const audio = new Audio();
+    audio.src = source;
+    audio.play();
 }

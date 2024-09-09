@@ -117,6 +117,7 @@ const startRecord = () => {
             clearInterval(recordTimer);
         },
         onComplete: (result) => {
+            enableAction();
             const response = JSON.parse(result);
             //console.log("response: ", response)
             if (response.error) {

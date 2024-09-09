@@ -97,9 +97,9 @@
         <div class="tab-content" id="container">
             <div class="word-info" id="word-info">
                 <div class="input-word-text">
-                    <span id="word-en">Text</span>
+                    <span id="word-en">Word</span>
                     <span id="word-pron"></span>
-                    <input type="text" value="Test" id="input-word" style="display: none;" />
+                    <input type="text" value="Word" id="input-word" style="display: none;" />
                     <button class="btn-edit" id="btn-input-word" onclick="editWord()">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
@@ -186,6 +186,8 @@
             saveWordBtn.style.display = "block";
             wordEn.style.display = "none";
             inputWordBtn.style.display = "none";
+            openSoundBtn.disabled = true;
+            listenBtn.disabled = true;
             document.getElementById("word-pron").textContent = "";
         }
 
@@ -194,6 +196,8 @@
             saveWordBtn.style.display = "none";
             wordEn.style.display = "block";
             inputWordBtn.style.display = "block";
+            openSoundBtn.disabled = false;
+            listenBtn.disabled = false;
             wordEn.textContent = inputWord.value;
         }
 
@@ -209,6 +213,7 @@
             if (!canRecord || !recorder.canRecord)
                 return;
 
+            inputWordBtn.disabled = true;
             saveWord();
             let wordText = document.getElementById("word-en").textContent;
             const params = Object.assign({
@@ -235,6 +240,8 @@
                     clearInterval(recordTimer);
                 },
                 onComplete: (result) => {
+                    enableAction();
+                    inputWordBtn.disabled = false;
                     const response = JSON.parse(result);
                     //console.log("response: ", response)
                     if (response.error) {

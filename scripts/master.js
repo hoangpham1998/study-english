@@ -128,5 +128,5 @@ const hidePopup = () => {
 }
 
 const backToHome = () => {
-    location.href = '../../';
+    location.href = '../';
 }

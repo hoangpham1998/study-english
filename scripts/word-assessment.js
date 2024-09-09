@@ -1,4 +1,10 @@
 
+const enableAction = () => {
+    listenBtn.style.display = "inline-block";
+    openSoundBtn.disabled = false;
+    listenBtn.disabled = false;
+}
+
 const stopRecord = () => {
     recorder.stop({
         onStop: () => {
@@ -6,12 +12,9 @@ const stopRecord = () => {
             clearInterval(recordTimer);
         }
     });
-
-    listenBtn.style.display = "inline-block";
+    
     startBtn.style.display = "block";
     stopBtn.style.display = "none";
-    openSoundBtn.disabled = false;
-    listenBtn.disabled = false;
 }
 
 const setProgress = (percent) => {
