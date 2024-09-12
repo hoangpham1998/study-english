@@ -12,7 +12,7 @@ const stopRecord = () => {
             clearInterval(recordTimer);
         }
     });
-    
+
     startBtn.style.display = "block";
     stopBtn.style.display = "none";
 }
@@ -88,7 +88,6 @@ const wordPhonicsResult = (words) => {
             });
         });
     });
-
     if (words[0].scores.stress.length > 1) {
         words[0].scores.stress.forEach(function (stress) {
             if (stress.ref_stress === 1) {
@@ -138,12 +137,59 @@ const getWordStressResult = (words) => {
     }
 
     if (refStressIndex === actStressIndex) {
-        return `You pronounced the correct word stress. It’s on the <span id="ref-stress">${getOrdinalNumberSuffixes(refStressIndex + 1)}</span> syllable.`;
+        return `You pronounced the correct word stress. It’s on the <span id="ref-stress">${getOrdinalNumberSuffixes(refStressIndex + 1)}</span> syllable.
+        <span id="show-detail" onclick="showPhonemeDetail()">Detail</span>`;
     }
 
     return "You pronounced the wrong word stress. "
         + (actStressIndex === -1 ? "" : `It’s on the <span id="ref-stress">${getOrdinalNumberSuffixes(actStressIndex + 1)}</span> syllable.`)
-        + `You should stress the <span id="ref-stress">${getOrdinalNumberSuffixes(refStressIndex + 1)}</span> syllable.`;
+        + `You should stress the <span id="ref-stress">${getOrdinalNumberSuffixes(refStressIndex + 1)}</span> syllable.
+        <span id="show-detail" onclick="showPhonemeDetail()">Detail</span>`;
+}
+
+const showPhonemeDetail = () => {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementsByClassName("container")[0].style.opacity = ".4";
+}
+
+const getPhonemeLevelResults = (words) => {
+    if (!words) {
+        return "";
+    }
+
+    var result = "";
+    words[0].phonics.forEach((phonic, i) => {
+        var phonemes = words[0].phonemes[i];
+        var overall = phonic.overall;
+
+        var color = SCORE_RESULT_COLOR.BAD;
+        if (overall >= SCORE_RANGE.MAX) {
+            color = SCORE_RESULT_COLOR.EXCELLENT;
+        } else if (overall >= SCORE_RANGE.MIN && overall < SCORE_RANGE.MAX) {
+            color = SCORE_RESULT_COLOR.GOOD;
+        } else if (overall < SCORE_RANGE.MIN) {
+            color = SCORE_RESULT_COLOR.BAD;
+        }
+
+        var errorType = PHONEME_ERROR_TYPE.DELETION;
+        if (phonemes.inserted_before.length > 0 || phonemes.inserted_after.length > 0) {
+            errorType = PHONEME_ERROR_TYPE.INSERTION;
+        } else if (phonemes.sound_like !== "-" && phonemes.sound_like !== phonemes.phoneme) {
+            errorType = PHONEME_ERROR_TYPE.SUBSTITUTION;
+        } else if (phonemes.sound_like === "-") {
+            errorType = PHONEME_ERROR_TYPE.DELETION;
+        }
+
+        result += `<tr style="color: ${color}">
+            <td class="phonic-spell">${phonic.spell}</td>
+            <td class="phonic-sound">/${phonic.phoneme.join('')}/</td>
+            <td class="phonic-score">${overall}</td>
+            <td class="phonic-sound-like">${phonemes.sound_like}</td>
+            <td class="phonic-mispron">${errorType}</td>
+        </tr>`
+    });
+
+    return result;
 }
 
 const getSpanTag = (color, word) => `<span style='color: ${color}'>${word}</span>`;
@@ -159,4 +205,39 @@ const getSpanResult = (score, word) => {
         return getSpanTag(SCORE_RESULT_COLOR.EXCELLENT, word);
     }
     return "";
+}
+
+const startSpeech = () => {
+    startTimer();
+
+    startBtn.style.display = "none";
+    stopBtn.style.display = "block";
+    openSoundBtn.disabled = true;
+    listenBtn.disabled = true;
+}
+
+const getSpeechResults = (responseResult) => {
+    wordsResult = responseResult.words;
+
+    document.getElementById("result").style.display = "block";
+
+    var phonicsResult = getPhonicsResult(wordsResult);
+    if (phonicsResult !== "") {
+        document.getElementById("word-en").innerHTML = phonicsResult;
+    }
+
+    var pronResult = getPhonemeResults(wordsResult);
+    if (pronResult !== "") {
+        document.getElementById("word-pron").innerHTML = pronResult;
+    }
+
+    var wordStressResult = getWordStressResult(wordsResult);
+    if (wordStressResult !== "") {
+        document.getElementById("word-stress-result").innerHTML = wordStressResult;
+        document.getElementById('phoneme-level-result').innerHTML = getPhonemeLevelResults(wordsResult);
+    }
+
+    setProgress(responseResult.overall ?? 0);
+
+    stopRecord();
 }

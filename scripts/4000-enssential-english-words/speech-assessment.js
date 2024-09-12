@@ -93,7 +93,6 @@ const startRecord = () => {
 
     let currentIndex = wordIndex;
     let word = wordList[wordIndex];
-    word.pronResult = null;
     const params = Object.assign({
         coreType: SPEECH_ASSESSMENT.CORE_TYPE,
         refText: word.en,
@@ -105,12 +104,13 @@ const startRecord = () => {
         serverParams: params,
         onRecordIdGenerated: (id, token) => { },
         onStart: () => {
-            startTimer();
+            startSpeech();
+            // startTimer();
 
-            startBtn.style.display = "none";
-            stopBtn.style.display = "block";
-            openSoundBtn.disabled = true;
-            listenBtn.disabled = true;
+            // startBtn.style.display = "none";
+            // stopBtn.style.display = "block";
+            // openSoundBtn.disabled = true;
+            // listenBtn.disabled = true;
         },
         onStop: () => {
             recordProgress = 0;
@@ -122,7 +122,6 @@ const startRecord = () => {
             //console.log("response: ", response)
             if (response.error) {
                 isRecording = false;
-                word.pronResult = null;
                 clearInterval(recordTimer);
                 recordProgress = 0;
                 return;
@@ -130,30 +129,8 @@ const startRecord = () => {
             if (wordIndex == currentIndex && response.eof === 1) {
                 var responseResult = response.result;
                 isRecording = false;
-                word.pronResult = responseResult;
                 word.tokenId = response.tokenId;
-                wordsResult = responseResult.words;
-
-                document.getElementById("result").style.display = "block";
-
-                var phonicsResult = getPhonicsResult(wordsResult);
-                if (phonicsResult !== "") {
-                    document.getElementById("word-en").innerHTML = phonicsResult;
-                }
-
-                var pronResult = getPhonemeResults(wordsResult);
-                if (pronResult !== "") {
-                    document.getElementById("word-pron").innerHTML = pronResult;
-                }
-
-                var wordStressResult = getWordStressResult(wordsResult);
-                if (wordStressResult !== "") {
-                    document.getElementById("word-stress-result").innerHTML = wordStressResult;
-                }
-
-                setProgress(word.pronResult.overall ?? 0);
-
-                stopRecord();
+                getSpeechResults(responseResult);
             }
         },
         onError: () => {

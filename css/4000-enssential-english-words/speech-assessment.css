@@ -239,13 +239,23 @@ i {
     font-weight: bolder;
 }
 
-#ref-stress {
+#ref-stress,
+#show-detail {
     color: #00d9ce;
     font-weight: bold;
     text-decoration: underline;
+    font-size: initial;
+}
+
+#show-detail {
+    cursor: pointer;
 }
 
 #word-stress-result {
     font-size: large;
     margin-top: 10px;
+}
+
+.table {
+    color: white;
 }

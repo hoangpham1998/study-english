@@ -77,24 +77,6 @@ audio {
     max-width: 500px;
 }
 
-.close {
-    color: #5468ff;
-    font-size: 45px;
-    font-weight: normal;
-    position: absolute;
-    right: 20px;
-    top: 15px;
-    cursor: pointer;
-    text-shadow: none;
-}
-
-.close:hover,
-.close:focus {
-    color: #5468ff;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 #editForm {
     text-align: left;
     padding-bottom: 20px;

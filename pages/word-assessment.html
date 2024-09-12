@@ -145,6 +145,26 @@
         </div>
     </div>
 
+    <div id="popup" class="popup">
+        <span class="close" onclick="hidePopup()">&times;</span>
+        <h2>Phoneme Level Results</h2><br />
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Spelling</th>
+                        <th>Sound</th>
+                        <th>Score</th>
+                        <th>Sound Like</th>
+                        <th>Mispronunciation</th>
+                    </tr>
+                </thead>
+                <tbody id="phoneme-level-result">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <script type="text/javascript" src="../scripts/constant.js"></script>
     <script type="text/javascript" src="../scripts/master.js"></script>
     <script type="text/javascript" src="../scripts/iload.js"></script>
@@ -228,12 +248,13 @@
                 onRecordIdGenerated: (id, token) => { },
                 onStart: () => {
                     isRecording = true;
-                    startTimer();
+                    startSpeech();
+                    // startTimer();
 
-                    startBtn.style.display = "none";
-                    stopBtn.style.display = "block";
-                    openSoundBtn.disabled = true;
-                    listenBtn.disabled = true;
+                    // startBtn.style.display = "none";
+                    // stopBtn.style.display = "block";
+                    // openSoundBtn.disabled = true;
+                    // listenBtn.disabled = true;
                 },
                 onStop: () => {
                     recordProgress = 0;
@@ -254,28 +275,7 @@
                         var responseResult = response.result;
                         isRecording = false;
                         tokenId = response.tokenId;
-                        wordsResult = responseResult.words;
-
-                        document.getElementById("result").style.display = "block";
-
-                        var phonicsResult = getPhonicsResult(wordsResult);
-                        if (phonicsResult !== "") {
-                            document.getElementById("word-en").innerHTML = phonicsResult;
-                        }
-
-                        var pronResult = getPhonemeResults(wordsResult);
-                        if (pronResult !== "") {
-                            document.getElementById("word-pron").innerHTML = pronResult;
-                        }
-
-                        var wordStressResult = getWordStressResult(wordsResult);
-                        if (wordStressResult !== "") {
-                            document.getElementById("word-stress-result").innerHTML = wordStressResult;
-                        }
-
-                        setProgress(responseResult.overall ?? 0);
-
-                        stopRecord();
+                        getSpeechResults(responseResult);
                     }
                 },
                 onError: () => {

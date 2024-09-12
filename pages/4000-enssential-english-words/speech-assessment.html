@@ -70,9 +70,25 @@
             </div>
         </div>
     </div>
+
     <div id="popup" class="popup">
-        <p id="notify-content" style="font-size: large; margin-bottom: 0;"></p>
-        <button class="btn close-btn" onclick="hidePopup()">Close</button>
+        <span class="close" onclick="hidePopup()">&times;</span>
+        <h2>Phoneme Level Results</h2><br />
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Spelling</th>
+                        <th>Sound</th>
+                        <th>Score</th>
+                        <th>Sound Like</th>
+                        <th>Mispronunciation</th>
+                    </tr>
+                </thead>
+                <tbody id="phoneme-level-result">
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script type="text/javascript" src="../../scripts/constant.js"></script>
