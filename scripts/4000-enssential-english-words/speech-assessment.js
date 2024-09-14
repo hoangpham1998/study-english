@@ -5,13 +5,8 @@ let countPercent = 5;
 let progressStatus = 0;
 
 const progressBar = document.getElementById("progress-bar");
-const startBtn = document.getElementById('start-record');
-const stopBtn = document.getElementById('stop-record');
-const listenBtn = document.getElementById('listen-voice');
-const openSoundBtn = document.getElementById('open-sound');
 const preBtn = document.getElementById("previous");
 const nextBtn = document.getElementById("next");
-const recordAudio = document.getElementById("record-audio");
 const wordInfo = document.getElementById("word-info");
 const wordDetail = document.getElementById("word-detail");
 //#endregion
@@ -94,7 +89,7 @@ const startRecord = () => {
     let currentIndex = wordIndex;
     let word = wordList[wordIndex];
     const params = Object.assign({
-        coreType: SPEECH_ASSESSMENT.CORE_TYPE,
+        coreType: CORE_TYPE.WORD,
         refText: word.en,
         question_prompt: word.en,
         userId: SPEECH_ASSESSMENT.USER_ID
@@ -105,12 +100,6 @@ const startRecord = () => {
         onRecordIdGenerated: (id, token) => { },
         onStart: () => {
             startSpeech();
-            // startTimer();
-
-            // startBtn.style.display = "none";
-            // stopBtn.style.display = "block";
-            // openSoundBtn.disabled = true;
-            // listenBtn.disabled = true;
         },
         onStop: () => {
             recordProgress = 0;
@@ -130,7 +119,7 @@ const startRecord = () => {
                 var responseResult = response.result;
                 isRecording = false;
                 word.tokenId = response.tokenId;
-                getSpeechResults(responseResult);
+                getWordResults(responseResult);
             }
         },
         onError: () => {

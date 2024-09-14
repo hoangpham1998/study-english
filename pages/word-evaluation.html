@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/all.min.css">
+    <link rel="stylesheet" href="../css/master.css">
+    <link rel="stylesheet" href="../css/word-assessment.css">
+    <link rel="stylesheet" href="../css/4000-enssential-english-words/speech-assessment.css">
+</head>
+
+<body>
+    <div class="header" id="header">
+        <button class="close-button" onclick="backToHome()"></button>
+    </div>
+    <div class="container">
+        <div class="tab-content" id="container">
+            <div class="word-info" id="word-info">
+                <div class="input-word-text">
+                    <span id="word-en">Word</span>
+                    <span id="word-pron"></span>
+                    <input type="text" value="Word" id="input-word" style="display: none;" />
+                    <button class="btn-edit" id="btn-input-word" onclick="editWord()">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+                <button class="btn btn-info" id="btn-save-word" style="display: none;" onclick="saveWord()">
+                    Save
+                </button>
+            </div>
+
+            <div class="audio">
+                <button class="btn btn-white circle" id="open-sound" onclick="speech()">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button class="btn btn-white circle" id="listen-voice" style="margin-left: 5px;" onclick="listen()">
+                    <i class="fa-solid fa-ear-listen"></i>
+                </button>
+            </div>
+
+            <div id="result" class="result-container" style="display: none;">
+                <div class="progress-container">
+                    <svg class="progress-ring" width="150" height="150">
+                        <circle class="progress-ring__background" stroke-width="8" fill="transparent" r="60" cx="75"
+                            cy="75"></circle>
+                        <circle id="progress-ring-circle" class="progress-ring__circle" stroke-width="8"
+                            fill="transparent" r="60" cx="75" cy="75" transform="rotate(-270 75 75)"></circle>
+                    </svg>
+                    <div class="progress-text" id="progress-text">0</div>
+                </div>
+                <p id="word-stress-result"></p>
+            </div>
+        </div>
+        <audio id="record-audio"></audio>
+    </div>
+
+    <div class="footer" id="footer">
+        <div class="record-dock">
+            <button class="btn btn-white icon-recorder record-btn" id="start-record" onclick="startRecord()">
+                <i class="fa-light fa-microphone"></i>
+            </button>
+            <button class="btn btn-danger icon-recorder record-btn" id="stop-record" onclick="stopRecord()">
+                <i class="fa-light fa-waveform-lines"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <span class="close" onclick="hidePopup()">&times;</span>
+        <h2>Phoneme Level Results</h2><br />
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="title">
+                        <th>Spelling</th>
+                        <th>Sound</th>
+                        <th>Score</th>
+                        <th>Sound Like</th>
+                        <th>Mispronunciation</th>
+                    </tr>
+                </thead>
+                <tbody id="phoneme-level-result">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../scripts/constant.js"></script>
+    <script type="text/javascript" src="../scripts/master.js"></script>
+    <script type="text/javascript" src="../scripts/iload.js"></script>
+    <script type="text/javascript" src="../scripts/record.js"></script>
+    <script type="text/javascript" src="../scripts/tts.js"></script>
+    <script type="text/javascript" src="../scripts/word-assessment.js"></script>
+    <script type="text/javascript" src="../scripts/speech-evaluation.js"></script>
+    <script>
+        const speech = () => {
+            speechText(document.getElementById("word-en").textContent);
+        }
+    </script>
+</body>
+
+</html>

@@ -40,3 +40,9 @@ const speechText = async (text, isEn = true) => {
     audio.src = source;
     audio.play();
 }
+
+const speechSentence = async (text) => {
+    const audio = new Audio();
+    audio.src = await generateAudio(text, false);
+    audio.play();
+}

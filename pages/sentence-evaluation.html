@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/all.min.css">
+    <link rel="stylesheet" href="../css/master.css">
+    <link rel="stylesheet" href="../css/word-assessment.css">
+    <link rel="stylesheet" href="../css/4000-enssential-english-words/speech-assessment.css">
+    <style>
+        .result-container {
+            margin-top: 0;
+        }
+
+        .more-score {
+            margin-top: 0;
+        }
+
+        .score-item {
+            padding-bottom: 10px;
+        }
+
+        .score-name {
+            font-weight: bold;
+        }
+
+        .table-responsive {
+            max-height: 60vh;
+        }
+
+        .word {
+            background-color: #17153163;
+        }
+
+        .word td {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .word-child td {
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header" id="header">
+        <button class="close-button" onclick="backToHome()"></button>
+    </div>
+    <div class="container">
+        <div class="tab-content" id="container">
+            <div class="word-info" id="word-info">
+                <div class="input-word-text">
+                    <span id="word-en">It is an old book.</span>
+                    <span id="word-pron"></span>
+                    <input type="text" value="It is an old book." id="input-word" style="display: none;" />
+                    <button class="btn-edit" id="btn-input-word" onclick="editWord()">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+                <button class="btn btn-info" id="btn-save-word" style="display: none;" onclick="saveWord()">
+                    Save
+                </button>
+            </div>
+
+            <div class="audio">
+                <button class="btn btn-white circle" id="open-sound" onclick="speech()">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button class="btn btn-white circle" id="listen-voice" style="margin-left: 5px;" onclick="listen()">
+                    <i class="fa-solid fa-ear-listen"></i>
+                </button>
+            </div>
+
+            <div id="result" class="result-container" style="display: none;">
+                <div class="progress-container">
+                    <svg class="progress-ring" width="150" height="150">
+                        <circle class="progress-ring__background" stroke-width="8" fill="transparent" r="60" cx="75"
+                            cy="75"></circle>
+                        <circle id="progress-ring-circle" class="progress-ring__circle" stroke-width="8"
+                            fill="transparent" r="60" cx="75" cy="75" transform="rotate(-270 75 75)"></circle>
+                    </svg>
+                    <div class="progress-text" id="progress-text">0</div>
+                </div>
+                <div class="more-score row">
+                    <div class="score-item col">
+                        <div class="score-name">Pronunciation</div>
+                        <div class="score-value" id="pronun-score">0</div>
+                    </div>
+                    <div class="score-item col">
+                        <div class="score-name">Fluency</div>
+                        <div class="score-value" id="fluency-score">0</div>
+                    </div>
+                    <div class="score-item col">
+                        <div class="score-name">Integrity</div>
+                        <div class="score-value" id="integrity-score">0</div>
+                    </div>
+                    <div class="score-item col">
+                        <div class="score-name">Rhythm</div>
+                        <div class="score-value" id="rhythm-score">0</div>
+                    </div>
+                    <div class="score-item col">
+                        <div class="score-name">Speed</div>
+                        <div class="score-value" id="speed-score">0</div>
+                    </div>
+                </div>
+                <p id="word-stress-result"></p>
+            </div>
+        </div>
+        <audio id="record-audio"></audio>
+    </div>
+
+    <div class="footer" id="footer">
+        <div class="record-dock">
+            <button class="btn btn-white icon-recorder record-btn" id="start-record" onclick="startRecordSentence()">
+                <i class="fa-light fa-microphone"></i>
+            </button>
+            <button class="btn btn-danger icon-recorder record-btn" id="stop-record" onclick="stopRecord()">
+                <i class="fa-light fa-waveform-lines"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <span class="close" onclick="hidePopup()">&times;</span>
+        <h2 style="margin-bottom: 0;">Evaluation Result</h2><br />
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="title">
+                        <th>Word</th>
+                        <th>Score</th>
+                        <th>Evaluation</th>
+                    </tr>
+                </thead>
+                <tbody id="phoneme-level-result">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../scripts/constant.js"></script>
+    <script type="text/javascript" src="../scripts/master.js"></script>
+    <script type="text/javascript" src="../scripts/iload.js"></script>
+    <script type="text/javascript" src="../scripts/record.js"></script>
+    <script type="text/javascript" src="../scripts/tts.js"></script>
+    <script type="text/javascript" src="../scripts/word-assessment.js"></script>
+    <script type="text/javascript" src="../scripts/speech-evaluation.js"></script>
+    <script>
+        const speech = () => {
+            speechSentence(document.getElementById("word-en").textContent);
+        }
+
+        const startRecordSentence = () => {
+            startRecord(CORE_TYPE.SENTENCES);
+        }
+    </script>
+</body>
+
+</html>

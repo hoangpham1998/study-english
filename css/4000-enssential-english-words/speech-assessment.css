@@ -62,7 +62,7 @@ body {
     margin-top: 0;
 }
 
-.tab-content::-webkit-scrollbar {
+::-webkit-scrollbar {
     display: none;
 }
 

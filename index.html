@@ -45,10 +45,16 @@
         </div>
 
         <div class="row" style="margin-top: 15px; padding: 0 10px;">
-            <div class="col action">
-                <button class="btn btn-orange" onclick="openSpeechAssessment()">
+            <div class="col-6 action">
+                <button class="btn btn-orange" onclick="openWordEvaluation()">
                     <img src="assets/images/speaking.png" />
                     Word Assessment
+                </button>
+            </div>
+            <div class="col-6 action">
+                <button class="btn btn-basic" onclick="openSentenceEvaluation()">
+                    <img src="assets/images/speech.png" />
+                    Sentence Assessment
                 </button>
             </div>
         </div>
@@ -61,5 +67,6 @@
         const openSentences = () => location.href = `${PATH.DEFAULT_ROUTE}sentences.html`;
         const openSTT = () => location.href = `${PATH.DEFAULT_ROUTE}speech-to-text.html`;
         const openTTS = () => location.href = `${PATH.DEFAULT_ROUTE}text-to-speech.html`;
-        const openSpeechAssessment = () => location.href = `${PATH.DEFAULT_ROUTE}word-assessment.html`;
+        const openWordEvaluation = () => location.href = `${PATH.DEFAULT_ROUTE}word-evaluation.html`;
+        const openSentenceEvaluation = () => location.href = `${PATH.DEFAULT_ROUTE}sentence-evaluation.html`;
     </script>

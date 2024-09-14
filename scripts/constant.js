@@ -29,7 +29,6 @@ const SPEECH_ASSESSMENT = {
     APP_KEY: "16467320730000a7",
     SECRET_KEY: "68078c49b31235e0bf1091ecb9d380b1",
     MODE: 2,
-    CORE_TYPE: CORE_TYPE.WORD,
     AUDIO_TYPE: AUDIO_TYPE.SPX,
     SAMPLE_RATE: 16000,
     USER_ID: "guest",
@@ -112,6 +111,12 @@ const SCORE_RESULT_COLOR = {
     BAD: "#F53D36",
     GOOD: "#FFBD0D",
     EXCELLENT: "#43D217"
+}
+
+const TONE_TYPE = {
+    FALL: "fall",
+    FALLING: "falling",
+    RISING: "rising",
 }
 
 const PHONEME_ERROR_TYPE = {

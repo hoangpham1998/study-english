@@ -1,3 +1,8 @@
+const startBtn = document.getElementById('start-record');
+const stopBtn = document.getElementById('stop-record');
+const listenBtn = document.getElementById('listen-voice');
+const openSoundBtn = document.getElementById('open-sound');
+const recordAudio = document.getElementById("record-audio");
 
 const enableAction = () => {
     listenBtn.style.display = "inline-block";
@@ -101,20 +106,6 @@ const wordPhonicsResult = (words) => {
         .join("")}/`;
 }
 
-const sentResult = (result) => {
-    if (!result) {
-        return "";
-    }
-
-    return result.words.map(e => {
-        let wordCheck = e.word;
-        if (e.charType === 1) {
-            return getSpanTag(SCORE_RESULT_COLOR.NORMAL, wordCheck);
-        }
-        return getSpanResult(e.scores.pronunciation, wordCheck);
-    }).join(" ");
-}
-
 const getWordStressResult = (words) => {
     if (!words) {
         return "";
@@ -162,15 +153,6 @@ const getPhonemeLevelResults = (words) => {
         var phonemes = words[0].phonemes[i];
         var overall = phonic.overall;
 
-        var color = SCORE_RESULT_COLOR.BAD;
-        if (overall >= SCORE_RANGE.MAX) {
-            color = SCORE_RESULT_COLOR.EXCELLENT;
-        } else if (overall >= SCORE_RANGE.MIN && overall < SCORE_RANGE.MAX) {
-            color = SCORE_RESULT_COLOR.GOOD;
-        } else if (overall < SCORE_RANGE.MIN) {
-            color = SCORE_RESULT_COLOR.BAD;
-        }
-
         var errorType = PHONEME_ERROR_TYPE.DELETION;
         if (phonemes.inserted_before.length > 0 || phonemes.inserted_after.length > 0) {
             errorType = PHONEME_ERROR_TYPE.INSERTION;
@@ -180,7 +162,7 @@ const getPhonemeLevelResults = (words) => {
             errorType = PHONEME_ERROR_TYPE.DELETION;
         }
 
-        result += `<tr style="color: ${color}">
+        result += `<tr style="color: ${getColor(overall)}">
             <td class="phonic-spell">${phonic.spell}</td>
             <td class="phonic-sound">/${phonic.phoneme.join('')}/</td>
             <td class="phonic-score">${overall}</td>
@@ -190,6 +172,17 @@ const getPhonemeLevelResults = (words) => {
     });
 
     return result;
+}
+
+const getColor = (score) => {
+    if (score >= SCORE_RANGE.MAX) {
+        return SCORE_RESULT_COLOR.EXCELLENT;
+    } else if (score >= SCORE_RANGE.MIN && score < SCORE_RANGE.MAX) {
+        return SCORE_RESULT_COLOR.GOOD;
+    } else if (score < SCORE_RANGE.MIN) {
+        return SCORE_RESULT_COLOR.BAD;
+    }
+    return SCORE_RESULT_COLOR.BAD;
 }
 
 const getSpanTag = (color, word) => `<span style='color: ${color}'>${word}</span>`;
@@ -216,7 +209,7 @@ const startSpeech = () => {
     listenBtn.disabled = true;
 }
 
-const getSpeechResults = (responseResult) => {
+const getWordResults = (responseResult) => {
     wordsResult = responseResult.words;
 
     document.getElementById("result").style.display = "block";
@@ -241,3 +234,126 @@ const getSpeechResults = (responseResult) => {
 
     stopRecord();
 }
+
+//#region Sentence Evaluation
+const getSentResult = (words) => {
+    if (!words) {
+        return "";
+    }
+
+    return words.map(e => {
+        let wordCheck = e.word;
+        if (e.charType === 1) {
+            return getSpanTag(SCORE_RESULT_COLOR.NORMAL, wordCheck);
+        }
+        return getSpanResult(e.scores.pronunciation, wordCheck);
+    }).join(" ");
+}
+
+const getPhonemeSentenceResults = (words) => {
+    if (!words) {
+        return "";
+    }
+
+    var phonemes = words.map(w => {
+        return w.phonemes
+            .map(e => getSpanResult(e.pronunciation, e.phoneme))
+            .join("");
+    }).join(" ");
+
+    return `/${phonemes}/`;
+}
+
+const showPhoneme = (i) => {
+    document.getElementById(`open-${i}`).style.display = "none";
+    document.getElementById(`close-${i}`).style.display = "block";
+    document.querySelectorAll(`.detail-${i}`)
+        .forEach(x => x.style.display = "table-row");
+}
+
+const hidePhoneme = (i) => {
+    document.getElementById(`open-${i}`).style.display = "block";
+    document.getElementById(`close-${i}`).style.display = "none";
+    document.querySelectorAll(`.detail-${i}`)
+        .forEach(x => x.style.display = "none");
+}
+
+const getWordLevelResults = (words) => {
+    if (!words) {
+        return "";
+    }
+
+    let result = "";
+    words.forEach((word, i) => {
+        var color = getColor(word.scores.overall);
+        result += `<tr class="word" style="color: ${color}">
+            <td>${word.word}</td>
+            <td>${word.scores.overall}</td>
+            <td>
+                <i onclick="showPhoneme(${i})" id="open-${i}" class="fa-solid fa-chevron-down"></i>
+                <i onclick="hidePhoneme(${i})" id="close-${i}" class="fa-solid fa-chevron-up" style="display: none"></i>
+            </td>
+        </tr>`;
+
+        word.phonemes.forEach(phoneme => {
+            let remark = "";
+            if (phoneme.sound_like == '-') {
+                remark = "Not pronounced";
+            }
+            else if (phoneme.sound_like != phoneme.phoneme) {
+                remark = `/${phoneme.phoneme}/ sounds like /${phoneme.sound_like}}/`
+            }
+            if (phoneme.inserted_after.length) {
+                remark = `/${phoneme.inserted_after.join('')}/ inserted finally`
+            }
+
+            result += `<tr class="detail-${i} word-child" style="display: none; color: ${getColor(phoneme.pronunciation)}">
+                <td>/${phoneme.phoneme}/</td>
+                <td>${phoneme.pronunciation}</td>
+                <td>${remark}</td>
+            </tr>`;
+        });
+    });
+
+    return result;
+}
+
+const getSentenceResults = (responseResult) => {
+    console.log("response: ", responseResult)
+    wordsResult = responseResult.words;
+
+    document.getElementById("result").style.display = "block";
+
+    var phonicsResult = getSentResult(wordsResult);
+    if (phonicsResult !== "") {
+        document.getElementById("word-en").innerHTML = phonicsResult;
+    }
+
+    var pronResult = getPhonemeSentenceResults(wordsResult);
+    if (pronResult !== "") {
+        document.getElementById("word-pron").innerHTML = pronResult;
+    }
+
+    document.getElementById("word-stress-result").innerHTML =
+        `You used ${responseResult.rear_tone === TONE_TYPE.FALL
+            ? TONE_TYPE.FALLING : TONE_TYPE.RISING} tone at the end of the sentence.
+        <span id="show-detail" onclick="showPhonemeDetail()">Detail</span>`;
+
+    document.getElementById("pronun-score").innerHTML =
+        getSpanResult(responseResult.pronunciation, responseResult.pronunciation);
+    document.getElementById("fluency-score").innerHTML =
+        getSpanResult(responseResult.fluency, responseResult.fluency);
+    document.getElementById("integrity-score").innerHTML =
+        getSpanResult(responseResult.integrity, responseResult.integrity);
+    document.getElementById("rhythm-score").innerHTML =
+        getSpanResult(responseResult.rhythm, responseResult.rhythm);
+    document.getElementById("speed-score").innerHTML =
+        getSpanResult(responseResult.speed, responseResult.speed);
+
+    document.getElementById('phoneme-level-result').innerHTML = getWordLevelResults(wordsResult);
+
+    setProgress(responseResult.overall ?? 0);
+
+    stopRecord();
+}
+//#endregion
