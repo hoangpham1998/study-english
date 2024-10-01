@@ -46,7 +46,8 @@ const SPEECH_ASSESSMENT = {
     AGE_GROUP: 3,
     PHONEME_DIAGNOSIS: 0,
     DURATION: 3000,
-    TIMEOUT: 5000
+    TIMEOUT: 5000,
+    SENTENCE_TIMEOUT: 10000
 }
 
 const TEXT_TO_SPEECH = {
@@ -86,8 +87,15 @@ const CARD_STATUS = {
 const CARD_RATING = {
     AGAIN: 0,
     HARD: 1,
-    EXCELLENT: 2,
+    GOOD: 2,
     EASY: 3
+}
+
+const RATING_TIME = {
+    AGAIN: 10,
+    HARD: 30,
+    GOOD: 60,
+    EASY: 1440
 }
 
 const PART_OF_SPEECH = {
@@ -136,4 +144,9 @@ const MESSAGE_RESOURCE = {
     RECORD_TIMEOUT: "Recording timeout, please try again!",
     RECORD_ERROR: "Recording error, please try again!",
     QUIZ_COMPLETED: "Quiz completed!"
+}
+
+const CONFIG = {
+    NUM_OF_LEARN_ON_DAY: 40,
+    STUDY_CARD: 'study-card'
 }

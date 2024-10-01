@@ -2827,7 +2827,6 @@
             "status": 0
         }
     ],
-    //////////////
     [
         {
             "en": "affair",
@@ -2999,9 +2998,7 @@
             "sound": "26389.mp3",
             "repetition": 0,
             "interval": 1,
-            "easeFactor
-    
-    ": 2.5
+            "easeFactor": 2.5
         },
         {
             "en": "slim",

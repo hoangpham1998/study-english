@@ -15,7 +15,7 @@ const audioSrc = `${essentialDataPath}files/Book-${book}/Audio/`;
 if (unit) {
     var title = `Unit ${unit}`;
     document.title += title;
-    
+
     if (unitText) {
         unitText.textContent = title;
     }
@@ -28,7 +28,7 @@ if (unit) {
         // Determine the range of page numbers to display
         var startPage = Math.max(1, unitInt - 2);
         var endPage = Math.min(startPage + 3, totalUnit);
-    
+
         // Create the pagination links
         var paginationHTML = '';
 
@@ -36,19 +36,19 @@ if (unit) {
         paginationHTML += isFirst
             ? `<a class="skip-button" href="#" class="disabled">&laquo;</a>`
             : `<a class="skip-button" href="${pathname}?book=${book}&unit=${1}">&laquo;</a>`;
-    
+
         // Previous page link
         paginationHTML += isFirst
             ? `<a class="skip-button" href="#" class="disabled">&#8249;</a>`
             : `<a class="skip-button" href="${pathname}?book=${book}&unit=${unitInt - 1}">&#8249;</a>`;
-    
+
         // Page number links
         for (var i = startPage; i <= endPage; i++) {
             paginationHTML += i == unitInt
                 ? `<a href="${pathname}?book=${book}&unit=${i}" class="active">${i}</a>`
                 : `<a href="${pathname}?book=${book}&unit=${i}">${i}</a>`;
         }
-    
+
         // Next page link
         paginationHTML += isLast
             ? `<a class="skip-button" href="#" class="disabled">&#8250;</a>`
@@ -56,9 +56,9 @@ if (unit) {
 
         // Last page links
         paginationHTML += isLast
-        ? `<a class="skip-button" href="#" class="disabled">&raquo;</a>`
-        : `<a class="skip-button" href="${pathname}?book=${book}&unit=${totalUnit}">&raquo;</a>`;
-    
+            ? `<a class="skip-button" href="#" class="disabled">&raquo;</a>`
+            : `<a class="skip-button" href="${pathname}?book=${book}&unit=${totalUnit}">&raquo;</a>`;
+
         // Set the HTML for pagination container
         pagination.innerHTML = paginationHTML;
     }
@@ -71,7 +71,7 @@ const fetchJson = async (path) => {
 
 const getDataBook = async (isRandom = false) => {
     var data = await fetchJson(`${essentialDataPath}books/book-${book}`);
-    return isRandom 
+    return isRandom
         ? shuffleData(data[unit - 1])
         : data[unit - 1];
 }
@@ -85,16 +85,18 @@ const shuffleData = (data) => {
     return data;
 }
 
-const getPartOfSpeech = (value) => {
-    // for (const key in PART_OF_SPEECH) {
-    //     if (PART_OF_SPEECH[key] === value) {
-    //         return key.toLowerCase();
-    //     }
-    // }
-    // return null;
-    return `(${value.replace('.', '')})`;
+const getKeyByValue = (obj, value) => {
+    for (const key in obj) {
+        if (obj[key] === value) {
+            return key;
+        }
+    }
+    return null;
 }
 
+const getPartOfSpeech = (value) => {
+    return `(${value.replace('.', '')})`;
+}
 
 const getOrdinalNumberSuffixes = (number) => {
     if (number > 3 && number < 21)
@@ -106,10 +108,23 @@ const getOrdinalNumberSuffixes = (number) => {
             return `${number}${ORDINAL_NUMBER_SUFFIXES.ND}`;
         case 3:
             return `${number}${ORDINAL_NUMBER_SUFFIXES.RD}`;
-        default: 
+        default:
             return `${number}${ORDINAL_NUMBER_SUFFIXES.TH}`;
     }
 };
+
+const isToday = (date) => {
+    if (!date) {
+        return false;
+    }
+    const dateCheck = new Date(date);
+    const today = new Date();
+    return (dateCheck.getFullYear() === today.getFullYear()
+        && dateCheck.getMonth() === today.getMonth()
+        && dateCheck.getDate() === today.getDate());
+}
+
+const addMinutes = (date, minutes) => new Date(date.getTime() + minutes * 60000);
 
 const notify = (message) => {
     document.getElementById('popup').style.display = 'block';

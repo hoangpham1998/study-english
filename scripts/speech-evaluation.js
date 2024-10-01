@@ -101,9 +101,12 @@ const startRecord = (coreType = CORE_TYPE.WORD) => {
         }
     });
 
+    let timeout = coreType === CORE_TYPE.SENTENCES 
+        ? SPEECH_ASSESSMENT.SENTENCE_TIMEOUT
+        : SPEECH_ASSESSMENT.TIMEOUT * 2
     setTimeout(() => {
         if (isRecording) {
             stopRecord();
         }
-    }, SPEECH_ASSESSMENT.TIMEOUT);
+    }, timeout);
 }

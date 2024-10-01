@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/4000-enssential-english-words/flashcard.css">
+</head>
+
+<body>
+    <div class="container">
+        <button class="close-button" onclick="closePage()"></button>
+        <h1 id="unit"></h1>
+        <div class="tab-content" id="container"></div>
+        <div class="row" style="padding: 0 10px;">
+            <div class="col-3 action">
+                <button class="btn btn-danger update-card" onclick="rate(0)">Again</button>
+            </div>
+            <div class="col-3 action">
+                <button class="btn btn-warning update-card" onclick="rate(1)">Hard</button>
+            </div>
+            <div class="col-3 action">
+                <button class="btn btn-success update-card" onclick="rate(2)">Good</button>
+            </div>
+            <div class="col-3 action">
+                <button class="btn btn-info update-card" onclick="rate(3)">Easy</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col pagination" id="pagination">
+            </div>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <span class="close" onclick="hidePopup()">&times;</span>
+        <h2>Edit Card</h2>
+        <form id="editForm">
+            <label for="enInput">English</label>
+            <input type="text" disabled id="enInput" name="enInput">
+            <label for="viInput">Vietnamese</label>
+            <input type="text" id="viInput" name="viInput">
+            <div class="row" style="margin-top: 1%; padding: 0 10px;">
+                <div class="col action">
+                    <button type="button" class="btn btn-basic" onclick="hidePopup()">Cancel</button>
+                </div>
+                <div class="col action">
+                    <button type="button" class="btn btn-purple" type="submit" onclick="updateCard()">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript" src="scripts/constant.js"></script>
+    <script type="text/javascript" src="scripts/master.js"></script>
+    <script type="text/javascript" src="scripts/tts.js"></script>
+    <script type="text/javascript" src="scripts/study.js"></script>
+
+</body>
+
+</html>
