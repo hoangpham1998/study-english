@@ -70,6 +70,7 @@ const startRecord = (coreType = CORE_TYPE.WORD) => {
         onStop: () => {
             recordProgress = 0;
             clearInterval(recordTimer);
+            clearTimeout(timeoutId);
         },
         onComplete: (result) => {
             enableAction();
@@ -79,6 +80,7 @@ const startRecord = (coreType = CORE_TYPE.WORD) => {
             if (response.error) {
                 isRecording = false;
                 clearInterval(recordTimer);
+                clearTimeout(timeoutId);
                 recordProgress = 0;
                 return;
             }
@@ -97,14 +99,16 @@ const startRecord = (coreType = CORE_TYPE.WORD) => {
         onError: () => {
             isRecording = false;
             clearInterval(recordTimer);
+            clearTimeout(timeoutId);
             recordProgress = 0;
         }
     });
 
-    let timeout = coreType === CORE_TYPE.SENTENCES 
+    let timeout = coreType === CORE_TYPE.SENTENCES
         ? SPEECH_ASSESSMENT.SENTENCE_TIMEOUT
-        : SPEECH_ASSESSMENT.TIMEOUT * 2
-    setTimeout(() => {
+        : SPEECH_ASSESSMENT.TIMEOUT * 2;
+        
+    timeoutId = setTimeout(() => {
         if (isRecording) {
             stopRecord();
         }

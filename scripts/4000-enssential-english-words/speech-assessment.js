@@ -104,6 +104,7 @@ const startRecord = () => {
         onStop: () => {
             recordProgress = 0;
             clearInterval(recordTimer);
+            clearTimeout(timeoutId);
         },
         onComplete: (result) => {
             enableAction();
@@ -112,6 +113,7 @@ const startRecord = () => {
             if (response.error) {
                 isRecording = false;
                 clearInterval(recordTimer);
+                clearTimeout(timeoutId);
                 recordProgress = 0;
                 return;
             }
@@ -126,11 +128,12 @@ const startRecord = () => {
             isRecording = false;
             pronResult = null;
             clearInterval(recordTimer);
+            clearTimeout(timeoutId);
             recordProgress = 0;
         }
     });
 
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
         if (isRecording && wordIndex == currentIndex) {
             stopRecord();
         }

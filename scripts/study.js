@@ -2,6 +2,7 @@
 let card = null;
 let cardsData = [];
 let flashcards = [];
+const path = "assets/data/4000-enssential-english-words/files/Book-";
 //#endregion
 
 //#region Card
@@ -51,9 +52,9 @@ const displayCard = () => {
                 </div>
                 <div class="flip-card-back">
                     <div class="flip-card-back-content">
-                        <img class="card-img" src='${essentialDataPath}files/Book-${card.book}/Image/book/${card.image}' title="${card.en}" /><br/>
+                        <img class="card-img" src='${path}${card.book}/Image/book/${card.image}' title="${card.en}" /><br/>
                         <audio controls>
-                            <source src="${essentialDataPath}files/Book-${card.book}/Audio/book/${card.sound}" type="audio/mp3">
+                            <source src="${path}${card.book}/Audio/book/${card.sound}" type="audio/mp3">
                         </audio><br />
                         
                         <span class="card-detail">Vietnamese:</span> ${!card.vi ? "N/A" : card.vi}
@@ -93,7 +94,7 @@ const getFlashcards = async () => {
     if (!storedFlashcards) {
         let data = [];
         for (let i = 1; i <= 6; i++) {
-            let bookData = await fetchJson(`${essentialDataPath}books/book-${i}`);
+            let bookData = await fetchJson(`assets/data/4000-enssential-english-words/books/book-${i}`);
             data.push(bookData);
         }
         localStorage.setItem(key, JSON.stringify(data));

@@ -3,6 +3,7 @@ const stopBtn = document.getElementById('stop-record');
 const listenBtn = document.getElementById('listen-voice');
 const openSoundBtn = document.getElementById('open-sound');
 const recordAudio = document.getElementById("record-audio");
+let timeoutId;
 
 const enableAction = () => {
     listenBtn.style.display = "inline-block";
@@ -15,9 +16,12 @@ const stopRecord = () => {
         onStop: () => {
             recordProgress = 0;
             clearInterval(recordTimer);
+            clearTimeout(timeoutId);
         }
     });
 
+    clearTimeout(timeoutId);
+    isRecording = false;
     startBtn.style.display = "block";
     stopBtn.style.display = "none";
 }
