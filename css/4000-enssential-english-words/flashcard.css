@@ -20,6 +20,8 @@ body {
 
 .flip-card {
     height: 300px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 1;
 }
 
 .flip-card.active {
@@ -99,4 +101,29 @@ input {
 h2 {
     color: #00d9ce;
     font-weight: bold;
+}
+
+.edit-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: #5468ff;
+    border: none;
+    font-size: large;
+}
+
+.edit-button:after {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.fade-out {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateX(100%);
 }

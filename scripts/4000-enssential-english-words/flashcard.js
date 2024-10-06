@@ -2,67 +2,16 @@
 const imgPath = `${imgSrc}book/`;
 const audioPath = `${audioSrc}book/`;
 
-let card = null;
+let cardIndex = 0;
 let flashcards = [];
 //#endregion
 
-//#region Card
-const rate = (rating) => {
-    if (card.rating !== rating) {
-        card.repetition = 0;
-        card.rating = rating;
-    }
-
-    card.repetition++;
-    card.status = CARD_STATUS.LEARNING;
-    card.dueDate = new Date(Date.now());
-
-    showNextCard();
-}
-
-const memorizeCard = () => {
-    card.status = CARD_STATUS.MEMORIZED;
-    var cardIndex = flashcards.indexOf(card);
-    if (cardIndex > -1) {
-        flashcards.splice(cardIndex, 1);
-    }
-
-    showNextCard();
-}
-//#endregion
-
-//#region Algorithm
-const sortFlashcards = () => {
-    flashcards = flashcards.sort((a, b) => {
-        if (a.status !== b.status) {
-            return a.status - b.status;
-        }
-
-        if (a.rating !== b.rating) {
-            return a.rating - b.rating;
-        }
-
-        if (a.repetition !== b.repetition) {
-            return a.repetition - b.repetition;
-        }
-
-        return a.dueDate - b.dueDate;
-    });
-}
-//#endregion
-
 //#region Load data
-const showNextCard = () => {
-    sortFlashcards();
-    saveFlashcards();
-    displayCard();
-}
-
 const displayCard = () => {
-    if (flashcards.length > 0) {
-        card = flashcards[0];
+    card = flashcards[cardIndex];
+    if (card) {
         container.innerHTML = `
-            <div class="flip-card" onclick="this.classList.toggle('active')">
+            <div id="card-${cardIndex}" class="flip-card" onclick="this.classList.toggle('active')">
                 <div class="flip-card-front">
                     <div class="flip-card-front-content">
                         <p class="word-en">${card.en}</p>
@@ -76,6 +25,9 @@ const displayCard = () => {
                     </div>
                 </div>
                 <div class="flip-card-back">
+                    <button class="edit-button" onclick="editWord(event)">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
                     <div class="flip-card-back-content">
                         <img class="card-img" src='${imgPath}${card.image}' title="${card.en}" /><br/>
                         <audio controls>
@@ -106,10 +58,6 @@ const displayCard = () => {
                 </div>
             </div>
         `;
-
-        document.querySelectorAll(".update-card").forEach(x => {
-            x.disabled = true;
-        });
     }
 };
 
@@ -118,15 +66,11 @@ const getFlashcards = async () => {
     const storedFlashcards = localStorage.getItem(key);
     if (!storedFlashcards) {
         var unitData = await getDataBook();
-        var date = new Date(Date.now());
-        unitData.forEach(x => {
-            x.dueDate = date;
-            x.status = CARD_STATUS.NEW;
-        });
         localStorage.setItem(key, JSON.stringify(unitData));
     }
 
-    flashcards = JSON.parse(localStorage.getItem(key))
+    var unitData = await getDataBook();
+    flashcards = unitData
         .filter(x => x.status !== CARD_STATUS.MEMORIZED)
         .sort((a, b) => a.interval - b.interval);
 
@@ -162,7 +106,8 @@ let viInput = document.getElementById('viInput');
 let descInput = document.getElementById('descInput');
 let examInput = document.getElementById('examInput');
 
-const editWord = () => {
+const editWord = (event) => {
+    event.stopPropagation();
     enInput.value = card.en;
     viInput.value = card.vi;
     document.getElementById('popup').style.display = 'block';
@@ -178,3 +123,52 @@ const updateCard = () => {
     hidePopup();
 }
 //#endregion
+
+const carouselInner = document.querySelector('.tab-content');
+let startX = null;
+
+// Start dragging
+const handleDragStart = (e) => {
+    startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+};
+
+// End dragging
+const handleDragEnd = (e) => {
+    if (startX === null) return;
+
+    const endX = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
+    const diffX = startX - endX;
+
+    // Determine swipe direction
+    let cardElement = document.getElementById(`card-${cardIndex}`);
+    if (diffX > 50 && cardIndex !== flashcards.length) {
+        cardElement.classList.remove('active');
+        cardElement.classList.add('fade-out');
+        setTimeout(() => {
+            cardIndex++;
+            cardElement.classList.remove('fade-out');
+            cardElement.classList.add('fade-in');
+            displayCard();
+        }, 300);
+    } else if (diffX < -50 && cardIndex !== 0) {
+        cardElement.classList.remove('active');
+        cardElement.classList.add('fade-in');
+        setTimeout(() => {
+            cardIndex--;
+            cardElement.classList.remove('fade-in');
+            cardElement.classList.add('fade-out');
+            displayCard();
+        }, 300);
+    }
+
+    startX = null;
+};
+
+// Add event listeners for touch devices
+carouselInner.addEventListener('touchstart', handleDragStart);
+carouselInner.addEventListener('touchend', handleDragEnd);
+
+// Add event listeners for mouse devices
+carouselInner.addEventListener('mousedown', handleDragStart);
+carouselInner.addEventListener('mouseup', handleDragEnd);
+carouselInner.addEventListener('mouseleave', handleDragEnd);
