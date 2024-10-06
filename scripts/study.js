@@ -2,7 +2,9 @@
 let card = null;
 let cardsData = [];
 let flashcards = [];
-const path = "assets/data/4000-enssential-english-words/files/Book-";
+PATH.ESSENTIAL_DATA = PATH.ESSENTIAL_DATA.replace("../../", "");
+const path = `${PATH.ESSENTIAL_DATA}files/Book-`;
+TEXT_TO_SPEECH.WORD_URL = TEXT_TO_SPEECH.WORD_URL.replace("../../", "");
 //#endregion
 
 //#region Card
