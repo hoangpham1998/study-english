@@ -323,7 +323,6 @@ const getWordLevelResults = (words) => {
 }
 
 const getSentenceResults = (responseResult) => {
-    console.log("response: ", responseResult)
     wordsResult = responseResult.words;
 
     document.getElementById("result").style.display = "block";

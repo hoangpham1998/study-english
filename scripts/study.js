@@ -19,7 +19,10 @@ const rate = (rating) => {
     card.learnTime = new Date(Date.now());
 
     const ratingKey = getKeyByValue(CARD_RATING, rating);
-    const time = RATING_TIME[ratingKey] * card.repetition;
+    const time = RATING_TIME[ratingKey];
+    if (rating !== CARD_RATING.AGAIN && rating !== CARD_RATING.HARD) {
+        time *= card.repetition;
+    }
     card.dueDate = addMinutes(card.dueDate, time);
 
     showNextCard();
@@ -168,7 +171,6 @@ const saveFlashcards = () => {
     });
 
     localStorage.setItem(CONFIG.STUDY_CARD, JSON.stringify(bookData));
-    console.log(bookData)
 }
 
 getFlashcards();
