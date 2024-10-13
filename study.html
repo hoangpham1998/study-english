@@ -9,10 +9,18 @@
     <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/4000-enssential-english-words/flashcard.css">
+    <style>
+        .close-button:after {
+            content: none;
+            font-weight: bold;
+            font-size: x-large;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
+        <button class="close-button" onclick="logout()">Logout</button>
         <div class="tab-content" id="container"></div>
         <div class="row" style="padding: 0 10px;">
             <div class="col-3 action">

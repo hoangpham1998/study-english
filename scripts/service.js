@@ -1,4 +1,15 @@
 //#region Authen
+const changePassword = async (username, password) => {
+    const params = new URLSearchParams();
+    params.append(PARAM.ACTION, ACTION.CHANGE_PASSWORD);
+    params.append(PARAM.TABLE, TABLE.USER);
+    params.append(PARAM.USERNAME, encodeURIComponent(username));
+    params.append(PARAM.PASSWORD, encodeURIComponent(password));
+
+    var result = await sendRequest(params);
+    return result.status;
+}
+
 const register = async (username, password) => {
     const params = new URLSearchParams();
     params.append(PARAM.ACTION, ACTION.REGISTER);
@@ -8,7 +19,7 @@ const register = async (username, password) => {
 
     var result = await sendRequest(params);
     if (result.status === true) {
-        localStorage.setItem(STORAGE_KEY.USER_INFO, JSON.stringify(userInfo));
+        localStorage.setItem(STORAGE_KEY.USER_INFO, JSON.stringify(result.userInfo));
         return true;
     }
 
@@ -17,14 +28,14 @@ const register = async (username, password) => {
 
 const login = async (username, password) => {
     const params = new URLSearchParams();
-    params.append(PARAM.ACTION, ACTION.REGISTER);
+    params.append(PARAM.ACTION, ACTION.LOGIN);
     params.append(PARAM.TABLE, TABLE.USER);
-    params.append(PARAM.USERNAME, username);
-    params.append(PARAM.PASSWORD, password);
+    params.append(PARAM.USERNAME, encodeURIComponent(username));
+    params.append(PARAM.PASSWORD, encodeURIComponent(password));
 
     var result = await sendRequest(params);
     if (result.status === true) {
-        localStorage.setItem(STORAGE_KEY.USER_INFO, JSON.stringify(userInfo));
+        localStorage.setItem(STORAGE_KEY.USER_INFO, JSON.stringify(result.userInfo));
         return true;
     }
 
@@ -36,7 +47,7 @@ const logout = async () => {
     if (userInfo) {
         localStorage.removeItem(STORAGE_KEY.USER_INFO);
     }
-    location.href = '../login.html';
+    location.href = 'login.html';
 }
 //#endregion
 

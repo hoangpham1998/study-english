@@ -153,7 +153,7 @@ const STORAGE_KEY = {
 
 const CONFIG = {
     NUM_OF_LEARN_ON_DAY: 40,
-    API_URL: "https://script.google.com/macros/s/AKfycbyOA3PwB_KWzfFYHWQq4jjpewBcatHXHibm2T0-niUqYxKhu9pLRqj6uxq0MNw-pCebCA/exec"
+    API_URL: "https://script.google.com/macros/s/AKfycbyuUI4PYwduiGnIlP8uiflCPhbg6Yiph7bmyJBBNsmJv_fyR3o3uDuivuUtSClsyYQOnw/exec"
 }
 
 const PARAM = {
@@ -173,6 +173,7 @@ const ACTION = {
     DELETE: "delete",
     LOGIN: "login",
     REGISTER: "register",
+    CHANGE_PASSWORD: "changePass",
     RATE: "rate",
     STUDY: "study"
 }

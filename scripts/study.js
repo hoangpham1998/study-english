@@ -5,7 +5,11 @@ let flashcards = [];
 PATH.ESSENTIAL_DATA = PATH.ESSENTIAL_DATA.replace("../../", "");
 const path = `${PATH.ESSENTIAL_DATA}files/Book-`;
 TEXT_TO_SPEECH.WORD_URL = TEXT_TO_SPEECH.WORD_URL.replace("../../", "");
+
 const userInfo = JSON.parse(localStorage.getItem(STORAGE_KEY.USER_INFO));
+if (!userInfo) {
+    location.href = "login.html";
+}
 //#endregion
 
 //#region Card
@@ -44,7 +48,6 @@ const showNextCard = () => {
 }
 
 const displayCard = async () => {
-    console.log(flashcards)
     if (flashcards.length > 0) {
         let currentCard = flashcards[0];
         card = cardsData.find(x => x.image == currentCard.image);
