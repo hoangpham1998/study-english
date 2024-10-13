@@ -64,16 +64,11 @@ if (unit) {
     }
 }
 
-const fetchJson = async (path) => {
-    const response = await fetch(`${path}.json`);
-    return await response.json();
-};
-
 const getDataBook = async (isRandom = false) => {
-    var data = await fetchJson(`${essentialDataPath}books/book-${book}`);
+    var data = await getWords(book, unit);
     return isRandom
-        ? shuffleData(data[unit - 1])
-        : data[unit - 1];
+        ? shuffleData(data)
+        : data;
 }
 
 const shuffleData = (data) => {

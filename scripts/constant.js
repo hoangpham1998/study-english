@@ -146,7 +146,45 @@ const MESSAGE_RESOURCE = {
     QUIZ_COMPLETED: "Quiz completed!"
 }
 
+const STORAGE_KEY = {
+    STUDY_CARD: 'study-card',
+    USER_INFO: "userInfo"
+}
+
 const CONFIG = {
     NUM_OF_LEARN_ON_DAY: 40,
-    STUDY_CARD: 'study-card'
+    API_URL: "https://script.google.com/macros/s/AKfycbyOA3PwB_KWzfFYHWQq4jjpewBcatHXHibm2T0-niUqYxKhu9pLRqj6uxq0MNw-pCebCA/exec"
+}
+
+const PARAM = {
+    ACTION: "action",
+    TABLE: "table",
+    ID: "id",
+    DATA: "data",
+    USERNAME: "username",
+    PASSWORD: "password",
+    USER_ID: "userId"
+}
+
+const ACTION = {
+    CREATE: "create",
+    UPDATE: "update",
+    READ: "read",
+    DELETE: "delete",
+    LOGIN: "login",
+    REGISTER: "register",
+    RATE: "rate",
+    STUDY: "study"
+}
+
+const TABLE = {
+    BOOK: "book",
+    WORD: "word",
+    UNIT: "unit",
+    STORY: "story",
+    USER: "user",
+    USER_WORD: "userWord",
+    TOPIC: "topic",
+    SENTENCE: "sentence",
+    VOCABULARY: "vocabulary"
 }

@@ -62,24 +62,8 @@ const displayCard = () => {
 };
 
 const getFlashcards = async () => {
-    const key = `flashcards_${book}_${unit}`;
-    const storedFlashcards = localStorage.getItem(key);
-    if (!storedFlashcards) {
-        var unitData = await getDataBook();
-        localStorage.setItem(key, JSON.stringify(unitData));
-    }
-
-    var unitData = await getDataBook();
-    flashcards = unitData
-        .filter(x => x.status !== CARD_STATUS.MEMORIZED)
-        .sort((a, b) => a.interval - b.interval);
-
+    flashcards = await getWords(book, unit);
     displayCard();
-}
-
-const saveFlashcards = () => {
-    const key = `flashcards_${book}_${unit}`;
-    localStorage.setItem(key, JSON.stringify(flashcards));
 }
 
 getFlashcards();

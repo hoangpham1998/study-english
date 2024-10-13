@@ -5,7 +5,6 @@ const nextBtn = document.getElementById("next");
 
 const fetchData = async () => {
     var unitData = await getDataBook();
-    
     for (let i = unitData.length - 1; i > 0; i--) {
         unitData[i].disabled = false;
         

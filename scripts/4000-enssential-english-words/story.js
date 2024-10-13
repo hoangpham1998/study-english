@@ -31,27 +31,27 @@ const handleClickOutsidePopup = (event) => {
 };
 
 const fetchData = async () => {
-    dicts = await getDataBook();
+    dicts = await getWords(book, unit);
 
-    const storiesData = await fetchJson(`${essentialDataPath}stories/stories-${book}`);
-    const story = storiesData[unit - 1][0];
+    const storiesData = await getStories(book, unit);
+    storiesData.forEach(story => {
+        container.innerHTML += `
+            <img class="story-img" src="${imgPath}${story.image}" title="${story.image}" /><br/>
+            <h3 class="story-title" id="en-title">UNIT ${unit}: ${story.enTitle.toUpperCase()}</h3>
+            <audio controls>
+                <source src="${audioPath}${story.sound}" type="audio/mp3">
+            </audio>
+            <div class="story-content" id="en-story">
+                <h3>${story.en}</h3>
+            </div>
+            <hr/>
+            <h3 class="story-title" id="vi-title">${story.viTitle.toUpperCase()}</h3>
+            <div class="story-content" id="vi-story">
+                <h3>${story.vi}</h3>
+            </div>
+        `;
+    });
     
-    container.innerHTML = `
-        <img class="story-img" src="${imgPath}${story.image}" title="${story.en}" /><br/>
-        <h3 class="story-title" id="en-title">UNIT ${unit}: ${story.en.toUpperCase()}</h3>
-        <audio controls>
-            <source src="${audioPath}${story.sound}" type="audio/mp3">
-        </audio>
-        <div class="story-content" id="en-story">
-            <h3>${story.story}</h3>
-        </div>
-        <hr/>
-        <h3 class="story-title" id="vi-title">${story.name.toUpperCase()}</h3>
-        <div class="story-content" id="vi-story">
-            <h3>${story.vi}</h3>
-        </div>
-    `;
-
     document.querySelectorAll('.idiom-tip').forEach(tooltip => {
         tooltip.addEventListener('click', handleTooltipClick);
     });

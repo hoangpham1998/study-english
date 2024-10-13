@@ -1,9 +1,9 @@
 document.title = `Book ${book}`;
 
-const createBookItem = ({ en, story }) => `
+const createBookItem = ({ letter, content }) => `
     <div class="book-item">
-        <button class="collapsible">${en.toUpperCase()}</button>
-        <div class="content">${story}</div>
+        <button class="collapsible">${letter.toUpperCase()}</button>
+        <div class="content">${content}</div>
     </div>
 `;
 
@@ -28,8 +28,12 @@ const handleIndexBlockItemClick = (event) => {
 
 const fetchData = async () => {
     document.getElementById('book').textContent = `Book ${book}`;
-    const data = await fetchJson(`${essentialDataPath}vocabularies/index-${book}`);
+    const data = await getVocabularies(book)
     container.innerHTML = data.map(createBookItem).join('');
+
+    document.querySelectorAll('.index-block-item li').forEach(item => {
+        item.addEventListener('click', handleIndexBlockItemClick);
+    });
 
     document.querySelectorAll('.collapsible').forEach(button => {
         button.addEventListener('click', handleCollapsibleClick);
