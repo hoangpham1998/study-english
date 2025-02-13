@@ -27,7 +27,7 @@ const SPEECH_ASSESSMENT = {
     BASE_URL: "https://api.speechsuper.com/",
     WS_SERVER: "wss://gray.stkouyu.com:8443",
     APP_KEY: "16467320730000a7",
-    SECRET_KEY: "68078c49b31235e0bf1091ecb9d380b1",
+    SECRET_KEY: "68078c62c8fc3469bf1091ecb9d380b1",
     MODE: 2,
     AUDIO_TYPE: AUDIO_TYPE.SPX,
     SAMPLE_RATE: 16000,
